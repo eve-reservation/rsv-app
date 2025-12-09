@@ -50,7 +50,7 @@ export const facilities: Facility[] = [
 		capacity: 15,
 		rating: 4.8,
 		reviewCount: 154,
-		images: [lebronCourt],
+		images: [lebronCourt,lebronCourt,lebronCourt,lebronCourt],
 		amenities: ["Locker Rooms", "Showers", "Scoreboard", "Bleachers"],
 		description:
 			"A full-sized indoor basketball court in the heart of BGC, perfect for leagues and pickup games. Features hardwood floors and adjustable hoops.",
