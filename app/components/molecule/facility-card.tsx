@@ -41,14 +41,14 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 					<Button
 						variant="secondary"
 						size="icon"
-						className="h-7 w-7 rounded-full bg-card/90 hover:bg-card shadow-md"
+						className="h-7 w-7 rounded-full bg-card/90 hover:bg-card shadow-md cursor-pointer"
 						onClick={prevImage}>
 						<ChevronLeft className="h-4 w-4" />
 					</Button>
 					<Button
 						variant="secondary"
 						size="icon"
-						className="h-7 w-7 rounded-full bg-card/90 hover:bg-card shadow-md"
+						className="h-7 w-7 rounded-full bg-card/90 hover:bg-card shadow-md cursor-pointer"
 						onClick={nextImage}>
 						<ChevronRight className="h-4 w-4" />
 					</Button>
@@ -99,7 +99,7 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 				<p className="text-sm text-muted-foreground">{facility.location}</p>
 				<p className="text-sm text-muted-foreground">{facility.type}</p>
 				<p className="mt-1">
-					<span className="font-semibold">${facility.price}</span>
+					<span className="font-semibold">₱{facility.price}</span>
 					<span className="text-muted-foreground"> / {facility.priceUnit}</span>
 				</p>
 			</div>

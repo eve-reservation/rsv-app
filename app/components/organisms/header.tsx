@@ -7,19 +7,23 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link } from "react-router";
+import { Link } from "react-router-dom"; // Fixed: was "react-router" → should be "react-router-dom"
+import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.jpg";
 
 export function Header() {
 	return (
 		<header className="sticky top-0 z-50 w-full bg-card/80 backdrop-blur-md border-b border-border">
 			<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 				<div className="flex h-16 items-center justify-between">
-					<Link to="/" className="flex items-center gap-2">
-						<div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-							<span className="text-primary-foreground font-bold text-sm">S</span>
-						</div>
-						<span className="font-serif text-xl font-semibold tracking-tight">
-							SpaceBook
+					<Link to="/" className="flex items-center gap-3">
+						{/* Replaced the "S" circle with your actual logo */}
+						<img
+							src={qcSportsLogo}
+							alt="QC Sports Logo"
+							className="h-10 w-10 object-contain rounded-lg"
+						/>
+						<span className="font-serif text-xl font-semibold tracking-tight hidden sm:inline-block">
+							QC Sports
 						</span>
 					</Link>
 
@@ -29,17 +33,17 @@ export function Header() {
 							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
 							Explore
 						</Link>
-						<Link
+						{/* <Link
 							to="/admin"
 							className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
 							List Your Space
-						</Link>
+						</Link> */}
 					</nav>
 
 					<div className="flex items-center gap-2">
-						<Button variant="ghost" size="icon" className="hidden sm:flex">
+						{/* <Button variant="ghost" size="icon" className="hidden sm:flex">
 							<Globe className="h-4 w-4" />
-						</Button>
+						</Button> */}
 
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>

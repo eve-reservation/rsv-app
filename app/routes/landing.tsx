@@ -11,7 +11,6 @@ import { Header } from "~/components/organisms/header";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { CategoryNav } from "~/components/organisms/category-nav";
 import { FacilityCard } from "~/components/molecule/facility-card";
-import { Footer } from "react-day-picker";
 
 export default function LandingPage() {
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -32,11 +31,11 @@ export default function LandingPage() {
 				<div className="mx-auto max-w-7xl">
 					<div className="text-center mb-8">
 						<h1 className="font-serif text-4xl md:text-5xl font-medium tracking-tight text-foreground text-balance">
-							Reserve the perfect space
+							Find and book your perfect court
 						</h1>
 						<p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-							From hotel rooms to conference halls, find and book any space for your
-							needs.
+							From basketball to tennis, discover and reserve courts for your next
+							game.
 						</p>
 					</div>
 					<SearchBar />
@@ -57,14 +56,12 @@ export default function LandingPage() {
 			<main className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
 				<div className="mx-auto max-w-7xl">
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-						{facilities.map((facility) => (
+						{filteredFacilities.map((facility) => (
 							<FacilityCard key={facility.id} facility={facility} />
 						))}
 					</div>
 				</div>
 			</main>
-
-			<Footer />
 		</div>
 	);
 }
