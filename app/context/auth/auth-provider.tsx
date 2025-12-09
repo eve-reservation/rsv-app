@@ -29,8 +29,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 			setUser(response.user as UserWithRelation);
 		} catch (error: any) {
 			console.error("Error fetching current user:", error);
-			setUser(null);
-			navigate("/login");
+			// setUser(null);
+			// navigate("/login");
 		} finally {
 			setIsLoading(false);
 		}
