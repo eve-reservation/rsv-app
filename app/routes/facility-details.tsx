@@ -99,7 +99,7 @@ export default function FacilityPage({ params }: { params: Promise<{ id: string 
 		if (startTime) params.set("startTime", startTime);
 		if (endTime) params.set("endTime", endTime);
 		params.set("guests", guests.toString());
-		navigate(`/user/booking-confirmation?${params.toString()}`);
+		navigate(`/booking/confirmation?${params.toString()}`);
 	};
 
 	return (
@@ -308,7 +308,7 @@ export default function FacilityPage({ params }: { params: Promise<{ id: string 
 
 						{/* Booking Card */}
 						<div className="lg:col-span-1">
-							<Card className="sticky top-24 shadow-xl border-border">
+							<Card className="sticky top-24 shadow-xl border-border py-0">
 								<CardContent className="p-6 space-y-6">
 									<div className="flex items-baseline justify-between">
 										<div>

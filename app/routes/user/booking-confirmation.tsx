@@ -107,7 +107,7 @@ export default function ConfirmPayment() {
 					{/* Right Column - Accordion Steps */}
 					<div className="order-1 lg:order-2 space-y-2">
 						{/* Step 1: Review date, time, and players */}
-						<Card className="overflow-hidden gap-0">
+						<Card className="overflow-hidden gap-0 p-0">
 							<button
 								onClick={() => setActiveStep(activeStep === 1 ? 0 : 1)}
 								className="flex w-full items-center justify-between p-6">
@@ -181,7 +181,7 @@ export default function ConfirmPayment() {
 						</Card>
 
 						{/* Step 2: Select payment method */}
-						<Card className="overflow-hidden gap-0">
+						<Card className="overflow-hidden gap-0 p-0">
 							<button
 								onClick={() => setActiveStep(activeStep === 2 ? 0 : 2)}
 								className="flex w-full items-center justify-between p-6">
@@ -248,7 +248,7 @@ export default function ConfirmPayment() {
 						</Card>
 
 						{/* Step 3: Review your reservation */}
-						<Card className="overflow-hidden">
+						<Card className="overflow-hidden p-0">
 							<button
 								onClick={() => setActiveStep(activeStep === 3 ? 0 : 3)}
 								className="flex w-full items-center justify-between p-6">
