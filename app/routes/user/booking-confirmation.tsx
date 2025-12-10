@@ -276,7 +276,9 @@ export default function ConfirmPayment() {
 										Review your booking details before confirming.
 									</p>
 									<div className="flex justify-end">
-										<Button className="mt-6 w-full rounded-lg qcsc-gradient text-white  py-6 px-8">
+										<Button
+											onClick={() => navigate("/booking/complete")}
+											className="mt-6 w-full rounded-lg qcsc-gradient text-white  py-6 px-8">
 											Confirm and pay
 										</Button>
 									</div>

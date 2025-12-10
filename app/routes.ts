@@ -4,6 +4,7 @@ import { type RouteConfig, index, layout, prefix, route } from "@react-router/de
 const userRoutes: RouteConfig = [
 	route("/facility/:id", "routes/facility-details.tsx"),
 	route("/booking/confirmation", "routes/user/booking-confirmation.tsx"),
+	route("/booking/complete", "routes/user/booking-complete.tsx"),
 ];
 
 // Admin routes
