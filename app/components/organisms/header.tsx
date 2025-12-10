@@ -8,7 +8,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom"; // Fixed: was "react-router" → should be "react-router-dom"
-import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.jpg";
+import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.png";
 
 export function Header() {
 	return (

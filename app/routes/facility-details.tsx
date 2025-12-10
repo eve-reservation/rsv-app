@@ -362,7 +362,7 @@ export default function FacilityPage({ params }: { params: Promise<{ id: string 
 									</div>
 
 									<Button
-										className="w-full bg-accent hover:bg-accent/90 text-accent-foreground h-12 text-base font-semibold"
+										className="w-full bg-primary hover:bg-accent/90 text-accent-foreground h-12 text-base font-semibold"
 										onClick={handleReserve}
 										disabled={nights === 0}>
 										Reserve
