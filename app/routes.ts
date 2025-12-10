@@ -8,10 +8,12 @@ const userRoutes: RouteConfig = [
 ];
 
 // Admin routes
-const adminRoutes: RouteConfig = [
-	route("/admin", "routes/admin/admin.tsx"),
-	route("/admin/dashboard", "routes/admin/dashboard.tsx"),
-];
+const adminRoutes: RouteConfig = prefix("/admin", [
+	route("/", "routes/admin/admin.tsx"),
+	route("/dashboard", "routes/admin/dashboard.tsx"),
+	route("/booking", "routes/admin/bookings.tsx"),
+	route("/facility", "routes/admin/facilities.tsx"),
+]);
 
 const authRoutes: RouteConfig = [route("/login", "routes/auth/login.tsx")];
 
