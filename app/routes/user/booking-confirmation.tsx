@@ -198,14 +198,11 @@ export default function ConfirmPayment() {
 							<button
 								onClick={() => setActiveStep(activeStep === 2 ? 0 : 2)}
 								className="flex w-full items-center justify-between p-6">
-								<h2 className="text-lg font-semibold">2. Add a payment method</h2>
+								<h2 className="text-lg font-semibold">2. Select payment method</h2>
 								{activeStep !== 2 && <ChevronDown className="h-5 w-5" />}
 							</button>
 							{activeStep === 2 && (
 								<div className="px-6 pb-6">
-									<p className="text-muted-foreground mb-4">
-										Select your payment method.
-									</p>
 									<RadioGroup
 										value={paymentMethod}
 										onValueChange={setPaymentMethod}>
@@ -279,7 +276,7 @@ export default function ConfirmPayment() {
 										Review your booking details before confirming.
 									</p>
 									<div className="flex justify-end">
-										<Button className="mt-6 rounded-lg bg-[#FF385C] text-white hover:bg-[#E31C5F] py-4 px-8">
+										<Button className="mt-6 w-full rounded-lg qcsc-gradient text-white  py-6 px-8">
 											Confirm and pay
 										</Button>
 									</div>
