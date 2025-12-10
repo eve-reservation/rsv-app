@@ -1,23 +1,17 @@
-"use client";
-
 import { useState } from "react";
 import { ArrowLeft, Star, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { format } from "date-fns";
 import { useNavigate } from "react-router";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { lebronCourt } from "@/assets/images/index";
 
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
 	const [activeStep, setActiveStep] = useState(1);
-	const [dateRange, setDateRange] = useState<{ from: Date; to: Date } | undefined>({
-		from: new Date(2026, 0, 9),
-		to: new Date(2026, 0, 11),
-	});
-	const [guests, setGuests] = useState(1);
-	const maxGuests = 4; // Assuming a max capacity for the suite
+	const [players, setPlayers] = useState(10);
+	const maxPlayers = 15;
 	const [paymentMethod, setPaymentMethod] = useState("card");
 
 	return (
@@ -43,119 +37,112 @@ export default function ConfirmPayment() {
 							<div className="flex gap-4 pb-6 border-b border-border">
 								<div className="relative h-28 w-28 flex-shrink-0 overflow-hidden rounded-lg">
 									<img
-										src="https://a0.muscache.com/im/pictures/hosting/Hosting-1325071019292894976/original/73ced3c8-6814-43cb-a21a-6c38bfdd01e8.jpeg?im_w=720"
-										alt="Hyacinths' Suite"
+										src={lebronCourt}
+										alt="BGC Full Court"
 										className="object-cover w-full h-full"
 									/>
 								</div>
 								<div className="flex flex-col justify-center">
-									<h2 className="font-medium text-foreground">
-										Hyacinths&apos; Suite (in Pine Suites Tagaytay)
-									</h2>
+									<h2 className="font-medium text-foreground">BGC Full Court</h2>
+									<p className="text-sm text-muted-foreground">Basketball</p>
 									<div className="mt-1 flex items-center gap-1 text-sm">
 										<Star className="h-3 w-3 fill-foreground" />
-										<span className="font-medium">4.96</span>
-										<span className="text-muted-foreground">(51)</span>
+										<span className="font-medium">4.8</span>
+										<span className="text-muted-foreground">(154)</span>
 									</div>
 								</div>
 							</div>
 
-							{/* Free Cancellation */}
+							{/* Cancellation Policy */}
 							<div className="py-2 border-b border-border">
-								<h3 className="font-semibold">Free cancellation</h3>
+								<h3 className="font-semibold">Cancellation policy</h3>
 								<p className="text-sm text-muted-foreground mt-1">
-									Cancel before January 4 for a full refund.
+									Free cancellation up to 24 hours before your booking.
 								</p>
 								<button className="text-sm font-medium underline mt-1">
 									Full policy
 								</button>
 							</div>
 
-							{/* Dates */}
+							{/* Date & Time */}
 							<div className="py-2 border-b border-border">
-								<h3 className="font-semibold">Dates</h3>
+								<h3 className="font-semibold">Date & Time</h3>
 								<p className="text-sm text-muted-foreground mt-1">
-									{dateRange
-										? `${format(dateRange.from, "MMM d")} – ${format(dateRange.to, "d, yyyy")}`
-										: "Not set"}
+									December 20, 2025 • 4:00 PM - 6:00 PM
 								</p>
 							</div>
 
-							{/* Guests */}
+							{/* Players */}
 							<div className="py-2 border-b border-border">
-								<h3 className="font-semibold">Guests</h3>
+								<h3 className="font-semibold">Players</h3>
 								<p className="text-sm text-muted-foreground mt-1">
-									{guests === 1 ? "1 guest" : `${guests} guests`}
+									{players} players
 								</p>
 							</div>
 
 							{/* Price Details */}
 							<div className="py-2 border-b border-border">
 								<h3 className="font-semibold mb-4">Price details</h3>
+								<div className="flex justify-between text-sm mb-2">
+									<span>₱4,500/hour x 2 hours</span>
+									<span>₱9,000</span>
+								</div>
 								<div className="flex justify-between text-sm">
-									<span>2 nights x ₱1,852.99</span>
-									<span>₱3,705.98</span>
+									<span>Service fee</span>
+									<span>₱500</span>
 								</div>
 							</div>
 
 							{/* Total */}
-							<div className="flex justify-between py-2 border-b border-border">
+							<div className="flex justify-between py-2">
 								<div>
 									<span className="font-semibold">Total</span>
-									<span className="ml-1 text-sm underline">PHP</span>
+									<span className="ml-1 text-sm underline">(PHP)</span>
 								</div>
-								<span className="font-semibold">₱3,705.98</span>
+								<span className="font-semibold">₱9,500</span>
 							</div>
-
-							<button className="text-sm font-medium underline mt-2">
-								Price breakdown
-							</button>
 						</Card>
 					</div>
 
 					{/* Right Column - Accordion Steps */}
 					<div className="order-1 lg:order-2 space-y-2">
-						{/* Step 1: Review dates and guests */}
+						{/* Step 1: Review date, time, and players */}
 						<Card className="overflow-hidden gap-0">
 							<button
 								onClick={() => setActiveStep(activeStep === 1 ? 0 : 1)}
 								className="flex w-full items-center justify-between p-6">
-								<h2 className="text-lg font-semibold">1. Review dates</h2>
+								<h2 className="text-lg font-semibold">1. Review date & time</h2>
 								{activeStep !== 1 && <ChevronDown className="h-5 w-5" />}
 							</button>
 							{activeStep === 1 && (
 								<div className="px-6 pb-6">
-									{/* Date Selection */}
+									{/* Date & Time Selection */}
 									<div className="border border-border rounded-xl overflow-hidden">
 										<div className="grid grid-cols-2 divide-x divide-border">
 											<div className="p-3">
 												<label className="block text-[10px] font-semibold uppercase tracking-wide text-foreground">
-													Check-in
+													Date
 												</label>
 												<span className="text-sm text-foreground">
-													{dateRange?.from
-														? format(dateRange.from, "M/d/yyyy")
-														: "Add date"}
+													12/20/2025
 												</span>
 											</div>
 											<div className="p-3">
 												<label className="block text-[10px] font-semibold uppercase tracking-wide text-foreground">
-													Checkout
+													Time
 												</label>
 												<span className="text-sm text-foreground">
-													{dateRange?.to
-														? format(dateRange.to, "M/d/yyyy")
-														: "Add date"}
+													4:00 PM - 6:00 PM
 												</span>
 											</div>
 										</div>
 										<div className="border-t border-border p-3">
 											<label className="block text-[10px] font-semibold uppercase tracking-wide text-foreground">
-												Guests
+												Players
 											</label>
 											<div className="flex items-center justify-between">
 												<span className="text-sm text-foreground">
-													{guests === 1 ? "1 guest" : `${guests} guests`}
+													{players} players
 												</span>
 												<div className="flex items-center gap-2">
 													<Button
@@ -163,7 +150,7 @@ export default function ConfirmPayment() {
 														size="icon"
 														className="h-7 w-7 rounded-full bg-transparent"
 														onClick={() =>
-															setGuests(Math.max(1, guests - 1))
+															setPlayers(Math.max(1, players - 1))
 														}>
 														-
 													</Button>
@@ -172,8 +159,8 @@ export default function ConfirmPayment() {
 														size="icon"
 														className="h-7 w-7 rounded-full bg-transparent"
 														onClick={() =>
-															setGuests(
-																Math.min(maxGuests, guests + 1),
+															setPlayers(
+																Math.min(maxPlayers, players + 1),
 															)
 														}>
 														+
@@ -193,7 +180,7 @@ export default function ConfirmPayment() {
 							)}
 						</Card>
 
-						{/* Step 2: Add a payment method */}
+						{/* Step 2: Select payment method */}
 						<Card className="overflow-hidden gap-0">
 							<button
 								onClick={() => setActiveStep(activeStep === 2 ? 0 : 2)}
@@ -273,11 +260,11 @@ export default function ConfirmPayment() {
 							{activeStep === 3 && (
 								<div className="px-6 pb-6">
 									<p className="text-muted-foreground">
-										Review your booking details before confirming.
+										Review your booking details before confirming your payment.
 									</p>
 									<div className="flex justify-end">
 										<Button
-											onClick={() => navigate("/booking/complete")}
+											onClick={() => navigate("/user/booking-complete")}
 											className="mt-6 w-full rounded-lg qcsc-gradient text-white  py-6 px-8">
 											Confirm and pay
 										</Button>
