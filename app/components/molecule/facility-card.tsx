@@ -5,7 +5,6 @@ import { Star, Heart, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router";
 
 interface FacilityCardProps {
 	facility: Facility;
@@ -28,7 +27,7 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 	};
 
 	return (
-		<Link to={`/facility/${facility.id}`} className="group block">
+		<div className="group block">
 			<div className="relative aspect-square rounded-2xl overflow-hidden bg-muted">
 				<img
 					src={facility.images[currentImage] || "/placeholder.svg"}
@@ -103,6 +102,6 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 					<span className="text-muted-foreground"> / {facility.priceUnit}</span>
 				</p>
 			</div>
-		</Link>
+		</div>
 	);
 }

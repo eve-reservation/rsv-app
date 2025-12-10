@@ -8,6 +8,7 @@ export function meta({}: Route.MetaArgs) {
 import { useState, useMemo } from "react";
 import { facilities, categories } from "@/lib/data";
 import { Header } from "~/components/organisms/header";
+import { Link } from "react-router";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { CategoryNav } from "~/components/organisms/category-nav";
 import { FacilityCard } from "~/components/molecule/facility-card";
@@ -57,7 +58,9 @@ export default function LandingPage() {
 				<div className="mx-auto max-w-7xl">
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 						{filteredFacilities.map((facility) => (
-							<FacilityCard key={facility.id} facility={facility} />
+							<Link to={`/facility/${facility.id}`} key={facility.id}>
+								<FacilityCard facility={facility} />
+							</Link>
 						))}
 					</div>
 				</div>
