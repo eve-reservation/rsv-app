@@ -1,7 +1,10 @@
 import { type RouteConfig, index, layout, prefix, route } from "@react-router/dev/routes";
 
 // PPP Office routes
-const userRoutes: RouteConfig = [route("/facility/:id", "routes/facility-details.tsx")];
+const userRoutes: RouteConfig = [
+	route("/facility/:id", "routes/facility-details.tsx"),
+	route("/booking/confirmation", "routes/user/booking-confirmation.tsx"),
+];
 
 // Admin routes
 const adminRoutes: RouteConfig = [

@@ -71,7 +71,7 @@ export default function FacilityPage({ params }: { params: Promise<{ id: string 
 		if (dateRange?.from) params.set("checkIn", dateRange.from.toISOString());
 		if (dateRange?.to) params.set("checkOut", dateRange.to.toISOString());
 		params.set("guests", guests.toString());
-		navigate(`/booking?${params.toString()}`);
+		navigate(`/booking/confirmation?${params.toString()}`);
 	};
 
 	return (
@@ -362,7 +362,7 @@ export default function FacilityPage({ params }: { params: Promise<{ id: string 
 									</div>
 
 									<Button
-										className="w-full bg-primary hover:bg-accent/90 text-accent-foreground h-12 text-base font-semibold"
+										className="w-full qcsc-gradient hover:bg-primary/90 text-primary-foreground h-12 text-base font-semibold"
 										onClick={handleReserve}
 										disabled={nights === 0}>
 										Reserve

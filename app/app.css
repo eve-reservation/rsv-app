@@ -68,7 +68,7 @@ body {
 	--popover: var(--card);
 	--popover-foreground: var(--card-foreground);
 
-	--primary: oklch(0.48 0.18 250); /* royal blue from logo */
+	--primary: oklch(0.58 0.22 25); /* red from logo */
 	--primary-foreground: oklch(0.99 0 0);
 
 	--secondary: oklch(0.96 0.008 240); /* light blue-gray */
@@ -84,7 +84,7 @@ body {
 
 	--border: oklch(0.92 0.005 240);
 	--input: var(--border);
-	--ring: oklch(0.48 0.18 250); /* blue primary */
+	--ring: oklch(0.58 0.22 25); /* red primary */
 
 	/* Charts - subtle logo colors */
 	--chart-1: oklch(0.48 0.18 250); /* royal blue */
@@ -96,7 +96,7 @@ body {
 	/* Sidebar */
 	--sidebar: oklch(0.18 0.02 240); /* deep blue-black */
 	--sidebar-foreground: oklch(0.98 0 0);
-	--sidebar-primary: oklch(0.52 0.18 250);
+	--sidebar-primary: oklch(0.62 0.22 25);
 	--sidebar-primary-foreground: oklch(0.98 0 0);
 	--sidebar-accent: oklch(0.25 0.02 240);
 	--sidebar-accent-foreground: oklch(0.98 0 0);
@@ -114,7 +114,7 @@ body {
 	--popover: var(--card);
 	--popover-foreground: var(--card-foreground);
 
-	--primary: oklch(0.55 0.18 250); /* brighter blue */
+	--primary: oklch(0.62 0.22 25); /* red from logo */
 	--primary-foreground: oklch(0.98 0 0);
 
 	--secondary: oklch(0.22 0.015 240);
@@ -130,7 +130,7 @@ body {
 
 	--border: oklch(1 0 0 / 8%);
 	--input: oklch(1 0 0 / 12%);
-	--ring: oklch(0.6 0.18 250);
+	--ring: oklch(0.62 0.22 25);
 
 	/* Charts */
 	--chart-1: oklch(0.6 0.18 250); /* blue */
@@ -142,7 +142,7 @@ body {
 	/* Sidebar */
 	--sidebar: oklch(0.12 0.01 240);
 	--sidebar-foreground: oklch(0.98 0 0);
-	--sidebar-primary: oklch(0.55 0.18 250);
+	--sidebar-primary: oklch(0.62 0.22 25);
 	--sidebar-primary-foreground: oklch(0.98 0 0);
 	--sidebar-accent: oklch(0.18 0.02 240);
 	--sidebar-accent-foreground: oklch(0.98 0 0);
@@ -156,6 +156,14 @@ body {
 
 .minimal-scrollbar {
 	@apply [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:hover:bg-gray-400;
+}
+
+.qcsc-gradient {
+	@apply bg-gradient-to-l from-[oklch(0.48_0.18_250)] via-[oklch(0.58_0.22_25)] to-[oklch(0.58_0.22_25)];
+}
+
+.qcsc-gradient-subtle {
+	@apply bg-gradient-to-l from-[oklch(0.48_0.18_250/0.1)] to-[oklch(0.58_0.22_25/0.1)];
 }
 
 @layer base {
