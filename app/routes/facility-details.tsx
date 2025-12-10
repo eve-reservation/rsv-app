@@ -287,7 +287,7 @@ export default function FacilityPage({ params }: { params: Promise<{ id: string 
 									<div className="flex items-baseline justify-between">
 										<div>
 											<span className="text-2xl font-semibold text-foreground">
-												${facility.price}
+												₱{facility.price}
 											</span>
 											<span className="text-muted-foreground">
 												{" "}
@@ -377,19 +377,19 @@ export default function FacilityPage({ params }: { params: Promise<{ id: string 
 											<div className="space-y-3 pt-4 border-t border-border">
 												<div className="flex items-center justify-between text-foreground">
 													<span className="underline">
-														${facility.price} x {nights}{" "}
+														₱{facility.price} x {nights}{" "}
 														{facility.priceUnit}
 														{nights > 1 ? "s" : ""}
 													</span>
-													<span>${totalPrice}</span>
+													<span>₱{totalPrice}</span>
 												</div>
 												<div className="flex items-center justify-between text-foreground">
 													<span className="underline">Service fee</span>
-													<span>${serviceFee}</span>
+													<span>₱{serviceFee}</span>
 												</div>
 												<div className="flex items-center justify-between font-semibold text-foreground pt-3 border-t border-border">
 													<span>Total</span>
-													<span>${total}</span>
+													<span>₱{total}</span>
 												</div>
 											</div>
 										</>
