@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { format } from "date-fns";
 import { useNavigate } from "react-router";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
@@ -16,6 +18,7 @@ export default function ConfirmPayment() {
 	});
 	const [guests, setGuests] = useState(1);
 	const maxGuests = 4; // Assuming a max capacity for the suite
+	const [paymentMethod, setPaymentMethod] = useState("card");
 
 	return (
 		<div className="min-h-screen bg-background">
@@ -113,7 +116,7 @@ export default function ConfirmPayment() {
 					{/* Right Column - Accordion Steps */}
 					<div className="order-1 lg:order-2 space-y-2">
 						{/* Step 1: Review dates and guests */}
-						<Card className="overflow-hidden">
+						<Card className="overflow-hidden gap-0">
 							<button
 								onClick={() => setActiveStep(activeStep === 1 ? 0 : 1)}
 								className="flex w-full items-center justify-between p-6">
@@ -191,7 +194,7 @@ export default function ConfirmPayment() {
 						</Card>
 
 						{/* Step 2: Add a payment method */}
-						<Card className="overflow-hidden">
+						<Card className="overflow-hidden gap-0">
 							<button
 								onClick={() => setActiveStep(activeStep === 2 ? 0 : 2)}
 								className="flex w-full items-center justify-between p-6">
@@ -200,9 +203,55 @@ export default function ConfirmPayment() {
 							</button>
 							{activeStep === 2 && (
 								<div className="px-6 pb-6">
-									<p className="text-muted-foreground">
-										Add your credit or debit card to complete the payment.
+									<p className="text-muted-foreground mb-4">
+										Select your payment method.
 									</p>
+									<RadioGroup
+										value={paymentMethod}
+										onValueChange={setPaymentMethod}>
+										<div
+											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
+												paymentMethod === "card"
+													? "border-foreground"
+													: "border-border"
+											}`}
+											onClick={() => setPaymentMethod("card")}>
+											<Label
+												htmlFor="card"
+												className="flex-1 cursor-pointer font-medium">
+												Credit or debit card
+											</Label>
+											<RadioGroupItem value="card" id="card" />
+										</div>
+										<div
+											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
+												paymentMethod === "gcash"
+													? "border-foreground"
+													: "border-border"
+											}`}
+											onClick={() => setPaymentMethod("gcash")}>
+											<Label
+												htmlFor="gcash"
+												className="flex-1 cursor-pointer font-medium">
+												GCash
+											</Label>
+											<RadioGroupItem value="gcash" id="gcash" />
+										</div>
+										<div
+											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
+												paymentMethod === "maya"
+													? "border-foreground"
+													: "border-border"
+											}`}
+											onClick={() => setPaymentMethod("maya")}>
+											<Label
+												htmlFor="maya"
+												className="flex-1 cursor-pointer font-medium">
+												Maya
+											</Label>
+											<RadioGroupItem value="maya" id="maya" />
+										</div>
+									</RadioGroup>
 									<div className="flex justify-end">
 										<Button
 											className="mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
