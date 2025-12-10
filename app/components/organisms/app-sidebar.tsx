@@ -37,7 +37,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import avatarFlat from "@/assets/images/avatarFlat.png";
 import { useAuth } from "~/hooks/use-auth";
-import osparLogo from "@/assets/images/ospar.jpg";
+import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.png";
 
 export function AppSidebar() {
 	const navigate = useNavigate();
@@ -45,130 +45,73 @@ export function AppSidebar() {
 	const sidebar = useSidebar();
 	const { user } = useAuth();
 
-	const isManagement = user.department.code === "PPPMG";
-	const isOffice = user.department.code === "PPPOF";
-
 	const navItems = [
 		{
 			title: "Overview",
 			items: [
 				{
 					title: "Dashboard",
-					href: `/dashboard`,
+					href: `/admin/dashboard`,
 					icon: LayoutDashboard,
-				},
-			],
-		},
-		{
-			title: "Inventory",
-			items: [
-				...(isManagement
-					? [
-							{
-								title: "Products",
-								href: `/inventory/products`,
-								icon: Package,
-							},
-						]
-					: []),
-				{
-					title: "Stock Record",
-					href: `/inventory/stock-records`,
-					icon: Layers,
-				},
-				{
-					title: "Batch Record",
-					href: `/inventory/batch-records`,
-					icon: Tag,
-				},
-				{
-					title: "Stock Movements",
-					href: `/inventory/movement`,
-					icon: Send,
-				},
-			],
-		},
-		{
-			title: "Operations",
-			items: [
-				// ...(!isManagement
-				// 	? [
-				// 			{
-				// 				title: "Delivery Request",
-				// 				href: `/delivery-requests`,
-				// 				icon: Building2,
-				// 			},
-				// 		]
-				// 	: []),
-				{
-					title: "Delivery Request",
-					href: `/delivery-requests`,
-					icon: Building2,
-				},
-				{
-					title: "Delivery Orders",
-					href: `/delivery-orders`,
-					icon: ShoppingCart,
-				},
-				{
-					title: "Delivery Receipt",
-					href: `/delivery-receipt`,
-					icon: Package2,
 				},
 			],
 		},
 		{
 			title: "Management",
 			items: [
-				...(isManagement
-					? [
-							{
-								title: "Supplier",
-								href: `/suppliers`,
-								icon: Factory,
-							},
-						]
-					: []),
-
-				...(isManagement
-					? [
-							{
-								title: "Departments",
-								href: `/departments`,
-								icon: Building,
-							},
-						]
-					: []),
-				...(isOffice
-					? [
-							{
-								title: "Users",
-								href: `/users`,
-								icon: Users,
-							},
-						]
-					: []),
-				...(isManagement || isOffice
-					? [
-							{
-								title: "Patients",
-								href: `/patients`,
-								icon: UserRound,
-							},
-						]
-					: []),
 				{
-					title: "Reports",
-					href: `/reports`,
-					icon: FileText,
+					title: "Bookings",
+					href: `/admin/booking`,
+					icon: Layers,
 				},
 				{
-					title: "Settings",
-					href: "/settings",
-					icon: Settings,
+					title: "Facility",
+					href: `/admin/facility`,
+					icon: Tag,
+				},
+				{
+					title: "Users",
+					href: `/admin/user`,
+					icon: Send,
 				},
 			],
 		},
+		// },
+		// {
+		// 	title: "Operations",
+		// 	items: [
+		// 		{
+		// 			title: "Delivery Request",
+		// 			href: `/delivery-requests`,
+		// 			icon: Building2,
+		// 		},
+		// 		{
+		// 			title: "Delivery Orders",
+		// 			href: `/delivery-orders`,
+		// 			icon: ShoppingCart,
+		// 		},
+		// 		{
+		// 			title: "Delivery Receipt",
+		// 			href: `/delivery-receipt`,
+		// 			icon: Package2,
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	title: "Management",
+		// 	items: [
+		// 		{
+		// 			title: "Reports",
+		// 			href: `/reports`,
+		// 			icon: FileText,
+		// 		},
+		// 		{
+		// 			title: "Settings",
+		// 			href: "/settings",
+		// 			icon: Settings,
+		// 		},
+		// 	],
+		// },
 	];
 
 	return (
@@ -179,10 +122,10 @@ export function AppSidebar() {
 					{sidebar.open && (
 						<div className="flex items-center gap-2">
 							<div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-								<img src={osparLogo} alt="" />
+								<img src={qcSportsLogo} alt="" />
 							</div>
 							<div className="flex flex-col">
-								<span className="font-semibold text-sm">OSPAR Inventory</span>
+								<span className="font-semibold text-sm">QC Sports</span>
 								<span className="text-xs text-muted-foreground">
 									{user?.department.name}
 								</span>
@@ -233,10 +176,7 @@ export function AppSidebar() {
 						</Avatar>
 						{sidebar.open && (
 							<div className="flex flex-col text-sm">
-								<span className="font-medium">
-									{user.person.personalInfo.firstName}{" "}
-									{user.person.personalInfo.lastName}
-								</span>
+								<span className="font-medium">Admin User</span>
 							</div>
 						)}
 						<User className="ml-auto size-4 text-muted-foreground" />

@@ -264,7 +264,7 @@ export default function ConfirmPayment() {
 									</p>
 									<div className="flex justify-end">
 										<Button
-											onClick={() => navigate("/user/booking-complete")}
+											onClick={() => navigate("/booking/complete")}
 											className="mt-6 w-full rounded-lg qcsc-gradient text-white  py-6 px-8">
 											Confirm and pay
 										</Button>
