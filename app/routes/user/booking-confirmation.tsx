@@ -6,6 +6,10 @@ import { useNavigate } from "react-router";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { lebronCourt } from "@/assets/images/index";
+import { format, setHours, setMinutes } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import TimeSelector from "@/components/molecule/time-selector";
 
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
@@ -13,6 +17,19 @@ export default function ConfirmPayment() {
 	const [players, setPlayers] = useState(10);
 	const maxPlayers = 15;
 	const [paymentMethod, setPaymentMethod] = useState("card");
+	const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date(2025, 11, 20));
+	// Default time: 4:00 PM - 6:00 PM
+	const [startTime, setStartTime] = useState<Date | undefined>(
+		setMinutes(setHours(new Date(), 16), 0),
+	);
+	const [endTime, setEndTime] = useState<Date | undefined>(
+		setMinutes(setHours(new Date(), 18), 0),
+	);
+
+	const handleTimeChange = (start: Date, end: Date) => {
+		setStartTime(start);
+		setEndTime(end);
+	};
 
 	return (
 		<div className="min-h-screen bg-background">
@@ -112,29 +129,62 @@ export default function ConfirmPayment() {
 								onClick={() => setActiveStep(activeStep === 1 ? 0 : 1)}
 								className="flex w-full items-center justify-between p-6">
 								<h2 className="text-lg font-semibold">1. Review date & time</h2>
-								{activeStep !== 1 && <ChevronDown className="h-5 w-5" />}
 							</button>
 							{activeStep === 1 && (
 								<div className="px-6 pb-6">
 									{/* Date & Time Selection */}
 									<div className="border border-border rounded-xl overflow-hidden">
 										<div className="grid grid-cols-2 divide-x divide-border">
-											<div className="p-3">
-												<label className="block text-[10px] font-semibold uppercase tracking-wide text-foreground">
-													Date
-												</label>
-												<span className="text-sm text-foreground">
-													12/20/2025
-												</span>
-											</div>
-											<div className="p-3">
-												<label className="block text-[10px] font-semibold uppercase tracking-wide text-foreground">
-													Time
-												</label>
-												<span className="text-sm text-foreground">
-													4:00 PM - 6:00 PM
-												</span>
-											</div>
+											<Popover>
+												<PopoverTrigger asChild>
+													<div className="p-3 hover:bg-gray-100 cursor-pointer">
+														<label className="block text-[10px] font-semibold uppercase tracking-wide text-foreground">
+															Date
+														</label>
+														<span className="text-sm text-foreground">
+															{selectedDate
+																? format(selectedDate, "MM/dd/yyyy")
+																: "Select Date"}
+														</span>
+													</div>
+												</PopoverTrigger>
+												<PopoverContent
+													className="w-auto p-0"
+													align="start">
+													<Calendar
+														mode="single"
+														selected={selectedDate}
+														onSelect={setSelectedDate}
+														initialFocus
+													/>
+												</PopoverContent>
+											</Popover>
+											<Popover>
+												<PopoverTrigger asChild>
+													<div className="p-3 hover:bg-gray-100 cursor-pointer">
+														<label className="block text-[10px] font-semibold uppercase tracking-wide text-foreground">
+															Time
+														</label>
+														<span className="text-sm text-foreground">
+															{startTime && endTime
+																? `${format(startTime, "h:mm a")} - ${format(
+																		endTime,
+																		"h:mm a",
+																	)}`
+																: "Select Time"}
+														</span>
+													</div>
+												</PopoverTrigger>
+												<PopoverContent
+													className="w-[400px] h-[400px] overflow-auto p-4"
+													align="start">
+													<TimeSelector
+														initialStart={startTime}
+														initialEnd={endTime}
+														onChange={handleTimeChange}
+													/>
+												</PopoverContent>
+											</Popover>
 										</div>
 										<div className="border-t border-border p-3">
 											<label className="block text-[10px] font-semibold uppercase tracking-wide text-foreground">
@@ -186,7 +236,6 @@ export default function ConfirmPayment() {
 								onClick={() => setActiveStep(activeStep === 2 ? 0 : 2)}
 								className="flex w-full items-center justify-between p-6">
 								<h2 className="text-lg font-semibold">2. Select payment method</h2>
-								{activeStep !== 2 && <ChevronDown className="h-5 w-5" />}
 							</button>
 							{activeStep === 2 && (
 								<div className="px-6 pb-6">
@@ -255,7 +304,6 @@ export default function ConfirmPayment() {
 								<h2 className="text-lg font-semibold">
 									3. Review your reservation
 								</h2>
-								{activeStep !== 3 && <ChevronDown className="h-5 w-5" />}
 							</button>
 							{activeStep === 3 && (
 								<div className="px-6 pb-6">
