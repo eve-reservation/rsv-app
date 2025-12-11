@@ -12,8 +12,10 @@ import {
 	Bell,
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export default function RoomReservationKiosk() {
+	const navigate = useNavigate();
 	const mockData = {
 		roomStatus: "Available Now",
 		roomLocation: "Level 3, East Wing",
@@ -316,7 +318,21 @@ export default function RoomReservationKiosk() {
 
 					<div className="px-8 pb-8">
 						{/* Primary Action */}
-						<button className="w-full h-14 neu-btn-primary flex items-center justify-center gap-3 text-sm font-medium tracking-wide uppercase mt-auto cursor-pointer">
+						<button
+							onClick={() => {
+								if (selectedSlots.length > 0) {
+									navigate("/kiosk/reservation/confirmation", {
+										state: {
+											selectedSlots,
+											roomName: mockData.roomName,
+											roomLocation: mockData.roomLocation,
+											calendarDate: mockData.calendarDate,
+										},
+									});
+								}
+							}}
+							disabled={selectedSlots.length === 0}
+							className={`w-full h-14 neu-btn-primary flex items-center justify-center gap-3 text-sm font-medium tracking-wide uppercase mt-auto transition-all ${selectedSlots.length === 0 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>
 							<CalendarPlus size={18} strokeWidth={2} />
 							Reserve Room
 						</button>

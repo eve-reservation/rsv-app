@@ -17,7 +17,10 @@ const adminRoutes: RouteConfig = prefix("/admin", [
 
 const authRoutes: RouteConfig = [route("/login", "routes/auth/login.tsx")];
 
-const kioskRoutes: RouteConfig = prefix("/kiosk", [route("/facility/:id", "routes/kiosk/facility.tsx")]);
+const kioskRoutes: RouteConfig = prefix("/kiosk", [
+	route("/facility/:id", "routes/kiosk/facility.tsx"),
+	route("/reservation/confirmation", "routes/kiosk/reservation-confirmation.tsx"),
+]);
 
 // Main routes
 export default [
