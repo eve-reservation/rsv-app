@@ -174,3 +174,143 @@ body {
 		@apply bg-background text-foreground;
 	}
 }
+
+/* styles.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap");
+.font-geist {
+	font-family: "Geist", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap");
+.font-roboto {
+	font-family: "Roboto", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+.font-montserrat {
+	font-family: "Montserrat", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+.font-poppins {
+	font-family: "Poppins", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&display=swap");
+.font-playfair {
+	font-family: "Playfair Display", serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400;500;600;700&display=swap");
+.font-instrument-serif {
+	font-family: "Instrument Serif", serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap");
+.font-merriweather {
+	font-family: "Merriweather", serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&display=swap");
+.font-bricolage {
+	font-family: "Bricolage Grotesque", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap");
+.font-jakarta {
+	font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap");
+.font-manrope {
+	font-family: "Manrope", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+.font-space-grotesk {
+	font-family: "Space Grotesk", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&display=swap");
+.font-work-sans {
+	font-family: "Work Sans", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap");
+.font-pt-serif {
+	font-family: "PT Serif", serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&display=swap");
+.font-geist-mono {
+	font-family: "Geist Mono", monospace !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+.font-space-mono {
+	font-family: "Space Mono", monospace !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+.font-quicksand {
+	font-family: "Quicksand", sans-serif !important;
+}
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap");
+.font-nunito {
+	font-family: "Nunito", sans-serif !important;
+}
+
+body {
+	font-family: "Inter", sans-serif;
+	background-color: #eff2f6; /* Base color for Neumorphism */
+}
+/* Custom Neumorphic Utilities */
+.neu-flat {
+	background: #eff2f6;
+	box-shadow:
+		8px 8px 16px #d1d9e6,
+		-8px -8px 16px #ffffff;
+	border-radius: 24px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.neu-pressed {
+	background: #eff2f6;
+	box-shadow:
+		inset 6px 6px 12px #d1d9e6,
+		inset -6px -6px 12px #ffffff;
+	border-radius: 16px;
+}
+.neu-btn {
+	background: #eff2f6;
+	box-shadow:
+		6px 6px 12px #d1d9e6,
+		-6px -6px 12px #ffffff;
+	border-radius: 16px;
+	transition: all 0.2s ease;
+	color: #475569;
+}
+.neu-btn:active {
+	box-shadow:
+		inset 4px 4px 8px #d1d9e6,
+		inset -4px -4px 8px #ffffff;
+	transform: scale(0.98);
+}
+.neu-btn-primary {
+	background: #eff2f6;
+	color: #3b82f6;
+	border-radius: 10px;
+
+	box-shadow:
+		6px 6px 12px #d1d9e6,
+		-6px -6px 12px #ffffff;
+	border: 1px solid rgba(59, 130, 246, 0.1);
+}
+.neu-btn-primary:active {
+	box-shadow:
+		inset 4px 4px 8px #d1d9e6,
+		inset -4px -4px 8px #ffffff;
+	color: #2563eb;
+}
+.neu-icon-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 12px;
+	background: #eff2f6;
+	box-shadow:
+		5px 5px 10px #d1d9e6,
+		-5px -5px 10px #ffffff;
+}
+/* Hide scrollbar for clean UI */
+::-webkit-scrollbar {
+	display: none;
+}
