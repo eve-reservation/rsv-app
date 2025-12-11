@@ -30,7 +30,7 @@ export default function TimeSelector({
 
 	// Generate time slots from 8:00 AM to 10:00 PM
 	const timeSlots = [];
-	const baseDate = new Date(); // Use today as base for time generation
+	const baseDate = startOfDay(new Date()); // Use today as base for time generation
 	let currentTime = setMinutes(setHours(baseDate, 8), 0); // 8:00 AM
 	const endTime = setMinutes(setHours(baseDate, 22), 0); // 10:00 PM
 
