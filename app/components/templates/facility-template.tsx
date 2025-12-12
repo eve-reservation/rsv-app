@@ -1,6 +1,6 @@
 import type React from "react";
 
-import { useState, use } from "react";
+import { useState } from "react";
 import { facilities } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -34,7 +34,7 @@ const amenityIcons: Record<string, React.ElementType> = {
 	"City View": Building,
 };
 
-export default function FacilityPage({ params }: { params: Promise<{ id: string }> }) {
+export default function FacilityTemplate() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const facility = facilities.find((f) => f.id === id);
@@ -127,7 +127,7 @@ export default function FacilityPage({ params }: { params: Promise<{ id: string 
 
 				{/* Image Gallery - FIXED */}
 				<section className="relative">
-					<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+					<div className="mx-auto max-w-6xl py-6">
 						<div className="grid grid-cols-4 grid-rows-2 gap-2 h-[500px] md:h-[600px] rounded-2xl overflow-hidden">
 							{/* Main Large Image - Left Side (2x2) */}
 							<div
@@ -176,7 +176,7 @@ export default function FacilityPage({ params }: { params: Promise<{ id: string 
 				</section>
 
 				{/* Content */}
-				<section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+				<section className="mx-auto max-w-6xl py-8">
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 						{/* Left Content */}
 						<div className="lg:col-span-2 space-y-8">

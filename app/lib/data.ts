@@ -50,7 +50,7 @@ export const facilities: Facility[] = [
 		capacity: 15,
 		rating: 4.8,
 		reviewCount: 154,
-		images: [lebronCourt,lebronCourt,lebronCourt,lebronCourt],
+		images: [lebronCourt, lebronCourt, lebronCourt, lebronCourt, lebronCourt],
 		amenities: ["Locker Rooms", "Showers", "Scoreboard", "Bleachers"],
 		description:
 			"A full-sized indoor basketball court in the heart of BGC, perfect for leagues and pickup games. Features hardwood floors and adjustable hoops.",
@@ -66,7 +66,7 @@ export const facilities: Facility[] = [
 		capacity: 4,
 		rating: 4.7,
 		reviewCount: 212,
-		images: [tennisCourt, tennisCourt],
+		images: [tennisCourt, tennisCourt, tennisCourt, tennisCourt, tennisCourt],
 		amenities: ["Clay Courts", "Night Lighting", "Equipment Rental", "Pro Shop"],
 		description:
 			"Enjoy a match in our well-maintained clay tennis courts in Makati. Available day and night.",
@@ -82,7 +82,7 @@ export const facilities: Facility[] = [
 		capacity: 12,
 		rating: 4.9,
 		reviewCount: 98,
-		images: [futsalCourt, futsalCourt],
+		images: [futsalCourt,futsalCourt,futsalCourt,futsalCourt, futsalCourt],
 		amenities: ["Turf Field", "Goals", "Night Lighting"],
 		description:
 			"A top-quality futsal pitch in Ayala Alabang, perfect for competitive matches or casual games.",
@@ -98,7 +98,7 @@ export const facilities: Facility[] = [
 		capacity: 12,
 		rating: 4.8,
 		reviewCount: 305,
-		images: [beachCourt, beachCourt],
+		images: [beachCourt,beachCourt,beachCourt,beachCourt, beachCourt],
 		amenities: ["Ocean View", "Sand Court", "Nets Provided", "Public Restrooms"],
 		description:
 			"Classic beach volleyball right on the iconic La Union beach. Rent a court and enjoy the sun and surf.",
@@ -114,7 +114,7 @@ export const facilities: Facility[] = [
 		capacity: 6,
 		rating: 4.6,
 		reviewCount: 88,
-		images: [badminton, badminton],
+		images: [badminton,badminton,badminton,badminton, badminton],
 		amenities: ["Multiple Courts", "Equipment Rental", "Locker Rooms", "Vending Machines"],
 		description:
 			"Spacious indoor hall with multiple badminton courts available for single or group play. All skill levels welcome.",
@@ -130,7 +130,7 @@ export const facilities: Facility[] = [
 		capacity: 10,
 		rating: 4.5,
 		reviewCount: 120,
-		images: [cebuCityHoops, cebuCityHoops],
+		images: [cebuCityHoops,cebuCityHoops,cebuCityHoops, cebuCityHoops],
 		amenities: ["Indoor Court", "Glass Backboards", "Electronic Scoreboard"],
 		description:
 			"A well-maintained indoor court in Cebu City, perfect for practice sessions or competitive games.",
@@ -146,7 +146,7 @@ export const facilities: Facility[] = [
 		capacity: 4,
 		rating: 4.9,
 		reviewCount: 280,
-		images: [lawnTennis, lawnTennis],
+		images: [lawnTennis,lawnTennis,lawnTennis,lawnTennis, lawnTennis],
 		amenities: ["Hard Courts", "Lessons Available", "Cafe"],
 		description:
 			"Well-maintained tennis courts in Davao City, offering a great environment for your game.",

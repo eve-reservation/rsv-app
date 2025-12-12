@@ -1,8 +1,9 @@
 import { type RouteConfig, index, layout, prefix, route } from "@react-router/dev/routes";
 
-// PPP Office routes
+const authRoutes: RouteConfig = [route("/login", "routes/auth/login.tsx")];
+
 const userRoutes: RouteConfig = [
-	route("/facility/:id", "routes/facility-details.tsx"),
+	route("/facility/:id", "routes/facility.tsx"),
 	route("/booking/confirmation", "routes/user/booking-confirmation.tsx"),
 	route("/booking/complete", "routes/user/booking-complete.tsx"),
 ];
@@ -13,9 +14,8 @@ const adminRoutes: RouteConfig = prefix("/admin", [
 	route("/dashboard", "routes/admin/dashboard.tsx"),
 	route("/booking", "routes/admin/bookings.tsx"),
 	route("/facility", "routes/admin/facilities.tsx"),
+	route("/facility/:id", "routes/admin/facility.tsx"),
 ]);
-
-const authRoutes: RouteConfig = [route("/login", "routes/auth/login.tsx")];
 
 const kioskRoutes: RouteConfig = prefix("/kiosk", [
 	route("/facility/:id", "routes/kiosk/facility.tsx"),
