@@ -127,7 +127,7 @@ export default function FacilityTemplate() {
 
 				{/* Image Gallery - FIXED */}
 				<section className="relative">
-					<div className="mx-auto max-w-6xl py-6">
+					<div className="mx-auto max-w-7xl py-6">
 						<div className="grid grid-cols-4 grid-rows-2 gap-2 h-[500px] md:h-[600px] rounded-2xl overflow-hidden">
 							{/* Main Large Image - Left Side (2x2) */}
 							<div
@@ -176,7 +176,7 @@ export default function FacilityTemplate() {
 				</section>
 
 				{/* Content */}
-				<section className="mx-auto max-w-6xl py-8">
+				<section className="mx-auto max-w-7xl py-8">
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 						{/* Left Content */}
 						<div className="lg:col-span-2 space-y-8">
@@ -302,7 +302,7 @@ export default function FacilityTemplate() {
 									<div className="flex items-baseline justify-between">
 										<div>
 											<span className="text-2xl font-semibold text-foreground">
-												₱{facility.price}
+												₱{facility.price.toLocaleString()}
 											</span>
 											<span className="text-muted-foreground">
 												{" "}
@@ -344,19 +344,19 @@ export default function FacilityTemplate() {
 											<div className="space-y-3 pt-4 border-t border-border">
 												<div className="flex items-center justify-between text-foreground">
 													<span className="underline">
-														₱{facility.price} x {duration}{" "}
-														{facility.priceUnit}
+														₱{facility.price.toLocaleString()} x{" "}
+														{duration} {facility.priceUnit}
 														{duration > 1 ? "s" : ""}
 													</span>
-													<span>₱{totalPrice.toFixed(2)}</span>
+													<span>₱{totalPrice.toLocaleString()}</span>
 												</div>
 												<div className="flex items-center justify-between text-foreground">
 													<span className="underline">Service fee</span>
-													<span>₱{serviceFee.toFixed(2)}</span>
+													<span>₱{serviceFee.toLocaleString()}</span>
 												</div>
 												<div className="flex items-center justify-between font-semibold text-foreground pt-3 border-t border-border">
 													<span>Total</span>
-													<span>₱{total.toFixed(2)}</span>
+													<span>₱{total.toLocaleString()}</span>
 												</div>
 											</div>
 										</>

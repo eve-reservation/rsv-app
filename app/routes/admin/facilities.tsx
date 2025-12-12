@@ -1,4 +1,5 @@
 import { facilities } from "@/lib/data";
+import { Link } from "react-router";
 import { FacilityCard } from "~/components/molecule/facility-card";
 
 export default function Facilities() {
@@ -10,7 +11,9 @@ export default function Facilities() {
 			</div>
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 				{facilities.map((facility) => (
-					<FacilityCard key={facility.id} facility={facility} />
+					<Link to={`/admin/facility/${facility.id}`} key={facility.id}>
+						<FacilityCard facility={facility} />
+					</Link>
 				))}
 			</div>
 		</div>

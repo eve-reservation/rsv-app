@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Plus, Edit, Eye, Trash2, MoreHorizontal } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { DataTable, type DataTableColumn } from "~/components/molecule/data-table-updated";
+import { DataTable, type DataTableColumn } from "~/components/molecule/data-table";
 import type { SupplierItemWithRelation } from "~/zod/supplier-item.zod";
 import {
 	DropdownMenu,
