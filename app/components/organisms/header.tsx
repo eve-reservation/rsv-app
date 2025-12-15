@@ -69,9 +69,8 @@ export function Header() {
 								<DropdownMenuItem>Log in</DropdownMenuItem>
 								<DropdownMenuSeparator />
 								<DropdownMenuItem>
-									<Link to="/admin">List your space</Link>
+									<Link to="/profile">Profile</Link>
 								</DropdownMenuItem>
-								<DropdownMenuItem>Help Center</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</div>
