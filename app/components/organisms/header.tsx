@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Menu, User, Globe } from "lucide-react";
+import { Menu, User, Globe, Mail, Lock, User as UserIcon, Calendar } from "lucide-react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -7,16 +7,31 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link } from "react-router-dom"; // Fixed: was "react-router" → should be "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom";
 import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.png";
+import { useState } from "react";
+import { SignupModal } from "../organism/signup-modal";
 
 export function Header() {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [isSignupOpen, setIsSignupOpen] = useState(searchParams.get("signUp") === "true");
+
+	const handleOpenChange = (open: boolean) => {
+		setIsSignupOpen(open);
+		const newParams = new URLSearchParams(searchParams);
+		if (open) {
+			newParams.set("signUp", "true");
+		} else {
+			newParams.delete("signUp");
+		}
+		setSearchParams(newParams);
+	};
+
 	return (
 		<header className="sticky top-0 z-50 w-full bg-card/80 backdrop-blur-md border-b border-border">
 			<div className="mx-auto max-w-7xl px-4 sm:px-0">
 				<div className="flex h-16 items-center justify-between">
 					<Link to="/" className="flex items-center gap-3">
-						{/* Replaced the "S" circle with your actual logo */}
 						<img
 							src={qcSportsLogo}
 							alt="QC Sports Logo"
@@ -33,18 +48,9 @@ export function Header() {
 							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
 							Explore
 						</Link>
-						{/* <Link
-							to="/admin"
-							className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-							List Your Space
-						</Link> */}
 					</nav>
 
 					<div className="flex items-center gap-2">
-						{/* <Button variant="ghost" size="icon" className="hidden sm:flex">
-							<Globe className="h-4 w-4" />
-						</Button> */}
-
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button
@@ -57,7 +63,9 @@ export function Header() {
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end" className="w-56">
-								<DropdownMenuItem>Sign up</DropdownMenuItem>
+								<DropdownMenuItem onClick={() => handleOpenChange(true)}>
+									Sign up
+								</DropdownMenuItem>
 								<DropdownMenuItem>Log in</DropdownMenuItem>
 								<DropdownMenuSeparator />
 								<DropdownMenuItem>
@@ -69,6 +77,8 @@ export function Header() {
 					</div>
 				</div>
 			</div>
+
+			<SignupModal open={isSignupOpen} onOpenChange={handleOpenChange} />
 		</header>
 	);
 }

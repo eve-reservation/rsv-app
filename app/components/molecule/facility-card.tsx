@@ -98,7 +98,7 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 				<p className="text-sm text-muted-foreground">{facility.location}</p>
 				<p className="text-sm text-muted-foreground">{facility.type}</p>
 				<p className="mt-1">
-					<span className="font-semibold">₱{facility.price}</span>
+					<span className="font-semibold">₱{facility.price.toLocaleString()}</span>
 					<span className="text-muted-foreground"> / {facility.priceUnit}</span>
 				</p>
 			</div>
