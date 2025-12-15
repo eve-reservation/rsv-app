@@ -1,46 +1,142 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { Search, Building2 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import {
+	Command,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
+	CommandList,
+} from "@/components/ui/command";
 import { format } from "date-fns";
 import { useNavigate } from "react-router";
 import { cn } from "~/lib/utils";
+import { categories } from "~/lib/data";
+import {
+	basketballIcon,
+	badmintonIcon,
+	volleyballIcon,
+	soccerIcon,
+	tableTennisIcon,
+	baseballIcon,
+	billiardIcon,
+	bowlingIcon,
+	fitnessIcon,
+	golfIcon,
+	rugbyIcon,
+	pickleballIcon,
+} from "@/assets/images/SVG";
+
+const iconMap: Record<string, string> = {
+	basketball: basketballIcon,
+	tennis: tableTennisIcon,
+	football: soccerIcon,
+	volleyball: volleyballIcon,
+	badminton: badmintonIcon,
+	baseball: baseballIcon,
+	billiard: billiardIcon,
+	bowling: bowlingIcon,
+	fitness: fitnessIcon,
+	golf: golfIcon,
+	rugby: rugbyIcon,
+	pickleball: pickleballIcon,
+};
 
 export function SearchBar() {
 	const navigate = useNavigate();
-	const [location, setLocation] = useState("");
+	const [category, setCategory] = useState("");
 	const [when, setWhen] = useState<Date | undefined>(undefined);
 	const [guests, setGuests] = useState(1);
 	const [activeField, setActiveField] = useState<string | null>(null);
+	const [openCategory, setOpenCategory] = useState(false);
 
 	const handleSearch = () => {
 		const params = new URLSearchParams();
-		if (location.trim()) params.set("location", location.trim());
+		if (category) params.set("category", category);
 		if (when) params.set("date", when.toISOString());
 		if (guests > 1) params.set("guests", guests.toString());
 		navigate(`/?${params.toString()}`);
 	};
 
+	const selectedCategory = categories.find((c) => c.name === category);
+
 	return (
 		<div className="w-full max-w-4xl mx-auto">
 			<div className="bg-card rounded-lg border border-border shadow-lg hover:shadow-xl transition-shadow">
 				<div className="flex flex-col md:flex-row items-stretch md:items-center divide-y md:divide-y-0 md:divide-x divide-border">
-					{/* Where */}
-					<div
-						className={`flex-1 px-6 py-5 cursor-pointer transition-colors ${
-							activeField === "location" ? "bg-secondary" : "hover:bg-secondary/50"
-						}`}
-						onClick={() => setActiveField("location")}>
-						<label className="block text-xs font-semibold text-foreground">Where</label>
-						<input
-							type="text"
-							placeholder="City, area, or court name"
-							value={location}
-							onChange={(e) => setLocation(e.target.value)}
-							className="w-full bg-transparent text-foreground placeholder:text-muted-foreground/60 focus:outline-none mt-1"
-						/>
-					</div>
+					{/* What */}
+					<Popover open={openCategory} onOpenChange={setOpenCategory}>
+						<PopoverTrigger asChild>
+							<div
+								className={`flex-1 px-6 py-5 cursor-pointer transition-colors ${
+									activeField === "category" || openCategory
+										? "bg-secondary"
+										: "hover:bg-secondary/50"
+								}`}
+								onClick={() => setActiveField("category")}>
+								<label className="block text-xs font-semibold text-foreground">
+									What
+								</label>
+								<div className="flex items-center gap-2 mt-1">
+									{selectedCategory && iconMap[selectedCategory.icon] && (
+										<img
+											src={iconMap[selectedCategory.icon]}
+											alt={selectedCategory.name}
+											className="w-5 h-5 opacity-70"
+										/>
+									)}
+									<span
+										className={cn(
+											"block truncate",
+											category
+												? "text-foreground font-medium"
+												: "text-muted-foreground/60",
+										)}>
+										{category || "What are you playing?"}
+									</span>
+								</div>
+							</div>
+						</PopoverTrigger>
+						<PopoverContent className="w-[200px] p-0" align="start">
+							<Command>
+								<CommandInput placeholder="Search category..." />
+								<CommandList>
+									<CommandEmpty>No category found.</CommandEmpty>
+									<CommandGroup>
+										{categories.map((cat) => (
+											<CommandItem
+												key={cat.id}
+												value={cat.name}
+												onSelect={(currentValue) => {
+													setCategory(
+														currentValue === category
+															? ""
+															: currentValue,
+													);
+													setOpenCategory(false);
+												}}>
+												<div className="flex items-center gap-2">
+													{iconMap[cat.icon] ? (
+														<img
+															src={iconMap[cat.icon]}
+															alt={cat.name}
+															className="w-4 h-4"
+														/>
+													) : (
+														<Building2 className="w-4 h-4" />
+													)}
+													<span>{cat.name}</span>
+												</div>
+											</CommandItem>
+										))}
+									</CommandGroup>
+								</CommandList>
+							</Command>
+						</PopoverContent>
+					</Popover>
 
 					{/* When */}
 					<Popover>

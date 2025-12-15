@@ -7,15 +7,14 @@ import {
 	CarouselPrevious,
 } from "~/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { Card, CardContent } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import { Calendar, Tag } from "lucide-react";
 
 export function DealsSection() {
 	return (
-		<section className="py-12 bg-muted/30">
+		<section className="py-8 bg-muted/30">
 			<div className="container px-4 md:px-6 mx-auto max-w-7xl">
-				<div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
+				{/* <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
 					<div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary font-medium">
 						Limited Time Offers
 					</div>
@@ -25,6 +24,11 @@ export function DealsSection() {
 					<p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
 						Grab these exclusive offers for your next game.
 					</p>
+				</div> */}
+				<div>
+					<h2 className="text-xl md:text-2xl font-semibold mb-2">
+						Deals & Promos
+					</h2>
 				</div>
 
 				<Carousel

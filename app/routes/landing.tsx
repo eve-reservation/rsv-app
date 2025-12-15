@@ -41,14 +41,15 @@ export default function LandingPage() {
 				</div>
 			</section>
 			{/* Deals Section */}
-			<DealsSection />
+			{/* <DealsSection /> */}
 
 			{/* Categories */}
-			<section className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border">
+			{/* <section className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border">
 				<div className="mx-auto max-w-5xl">
 					<CategoryNav />
 				</div>
-			</section>
+			</section> */}
+			{/* <div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border"></div> */}
 
 			{/* Facility Grid */}
 			<main className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
