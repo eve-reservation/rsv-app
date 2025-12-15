@@ -25,8 +25,8 @@ export function SignupModal({ open, onOpenChange }: SignupModalProps) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="sm:max-w-md rounded-2xl p-0 overflow-hidden">
-				<DialogHeader className="px-6 pt-6 pb-4">
-					<DialogTitle className="text-2xl font-bold text-center">
+				<DialogHeader className="px-6 py-2 border-b">
+					<DialogTitle className="text-lg font-semibold text-center">
 						{mode === "signup" ? "Sign up" : "Log in"}
 					</DialogTitle>
 				</DialogHeader>
@@ -97,8 +97,8 @@ export function SignupModal({ open, onOpenChange }: SignupModalProps) {
 						</Button>
 					</form>
 				</div>
-				<DialogFooter className="px-6 py-4 bg-muted/50">
-					<p className="text-sm text-muted-foreground text-center w-full">
+				<DialogFooter className="px-6 py-4">
+					<p className="text-xs text-muted-foreground text-center w-full">
 						{mode === "signup" ? "Already have an account?" : "Don't have an account?"}{" "}
 						<span
 							className="text-primary cursor-pointer"
