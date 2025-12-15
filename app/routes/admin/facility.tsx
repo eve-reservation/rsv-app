@@ -1,5 +1,5 @@
 import FacilityTemplate from "~/components/templates/facility-template";
 
-export default function facility() {
+export default function Facility() {
 	return <FacilityTemplate />;
 }
