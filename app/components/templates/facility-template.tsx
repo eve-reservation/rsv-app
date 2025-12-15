@@ -24,7 +24,7 @@ import {
 import { cn } from "@/lib/utils";
 import { format, setHours, setMinutes } from "date-fns";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { BookingDetailsSelector } from "@/components/organism/booking-details-selector";
+import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 
 const amenityIcons: Record<string, React.ElementType> = {
 	WiFi: Wifi,

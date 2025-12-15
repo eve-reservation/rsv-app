@@ -1,6 +1,6 @@
 import { Crown, LogOut } from "lucide-react";
 import { useState } from "react";
-import PastReservation from "~/components/organisms/past-reservation";
+import UserReservations from "~/components/organisms/user-reservations";
 import PersonalCard from "~/components/organisms/personal-card";
 import { Button } from "~/components/ui/button";
 
@@ -86,7 +86,7 @@ export default function Profile() {
 					<div className="flex gap-8 border-b border-border pt-8">
 						{[
 							{ id: "personal", label: "Personal Information" },
-							{ id: "reservations", label: "Past reservations" },
+							{ id: "reservations", label: "Reservations" },
 							{ id: "settings", label: "Settings" },
 						].map((tab) => (
 							<button
@@ -105,7 +105,7 @@ export default function Profile() {
 					{/* Content */}
 					<div className="py-4">
 						{activeTab === "personal" && <PersonalCard user={mockUser} />}
-						{activeTab === "reservations" && <PastReservation />}
+						{activeTab === "reservations" && <UserReservations />}
 						{activeTab === "settings" && <div />}
 					</div>
 				</div>

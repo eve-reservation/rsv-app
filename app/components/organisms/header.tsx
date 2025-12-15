@@ -10,7 +10,7 @@ import {
 import { Link, useSearchParams } from "react-router-dom";
 import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.png";
 import { useState } from "react";
-import { SignupModal } from "../organism/signup-modal";
+import { SignupModal } from "./signup-modal";
 
 export function Header() {
 	const [searchParams, setSearchParams] = useSearchParams();

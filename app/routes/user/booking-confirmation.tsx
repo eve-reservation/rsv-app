@@ -10,7 +10,7 @@ import { format, setHours, setMinutes } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import TimeSelector from "@/components/molecule/time-selector";
-import { BookingDetailsSelector } from "@/components/organism/booking-details-selector";
+import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
