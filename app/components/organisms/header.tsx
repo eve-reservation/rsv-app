@@ -48,9 +48,19 @@ export function Header() {
 							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
 							Explore
 						</Link>
+						<Link
+							to="/"
+							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
+							Sports
+						</Link>
+						<Link
+							to="/"
+							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
+							Facilities
+						</Link>
 					</nav>
 
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-2 ml-16">
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button

@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils";
 import { format, setHours, setMinutes } from "date-fns";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
+import { BackButton } from "../molecule/back-button";
 
 const amenityIcons: Record<string, React.ElementType> = {
 	WiFi: Wifi,
@@ -92,8 +93,13 @@ export default function FacilityTemplate() {
 	};
 
 	return (
-		<div>
-			<main className="flex-1">
+		<div className="animate-in fade-in duration-500">
+			<div className="flex items-center justify-between">
+				<BackButton fallbackPath="/admin/booking" showText />
+				<Button>Edit Facility</Button>
+			</div>
+
+			<main className="flex-1 ">
 				{/* Photo Gallery Modal */}
 				{showAllPhotos && (
 					<div className="fixed inset-0 z-50 bg-background overflow-y-auto">

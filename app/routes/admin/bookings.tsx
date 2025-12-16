@@ -1,16 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -25,18 +17,9 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import {
-	Search,
-	Filter,
-	MoreHorizontal,
-	Eye,
-	CheckCircle,
-	XCircle,
-	Calendar,
-	Download,
-	Plus,
-} from "lucide-react";
+import { MoreHorizontal, Eye, CheckCircle, XCircle, Calendar, Download, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router";
+import { DataTable, type DataTableColumn } from "@/components/molecule/data-table";
 
 const bookings = [
 	{
@@ -139,15 +122,142 @@ const statusStyles = {
 };
 
 export default function BookingsPage() {
+	const navigate = useNavigate();
 	const [selectedBooking, setSelectedBooking] = useState<(typeof bookings)[0] | null>(null);
-	const [statusFilter, setStatusFilter] = useState<string>("all");
-	const [sportFilter, setSportFilter] = useState<string>("all");
 
-	const filteredBookings = bookings.filter((booking) => {
-		if (statusFilter !== "all" && booking.status !== statusFilter) return false;
-		if (sportFilter !== "all" && booking.sport !== sportFilter) return false;
-		return true;
-	});
+	const tableData = bookings.map((booking) => ({
+		...booking,
+		userName: booking.user.name,
+		userEmail: booking.user.email,
+	}));
+
+	const columns: DataTableColumn<(typeof tableData)[0]>[] = [
+		{
+			key: "id",
+			label: "Booking ID",
+			sortable: true,
+			searchable: true,
+			render: (val) => <span className="font-medium text-sm">{val}</span>,
+		},
+		{
+			key: "userName",
+			label: "User",
+			sortable: true,
+			searchable: true,
+			render: (_, row) => (
+				<div className="flex items-center gap-2">
+					<Avatar className="h-8 w-8">
+						<AvatarFallback>{row.user.avatar}</AvatarFallback>
+					</Avatar>
+					<div className="text-sm">
+						<div className="font-medium">{row.user.name}</div>
+						<div className="text-muted-foreground">{row.user.email}</div>
+					</div>
+				</div>
+			),
+		},
+		{
+			key: "facility",
+			label: "Facility",
+			sortable: true,
+			searchable: true,
+			render: (val, row) => (
+				<div className="text-sm">
+					<div className="font-medium">{val}</div>
+					<div className="text-muted-foreground">{row.sport}</div>
+				</div>
+			),
+		},
+		{
+			key: "date",
+			label: "Date & Time",
+			sortable: true,
+			render: (val, row) => (
+				<div className="text-sm">
+					<div>{val}</div>
+					<div className="text-muted-foreground">{row.time}</div>
+				</div>
+			),
+		},
+		{
+			key: "sport",
+			label: "Sport",
+			filterable: true,
+			filterOptions: [
+				{ label: "Basketball", value: "Basketball" },
+				{ label: "Tennis", value: "Tennis" },
+				{ label: "Futsal", value: "Futsal" },
+				{ label: "Volleyball", value: "Volleyball" },
+				{ label: "Badminton", value: "Badminton" },
+			],
+			render: (val) => <span className="text-sm">{val}</span>,
+		},
+		{
+			key: "status",
+			label: "Status",
+			filterable: true,
+			filterOptions: [
+				{ label: "Confirmed", value: "confirmed" },
+				{ label: "Pending", value: "pending" },
+				{ label: "Cancelled", value: "cancelled" },
+			],
+			render: (val) => (
+				<Badge
+					variant="secondary"
+					className={statusStyles[val as keyof typeof statusStyles]}>
+					{val}
+				</Badge>
+			),
+		},
+		{
+			key: "amount",
+			label: "Amount",
+			sortable: true,
+			render: (val) => <span className="text-sm font-medium">{val}</span>,
+		},
+		{
+			key: "id", // Key reused for actions
+			label: "Actions",
+			render: (_, booking) => (
+				<div className="text-right">
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" size="icon">
+								<MoreHorizontal className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuItem onClick={() => setSelectedBooking(booking)}>
+								<Eye className="mr-2 h-4 w-4" />
+								View Details
+							</DropdownMenuItem>
+							{booking.status === "pending" && (
+								<>
+									<DropdownMenuItem className="text-green-600">
+										<CheckCircle className="mr-2 h-4 w-4" />
+										Confirm
+									</DropdownMenuItem>
+									<DropdownMenuItem className="text-red-600">
+										<XCircle className="mr-2 h-4 w-4" />
+										Cancel
+									</DropdownMenuItem>
+								</>
+							)}
+							<DropdownMenuSeparator />
+							<DropdownMenuItem>
+								<Calendar className="mr-2 h-4 w-4" />
+								Reschedule
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
+			),
+		},
+	];
+
+	const onRowClick = () => {
+		navigate("123");
+	};
 
 	return (
 		<div className="space-y-6">
@@ -156,167 +266,28 @@ export default function BookingsPage() {
 					<h1 className="text-2xl font-bold text-foreground">Booking Management</h1>
 					<p className="text-muted-foreground">Manage and track all facility bookings</p>
 				</div>
-				<div className="flex gap-2">
-					<Button variant="outline">
-						<Download className="mr-2 h-4 w-4" />
-						Export
-					</Button>
-					<Button asChild>
-						<Link to="/admin/bookings/new">
-							<Plus className="mr-2 h-4 w-4" />
-							New Booking
-						</Link>
-					</Button>
-				</div>
 			</div>
 
 			<Card>
-				<CardHeader>
-					<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-						<div className="relative w-full max-w-sm">
-							<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-							<Input
-								type="search"
-								placeholder="Search by ID, user, or facility..."
-								className="pl-10"
-							/>
-						</div>
-						<div className="flex flex-wrap gap-2">
-							<Select value={statusFilter} onValueChange={setStatusFilter}>
-								<SelectTrigger className="w-[140px]">
-									<Filter className="mr-2 h-4 w-4" />
-									<SelectValue placeholder="Status" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="all">All Status</SelectItem>
-									<SelectItem value="confirmed">Confirmed</SelectItem>
-									<SelectItem value="pending">Pending</SelectItem>
-									<SelectItem value="cancelled">Cancelled</SelectItem>
-								</SelectContent>
-							</Select>
-							<Select value={sportFilter} onValueChange={setSportFilter}>
-								<SelectTrigger className="w-[140px]">
-									<SelectValue placeholder="Sport" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="all">All Sports</SelectItem>
-									<SelectItem value="Basketball">Basketball</SelectItem>
-									<SelectItem value="Tennis">Tennis</SelectItem>
-									<SelectItem value="Futsal">Futsal</SelectItem>
-									<SelectItem value="Volleyball">Volleyball</SelectItem>
-									<SelectItem value="Badminton">Badminton</SelectItem>
-								</SelectContent>
-							</Select>
+				<CardHeader className="!py-0">
+					<div className="flex items-center justify-between">
+						<div></div>
+						<div className="flex gap-2">
+							<Button variant="outline">
+								<Download className="mr-2 h-4 w-4" />
+								Export
+							</Button>
+							<Button asChild>
+								<Link to="/admin/bookings/new">
+									<Plus className="mr-2 h-4 w-4" />
+									New Booking
+								</Link>
+							</Button>
 						</div>
 					</div>
 				</CardHeader>
 				<CardContent>
-					<div className="overflow-x-auto">
-						<table className="w-full">
-							<thead>
-								<tr className="border-b border-border text-left text-sm text-muted-foreground">
-									<th className="pb-3 font-medium">Booking ID</th>
-									<th className="pb-3 font-medium">User</th>
-									<th className="pb-3 font-medium">Facility</th>
-									<th className="pb-3 font-medium">Date & Time</th>
-									<th className="pb-3 font-medium">Status</th>
-									<th className="pb-3 text-right font-medium">Amount</th>
-									<th className="pb-3 text-right font-medium">Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-								{filteredBookings.map((booking) => (
-									<tr
-										key={booking.id}
-										className="border-b border-border last:border-0">
-										<td className="py-4 text-sm font-medium">{booking.id}</td>
-										<td className="py-4">
-											<div className="flex items-center gap-2">
-												<Avatar className="h-8 w-8">
-													<AvatarFallback>
-														{booking.user.avatar}
-													</AvatarFallback>
-												</Avatar>
-												<div className="text-sm">
-													<div className="font-medium">
-														{booking.user.name}
-													</div>
-													<div className="text-muted-foreground">
-														{booking.user.email}
-													</div>
-												</div>
-											</div>
-										</td>
-										<td className="py-4">
-											<div className="text-sm">
-												<div className="font-medium">
-													{booking.facility}
-												</div>
-												<div className="text-muted-foreground">
-													{booking.sport}
-												</div>
-											</div>
-										</td>
-										<td className="py-4">
-											<div className="text-sm">
-												<div>{booking.date}</div>
-												<div className="text-muted-foreground">
-													{booking.time}
-												</div>
-											</div>
-										</td>
-										<td className="py-4">
-											<Badge
-												variant="secondary"
-												className={
-													statusStyles[
-														booking.status as keyof typeof statusStyles
-													]
-												}>
-												{booking.status}
-											</Badge>
-										</td>
-										<td className="py-4 text-right text-sm font-medium">
-											{booking.amount}
-										</td>
-										<td className="py-4 text-right">
-											<DropdownMenu>
-												<DropdownMenuTrigger asChild>
-													<Button variant="ghost" size="icon">
-														<MoreHorizontal className="h-4 w-4" />
-													</Button>
-												</DropdownMenuTrigger>
-												<DropdownMenuContent align="end">
-													<DropdownMenuItem
-														onClick={() => setSelectedBooking(booking)}>
-														<Eye className="mr-2 h-4 w-4" />
-														View Details
-													</DropdownMenuItem>
-													{booking.status === "pending" && (
-														<>
-															<DropdownMenuItem className="text-green-600">
-																<CheckCircle className="mr-2 h-4 w-4" />
-																Confirm
-															</DropdownMenuItem>
-															<DropdownMenuItem className="text-red-600">
-																<XCircle className="mr-2 h-4 w-4" />
-																Cancel
-															</DropdownMenuItem>
-														</>
-													)}
-													<DropdownMenuSeparator />
-													<DropdownMenuItem>
-														<Calendar className="mr-2 h-4 w-4" />
-														Reschedule
-													</DropdownMenuItem>
-												</DropdownMenuContent>
-											</DropdownMenu>
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+					<DataTable columns={columns} data={tableData} onRowClick={onRowClick} />
 				</CardContent>
 			</Card>
 

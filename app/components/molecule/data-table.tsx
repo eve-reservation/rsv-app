@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 
 export type SortDirection = "asc" | "desc" | null;
 
@@ -252,7 +252,53 @@ export function DataTable<T extends Record<string, any>>({
 		}, 500);
 	};
 
-	const filteredAndSortedData = data;
+	const filteredAndSortedData = useMemo(() => {
+		let result = [...data];
+
+		// Filter
+		result = result.filter((row) => {
+			// Global Search
+			if (searchQuery) {
+				const searchMatch = columns.some((col) => {
+					if (!col.searchable) return false;
+					const val = row[col.key];
+					if (val === null || val === undefined) return false;
+					return String(val).toLowerCase().includes(searchQuery.toLowerCase());
+				});
+				if (!searchMatch) return false;
+			}
+
+			// Column Filters
+			const filterMatch = columns.every((col) => {
+				const colKey = String(col.key);
+				const filters = columnStates[colKey]?.selectedFilters;
+				if (!filters || filters.length === 0) return true;
+
+				// If filter options provided, we match values
+				const val = String(row[col.key]);
+				return filters.includes(val);
+			});
+			if (!filterMatch) return false;
+
+			return true;
+		});
+
+		// Sort
+		const sortCol = columns.find((c) => columnStates[String(c.key)]?.sortDirection);
+		if (sortCol) {
+			const key = sortCol.key;
+			const dir = columnStates[String(key)].sortDirection;
+			result.sort((a, b) => {
+				const valA = a[key] as any;
+				const valB = b[key] as any;
+				if (valA < valB) return dir === "asc" ? -1 : 1;
+				if (valA > valB) return dir === "asc" ? 1 : -1;
+				return 0;
+			});
+		}
+
+		return result;
+	}, [data, columns, columnStates, searchQuery]);
 
 	return (
 		<div className={cn("w-full overflow-auto p-1", className)}>

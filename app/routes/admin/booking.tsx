@@ -1,6 +1,4 @@
-import { Link } from "react-router";
 import {
-	ArrowLeft,
 	Calendar,
 	CheckCircle,
 	Clock,
@@ -18,14 +16,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -34,6 +25,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { BackButton } from "~/components/molecule/back-button";
 
 // Mock Data for a single booking
 const booking = {
@@ -84,16 +76,7 @@ export default function BookingDetails() {
 	return (
 		<div className="space-y-6 animate-in fade-in duration-500">
 			{/* Breadcrumb / Back Navigation */}
-			<div className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-				<Button variant="ghost" size="icon" asChild className="h-8 w-8">
-					<Link to="/admin/booking">
-						<ArrowLeft className="h-4 w-4" />
-					</Link>
-				</Button>
-				<Link to="/admin/booking" className="text-sm font-medium">
-					Back to Bookings
-				</Link>
-			</div>
+			<BackButton fallbackPath="/admin/booking" showText />
 
 			{/* Header Section */}
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
