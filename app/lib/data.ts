@@ -22,6 +22,7 @@ export interface Facility {
 	amenities: string[];
 	description: string;
 	available: boolean;
+	category: "sports" | "dining" | "wellness";
 }
 
 export interface Category {
@@ -62,6 +63,7 @@ export const facilities: Facility[] = [
 		description:
 			"A full-sized indoor basketball court in the heart of BGC, perfect for leagues and pickup games. Features hardwood floors and adjustable hoops.",
 		available: true,
+		category: "sports",
 	},
 	{
 		id: "2",
@@ -78,6 +80,7 @@ export const facilities: Facility[] = [
 		description:
 			"Enjoy a match in our well-maintained clay tennis courts in Makati. Available day and night.",
 		available: true,
+		category: "sports",
 	},
 	{
 		id: "3",
@@ -94,6 +97,7 @@ export const facilities: Facility[] = [
 		description:
 			"A top-quality futsal pitch in Ayala Alabang, perfect for competitive matches or casual games.",
 		available: false,
+		category: "sports",
 	},
 	{
 		id: "4",
@@ -110,6 +114,7 @@ export const facilities: Facility[] = [
 		description:
 			"Classic beach volleyball right on the iconic La Union beach. Rent a court and enjoy the sun and surf.",
 		available: true,
+		category: "sports",
 	},
 	{
 		id: "5",
@@ -126,6 +131,7 @@ export const facilities: Facility[] = [
 		description:
 			"Spacious indoor hall with multiple badminton courts available for single or group play. All skill levels welcome.",
 		available: true,
+		category: "sports",
 	},
 	{
 		id: "6",
@@ -142,6 +148,7 @@ export const facilities: Facility[] = [
 		description:
 			"A well-maintained indoor court in Cebu City, perfect for practice sessions or competitive games.",
 		available: true,
+		category: "sports",
 	},
 	{
 		id: "7",
@@ -158,6 +165,103 @@ export const facilities: Facility[] = [
 		description:
 			"Well-maintained tennis courts in Davao City, offering a great environment for your game.",
 		available: true,
+		category: "sports",
+	},
+	{
+		id: "8",
+		name: "Courtside Cafe",
+		type: "Dining",
+		location: "Taguig, Metro Manila",
+		price: 500,
+		priceUnit: "person",
+		capacity: 50,
+		rating: 4.5,
+		reviewCount: 45,
+		images: [lebronCourt], // Placeholder image
+		amenities: ["Free Wifi", "Air Conditioning", "Outdoor Seating"],
+		description: "Relax and refuel at our Courtside Cafe with a variety of snacks and drinks.",
+		available: true,
+		category: "dining",
+	},
+	{
+		id: "9",
+		name: "VIP Function Room",
+		type: "Function Hall",
+		location: "Makati, Metro Manila",
+		price: 10000,
+		priceUnit: "4 hours",
+		capacity: 100,
+		rating: 4.9,
+		reviewCount: 12,
+		images: [tennisCourt], // Placeholder image
+		amenities: ["Projector", "Sound System", "Catering Available"],
+		description: "Perfect for events and private gatherings.",
+		available: true,
+		category: "dining",
+	},
+	{
+		id: "10",
+		name: "Recovery Spa",
+		type: "Spa",
+		location: "Quezon City, Metro Manila",
+		price: 1500,
+		priceUnit: "session",
+		capacity: 10,
+		rating: 4.8,
+		reviewCount: 30,
+		images: [badminton], // Placeholder image
+		amenities: ["Massage", "Sauna", "Steam Room"],
+		description: "Recover faster with our professional sports massage and spa facilities.",
+		available: true,
+		category: "wellness",
+	},
+	{
+		id: "11",
+		name: "Zen Yoga Studio",
+		type: "Wellness",
+		location: "BGC, Taguig",
+		price: 800,
+		priceUnit: "class",
+		capacity: 20,
+		rating: 4.7,
+		reviewCount: 55,
+		images: [lawnTennis], // Placeholder image
+		amenities: ["Yoga Mats", "Changing Room", "Water Station"],
+		description: "Find your balance and focus in our peaceful yoga studio.",
+		available: true,
+		category: "wellness",
+	},
+	{
+		id: "12",
+		name: "The Locker Room Bar",
+		type: "Bar & Lounge",
+		location: "Makati, Metro Manila",
+		price: 1200,
+		priceUnit: "person",
+		capacity: 80,
+		rating: 4.6,
+		reviewCount: 110,
+		images: [futsalCourt], // Placeholder image
+		amenities: ["Live Sports TV", "Pool Table", "Happy Hour"],
+		description: "Catch the game and enjoy drinks with friends.",
+		available: true,
+		category: "dining",
+	},
+	{
+		id: "13",
+		name: "Hydrotherapy Pool",
+		type: "Spa",
+		location: "Alabang, Muntinlupa",
+		price: 2000,
+		priceUnit: "session",
+		capacity: 8,
+		rating: 4.9,
+		reviewCount: 25,
+		images: [beachCourt], // Placeholder image
+		amenities: ["Heated Pool", "Jacuzzi", "Towel Service"],
+		description: "Therapeutic water treatments for muscle relaxation.",
+		available: true,
+		category: "wellness",
 	},
 ];
 

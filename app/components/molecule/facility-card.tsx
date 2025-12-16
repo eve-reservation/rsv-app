@@ -28,7 +28,7 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 
 	return (
 		<div className="group block">
-			<div className="relative aspect-square rounded-2xl overflow-hidden bg-muted">
+			<div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
 				<img
 					src={facility.images[currentImage] || "/placeholder.svg"}
 					alt={facility.name}
