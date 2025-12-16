@@ -34,8 +34,11 @@ const amenityIcons: Record<string, React.ElementType> = {
 	"Room Service": ConciergeBell,
 	"City View": Building,
 };
+interface FacilityTemplateProps {
+	admin?: boolean;
+}
 
-export default function FacilityTemplate() {
+export default function FacilityTemplate({ admin = false }: FacilityTemplateProps) {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const facility = facilities.find((f) => f.id === id);
@@ -96,7 +99,7 @@ export default function FacilityTemplate() {
 		<div className="animate-in fade-in duration-500">
 			<div className="flex items-center justify-between">
 				<BackButton fallbackPath="/admin/booking" showText />
-				<Button>Edit Facility</Button>
+				{admin && <Button>Edit Facility</Button>}
 			</div>
 
 			<main className="flex-1 ">
@@ -133,7 +136,7 @@ export default function FacilityTemplate() {
 
 				{/* Image Gallery - FIXED */}
 				<section className="relative">
-					<div className="mx-auto max-w-7xl py-6">
+					<div className=" py-6">
 						<div className="grid grid-cols-4 grid-rows-2 gap-2 h-[500px] md:h-[600px] rounded-2xl overflow-hidden">
 							{/* Main Large Image - Left Side (2x2) */}
 							<div
@@ -182,7 +185,7 @@ export default function FacilityTemplate() {
 				</section>
 
 				{/* Content */}
-				<section className="mx-auto max-w-7xl py-8">
+				<section className=" py-8">
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 						{/* Left Content */}
 						<div className="lg:col-span-2 space-y-8">

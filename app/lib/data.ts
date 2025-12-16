@@ -58,7 +58,11 @@ export const facilities: Facility[] = [
 		capacity: 15,
 		rating: 4.8,
 		reviewCount: 154,
-		images: [lebronCourt, lebronCourt, lebronCourt, lebronCourt, lebronCourt],
+		images: [
+			"https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=1000&auto=format&fit=crop",
+			"https://images.unsplash.com/photo-1519861531473-920026393112?q=80&w=1000&auto=format&fit=crop",
+			"https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=1000&auto=format&fit=crop",
+		],
 		amenities: ["Locker Rooms", "Showers", "Scoreboard", "Bleachers"],
 		description:
 			"A full-sized indoor basketball court in the heart of BGC, perfect for leagues and pickup games. Features hardwood floors and adjustable hoops.",
@@ -75,7 +79,10 @@ export const facilities: Facility[] = [
 		capacity: 4,
 		rating: 4.7,
 		reviewCount: 212,
-		images: [tennisCourt, tennisCourt, tennisCourt, tennisCourt, tennisCourt],
+		images: [
+			"https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=1000&auto=format&fit=crop",
+			"https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=1000&auto=format&fit=crop",
+		],
 		amenities: ["Clay Courts", "Night Lighting", "Equipment Rental", "Pro Shop"],
 		description:
 			"Enjoy a match in our well-maintained clay tennis courts in Makati. Available day and night.",
@@ -92,7 +99,9 @@ export const facilities: Facility[] = [
 		capacity: 12,
 		rating: 4.9,
 		reviewCount: 98,
-		images: [futsalCourt, futsalCourt, futsalCourt, futsalCourt, futsalCourt],
+		images: [
+			"https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000&auto=format&fit=crop",
+		],
 		amenities: ["Turf Field", "Goals", "Night Lighting"],
 		description:
 			"A top-quality futsal pitch in Ayala Alabang, perfect for competitive matches or casual games.",
@@ -109,7 +118,9 @@ export const facilities: Facility[] = [
 		capacity: 12,
 		rating: 4.8,
 		reviewCount: 305,
-		images: [beachCourt, beachCourt, beachCourt, beachCourt, beachCourt],
+		images: [
+			"https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?q=80&w=1000&auto=format&fit=crop",
+		],
 		amenities: ["Ocean View", "Sand Court", "Nets Provided", "Public Restrooms"],
 		description:
 			"Classic beach volleyball right on the iconic La Union beach. Rent a court and enjoy the sun and surf.",
@@ -126,7 +137,9 @@ export const facilities: Facility[] = [
 		capacity: 6,
 		rating: 4.6,
 		reviewCount: 88,
-		images: [badminton, badminton, badminton, badminton, badminton],
+		images: [
+			"https://images.unsplash.com/photo-1626224583764-847890e0b379?q=80&w=1000&auto=format&fit=crop",
+		],
 		amenities: ["Multiple Courts", "Equipment Rental", "Locker Rooms", "Vending Machines"],
 		description:
 			"Spacious indoor hall with multiple badminton courts available for single or group play. All skill levels welcome.",
@@ -143,7 +156,9 @@ export const facilities: Facility[] = [
 		capacity: 10,
 		rating: 4.5,
 		reviewCount: 120,
-		images: [cebuCityHoops, cebuCityHoops, cebuCityHoops, cebuCityHoops],
+		images: [
+			"https://images.unsplash.com/photo-1544919978-87f420371602?q=80&w=1000&auto=format&fit=crop",
+		],
 		amenities: ["Indoor Court", "Glass Backboards", "Electronic Scoreboard"],
 		description:
 			"A well-maintained indoor court in Cebu City, perfect for practice sessions or competitive games.",
@@ -160,7 +175,9 @@ export const facilities: Facility[] = [
 		capacity: 4,
 		rating: 4.9,
 		reviewCount: 280,
-		images: [lawnTennis, lawnTennis, lawnTennis, lawnTennis, lawnTennis],
+		images: [
+			"https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=1000&auto=format&fit=crop",
+		],
 		amenities: ["Hard Courts", "Lessons Available", "Cafe"],
 		description:
 			"Well-maintained tennis courts in Davao City, offering a great environment for your game.",
@@ -177,7 +194,9 @@ export const facilities: Facility[] = [
 		capacity: 50,
 		rating: 4.5,
 		reviewCount: 45,
-		images: [lebronCourt], // Placeholder image
+		images: [
+			"https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1000&auto=format&fit=crop",
+		], // Placeholder image
 		amenities: ["Free Wifi", "Air Conditioning", "Outdoor Seating"],
 		description: "Relax and refuel at our Courtside Cafe with a variety of snacks and drinks.",
 		available: true,
@@ -193,7 +212,9 @@ export const facilities: Facility[] = [
 		capacity: 100,
 		rating: 4.9,
 		reviewCount: 12,
-		images: [tennisCourt], // Placeholder image
+		images: [
+			"https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1000&auto=format&fit=crop",
+		], // Placeholder image
 		amenities: ["Projector", "Sound System", "Catering Available"],
 		description: "Perfect for events and private gatherings.",
 		available: true,
@@ -209,7 +230,9 @@ export const facilities: Facility[] = [
 		capacity: 10,
 		rating: 4.8,
 		reviewCount: 30,
-		images: [badminton], // Placeholder image
+		images: [
+			"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1000&auto=format&fit=crop",
+		], // Placeholder image
 		amenities: ["Massage", "Sauna", "Steam Room"],
 		description: "Recover faster with our professional sports massage and spa facilities.",
 		available: true,
@@ -225,7 +248,9 @@ export const facilities: Facility[] = [
 		capacity: 20,
 		rating: 4.7,
 		reviewCount: 55,
-		images: [lawnTennis], // Placeholder image
+		images: [
+			"https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=80&w=1000&auto=format&fit=crop",
+		], // Placeholder image
 		amenities: ["Yoga Mats", "Changing Room", "Water Station"],
 		description: "Find your balance and focus in our peaceful yoga studio.",
 		available: true,
@@ -241,7 +266,9 @@ export const facilities: Facility[] = [
 		capacity: 80,
 		rating: 4.6,
 		reviewCount: 110,
-		images: [futsalCourt], // Placeholder image
+		images: [
+			"https://images.unsplash.com/photo-1534405111774-ade5c6e8f02d?q=80&w=1495&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+		], // Placeholder image
 		amenities: ["Live Sports TV", "Pool Table", "Happy Hour"],
 		description: "Catch the game and enjoy drinks with friends.",
 		available: true,
@@ -257,7 +284,9 @@ export const facilities: Facility[] = [
 		capacity: 8,
 		rating: 4.9,
 		reviewCount: 25,
-		images: [beachCourt], // Placeholder image
+		images: [
+			"https://images.unsplash.com/photo-1660676694495-5a96866804cb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+		], // Placeholder image
 		amenities: ["Heated Pool", "Jacuzzi", "Towel Service"],
 		description: "Therapeutic water treatments for muscle relaxation.",
 		available: true,

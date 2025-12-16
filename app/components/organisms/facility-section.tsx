@@ -8,20 +8,26 @@ import type { Facility } from "@/lib/data";
 interface FacilitySectionProps {
 	title: string;
 	facilities: Facility[];
+	basePath?: string;
 }
 
-export function FacilitySection({ title, facilities }: FacilitySectionProps) {
+export function FacilitySection({
+	title,
+	facilities,
+	basePath = "/facility",
+}: FacilitySectionProps) {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
 	const scroll = (direction: "left" | "right") => {
 		if (scrollContainerRef.current) {
-			const scrollAmount = 300; // Approximate card width + gap
+			const container = scrollContainerRef.current;
+			const scrollAmount = container.clientWidth + 24; // Scroll by viewport width + gap
 			const newScrollLeft =
 				direction === "left"
-					? scrollContainerRef.current.scrollLeft - scrollAmount
-					: scrollContainerRef.current.scrollLeft + scrollAmount;
+					? container.scrollLeft - scrollAmount
+					: container.scrollLeft + scrollAmount;
 
-			scrollContainerRef.current.scrollTo({
+			container.scrollTo({
 				left: newScrollLeft,
 				behavior: "smooth",
 			});
@@ -54,13 +60,12 @@ export function FacilitySection({ title, facilities }: FacilitySectionProps) {
 				</div>
 			</div>
 
-			<div
-				ref={scrollContainerRef}
-				className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
-				style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+			<div ref={scrollContainerRef} className="flex gap-6 overflow-hidden pb-4 scroll-smooth">
 				{facilities.map((facility) => (
-					<div key={facility.id} className="w-[280px] sm:w-[320px] flex-none snap-start">
-						<Link to={`/facility/${facility.id}`}>
+					<div
+						key={facility.id}
+						className="w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none">
+						<Link to={`${basePath}/${facility.id}`}>
 							<FacilityCard facility={facility} />
 						</Link>
 					</div>

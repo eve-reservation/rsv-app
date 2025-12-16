@@ -6,7 +6,9 @@ export default function UserLayout() {
 	return (
 		<main className="min-h-screen flex flex-col bg-background">
 			<Header />
-			<Outlet />
+			<div className="mx-auto max-w-7xl py-6">
+				<Outlet />
+			</div>
 			<Footer />
 		</main>
 	);
