@@ -1,0 +1,48 @@
+name: Deploy UAT
+
+on:
+    push:
+        branches: [uat]
+
+permissions:
+    checks: write
+    contents: read
+
+jobs:
+    build_and_deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "npm"
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Set environment variables
+              run: |
+                  cp .env.uat .env
+                  echo "Environment variables set for UAT"
+                  cat .env
+
+            - name: Build project
+              run: npm run build
+              env:
+                  CI: false
+                  ESLINT_NO_DEV_ERRORS: true
+                  DISABLE_ESLINT_PLUGIN: true
+                  SKIP_ESLINT: true
+
+            - name: Deploy to Firebase UAT
+              uses: FirebaseExtended/action-hosting-deploy@v0
+              with:
+                  repoToken: "${{ secrets.GITHUB_TOKEN }}"
+                  firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_UAT }}"
+                  projectId: qcsports-app-uat
+                  channelId: live
+                  target: uat
+                  entryPoint: .
