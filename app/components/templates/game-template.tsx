@@ -89,7 +89,7 @@ export default function GameTemplate() {
 			</div>
 
 			{/* Banner Image */}
-			<div className="relative h-[400px] md:h-[500px] w-full rounded-xl overflow-hidden mb-12">
+			<div className="relative h-[300px] md:h-[400px] w-full rounded-xl overflow-hidden mb-12">
 				<img
 					src={game.images[0]}
 					alt={game.name}

@@ -50,11 +50,11 @@ export default function LandingPage() {
 						facilities={games.filter((g) => g.type === "Basketball")}
 					/>
 					<FacilitySection
-						title="Browse volleyball games"
+						title="Vx`olleyball games"
 						facilities={games.filter((g) => g.type === "Volleyball")}
 					/>
 					<FacilitySection
-						title="Browse tennis games"
+						title="Tennis games"
 						facilities={games.filter((g) => g.type === "Tennis")}
 					/>
 				</div>
