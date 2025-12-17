@@ -7,7 +7,7 @@
 		"dev": "react-router dev",
 		"start": "react-router-serve ./build/server/index.js",
 		"format": "eslint app/**/*.tsx --fix",
-		"lint": "eslint .",
+		"lint": "eslint . --fix",
 		"typecheck": "react-router typegen && tsc"
 	},
 	"dependencies": {

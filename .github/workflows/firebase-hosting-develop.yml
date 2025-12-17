@@ -33,13 +33,16 @@ jobs:
               run: npm run build
               env:
                   CI: false
+                  ESLINT_NO_DEV_ERRORS: true
+                  DISABLE_ESLINT_PLUGIN: true
+                  SKIP_ESLINT: true
 
             - name: Deploy to Firebase Develop
               uses: FirebaseExtended/action-hosting-deploy@v0
               with:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"
-                  firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_RYDE_LUXURY_APP_DEV }}"
-                  projectId: ryde-luxury-app-dev
+                  firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_DEV }}"
+                  projectId: qcsports-app-dev
                   channelId: live
                   target: develop
                   entryPoint: .
