@@ -20,6 +20,7 @@ import {
 import { MoreHorizontal, Eye, CheckCircle, XCircle, Calendar, Download, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { DataTable, type DataTableColumn } from "@/components/molecule/data-table";
+import { Input } from "~/components/ui/input";
 
 const bookings = [
 	{
@@ -271,7 +272,9 @@ export default function BookingsPage() {
 			<Card>
 				<CardHeader className="!py-0">
 					<div className="flex items-center justify-between">
-						<div></div>
+						<div>
+							<Input type="text" placeholder="Search bookings..." />
+						</div>
 						<div className="flex gap-2">
 							<Button variant="outline">
 								<Download className="mr-2 h-4 w-4" />

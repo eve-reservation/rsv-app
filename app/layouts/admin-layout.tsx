@@ -13,11 +13,11 @@ export default function AdminLayout() {
 	return (
 		<main className="h-screen bg-sidebar">
 			<SidebarProvider>
-				<div className="flex h-screen w-full">
+				<div className="flex h-screen w-full bg-sidebar p-4 pl-0">
 					<AppSidebar />
 
 					{/* Right content area */}
-					<div className="flex flex-1 flex-col pl-0 rounded-2xl shadow bg-secondary overflow-hidden">
+					<div className="flex flex-1 flex-col pl-0 rounded-2xl bg-secondary shadow overflow-hidden">
 						{/* Scroll wrapper */}
 						<div className="flex-1 overflow-y-auto p-6">
 							<Suspense fallback={<div>Loading...</div>}>
