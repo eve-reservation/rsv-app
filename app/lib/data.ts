@@ -368,6 +368,12 @@ export const deals: Deal[] = [
 	},
 ];
 
+export interface Player {
+	id: string;
+	name: string;
+	avatar: string;
+}
+
 export interface Game {
 	id: string;
 	name: string;
@@ -379,6 +385,8 @@ export interface Game {
 	images: string[];
 	date: string;
 	category: string;
+	players: Player[];
+	facilityId: string;
 }
 
 export const games: Game[] = [
@@ -393,6 +401,17 @@ export const games: Game[] = [
 		images: [lebronCourt],
 		date: "Tomorrow, 7:00 PM",
 		category: "sports",
+		players: [
+			{ id: "p1", name: "John Doe", avatar: "JD" },
+			{ id: "p2", name: "Jane Smith", avatar: "JS" },
+			{ id: "p3", name: "Mike Johnson", avatar: "MJ" },
+			{ id: "p4", name: "Sarah Williams", avatar: "SW" },
+			{ id: "p5", name: "Chris Brown", avatar: "CB" },
+			{ id: "p6", name: "Patricia Davis", avatar: "PD" },
+			{ id: "p7", name: "Robert Miller", avatar: "RM" },
+			{ id: "p8", name: "Linda Wilson", avatar: "LW" },
+		],
+		facilityId: "1",
 	},
 	{
 		id: "g2",
@@ -405,6 +424,15 @@ export const games: Game[] = [
 		images: [beachCourt],
 		date: "Sunday, 8:00 AM",
 		category: "sports",
+		players: [
+			{ id: "p1", name: "John Doe", avatar: "JD" },
+			{ id: "p9", name: "David Anderson", avatar: "DA" },
+			{ id: "p10", name: "Jennifer Thomas", avatar: "JT" },
+			{ id: "p11", name: "Charles Jackson", avatar: "CJ" },
+			{ id: "p12", name: "Susan White", avatar: "SW" },
+			{ id: "p13", name: "Joseph Harris", avatar: "JH" },
+		],
+		facilityId: "4",
 	},
 	{
 		id: "g3",
@@ -417,6 +445,13 @@ export const games: Game[] = [
 		images: [futsalCourt],
 		date: "Tonight, 9:00 PM",
 		category: "sports",
+		players: [
+			{ id: "p3", name: "Mike Johnson", avatar: "MJ" },
+			{ id: "p14", name: "Karen Martin", avatar: "KM" },
+			{ id: "p15", name: "Thomas Thompson", avatar: "TT" },
+			{ id: "p16", name: "Nancy Garcia", avatar: "NG" },
+		],
+		facilityId: "3",
 	},
 	{
 		id: "g4",
@@ -429,6 +464,11 @@ export const games: Game[] = [
 		images: [badminton],
 		date: "Sunday, 2:00 PM",
 		category: "sports",
+		players: [
+			{ id: "p2", name: "Jane Smith", avatar: "JS" },
+			{ id: "p17", name: "Daniel Martinez", avatar: "DM" },
+		],
+		facilityId: "5",
 	},
 	{
 		id: "g5",
@@ -441,5 +481,10 @@ export const games: Game[] = [
 		images: [tennisCourt],
 		date: "Saturday, 4:00 PM",
 		category: "sports",
+		players: [
+			{ id: "p18", name: "Paul Robinson", avatar: "PR" },
+			{ id: "p19", name: "Lisa Clark", avatar: "LC" },
+		],
+		facilityId: "2",
 	},
 ];
