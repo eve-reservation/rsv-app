@@ -387,6 +387,7 @@ export interface Game {
 	category: string;
 	players: Player[];
 	facilityId: string;
+	host: Player;
 }
 
 export const games: Game[] = [
@@ -412,6 +413,7 @@ export const games: Game[] = [
 			{ id: "p8", name: "Linda Wilson", avatar: "LW" },
 		],
 		facilityId: "1",
+		host: { id: "p1", name: "John Doe", avatar: "JD" },
 	},
 	{
 		id: "g2",
@@ -433,6 +435,7 @@ export const games: Game[] = [
 			{ id: "p13", name: "Joseph Harris", avatar: "JH" },
 		],
 		facilityId: "4",
+		host: { id: "p1", name: "John Doe", avatar: "JD" },
 	},
 	{
 		id: "g3",
@@ -452,6 +455,7 @@ export const games: Game[] = [
 			{ id: "p16", name: "Nancy Garcia", avatar: "NG" },
 		],
 		facilityId: "3",
+		host: { id: "p3", name: "Mike Johnson", avatar: "MJ" },
 	},
 	{
 		id: "g4",
@@ -469,6 +473,7 @@ export const games: Game[] = [
 			{ id: "p17", name: "Daniel Martinez", avatar: "DM" },
 		],
 		facilityId: "5",
+		host: { id: "p2", name: "Jane Smith", avatar: "JS" },
 	},
 	{
 		id: "g5",
@@ -486,5 +491,6 @@ export const games: Game[] = [
 			{ id: "p19", name: "Lisa Clark", avatar: "LC" },
 		],
 		facilityId: "2",
+		host: { id: "p18", name: "Paul Robinson", avatar: "PR" },
 	},
 ];
