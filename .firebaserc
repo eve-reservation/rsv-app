@@ -1,33 +1,16 @@
 {
-  "projects": {
-    "default": "qcsports-app-dev",
-    "Ryde App": "ryde-app-eac89",
-    "Ryde App UAT": "rydeph-app-uat",
-    "uat": "rydeph-app-uat",
-    "develop": "qcsports-app-dev"
-  },
-  "targets": {
-    "ryde-luxury-app-dev": {
-      "hosting": {
-        "develop": [
-          "ryde-luxury-app-dev"
-        ]
-      }
-    },
-    "rydeph-app-uat": {
-      "hosting": {
-        "webapp-uat": [
-          "rydeph-app-uat"
-        ]
-      }
-    },
-    "rydeph-web-prod": {
-      "hosting": {
-        "webapp-prod": [
-          "rydeph-web-prod"
-        ]
-      }
-    }
-  },
-  "etags": {}
+	"projects": {
+		"default": "qcsports-app-dev",
+		"develop": "qcsports-app-dev"
+	},
+	"targets": {
+		"qcsports-app-dev": {
+			"hosting": {
+				"develop": [
+					"qcsports-app-dev"
+				]
+			}
+		}
+	},
+	"etags": {}
 }
