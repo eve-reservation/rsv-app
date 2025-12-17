@@ -165,25 +165,21 @@ export default function AdminDashboard() {
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				{stats.map((stat) => (
-					<Card
-						key={stat.title}
-						className="bg-gradient-to-br from-primary/30 via-white to-white">
-						<CardHeader className="flex flex-row items-center justify-between pb-2">
-							<CardTitle className="text-sm font-medium text-foreground">
-								{stat.title}
-							</CardTitle>
-							<stat.icon className="h-4 w-4 text-muted-foreground" />
-						</CardHeader>
-						<CardContent>
-							<div className="text-2xl font-bold">{stat.value}</div>
-							<p
-								className={`text-xs ${stat.changeType === "positive" ? "text-green-600" : "text-red-600"}`}>
-								{stat.change} from last month
-							</p>
-						</CardContent>
-					</Card>
-				))}
+				import {StatCard} from "~/components/molecule/stat-card"; // ... (imports) // ...
+				(code)
+				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+					{stats.map((stat) => (
+						<StatCard
+							key={stat.title}
+							title={stat.title}
+							value={stat.value}
+							change={stat.change}
+							changeType={stat.changeType}
+							icon={stat.icon}
+							className="bg-gradient-to-br from-primary/30 via-white to-white"
+						/>
+					))}
+				</div>
 			</div>
 
 			<div className="grid gap-6 lg:grid-cols-3">

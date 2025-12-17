@@ -21,6 +21,7 @@ import { MoreHorizontal, Eye, CheckCircle, XCircle, Calendar, Download, Plus } f
 import { Link, useNavigate } from "react-router";
 import { DataTable, type DataTableColumn } from "@/components/molecule/data-table";
 import { Input } from "~/components/ui/input";
+import { StatCard } from "~/components/molecule/stat-card";
 
 const bookings = [
 	{
@@ -267,6 +268,41 @@ export default function BookingsPage() {
 					<h1 className="text-2xl font-bold text-foreground">Booking Management</h1>
 					<p className="text-muted-foreground">Manage and track all facility bookings</p>
 				</div>
+			</div>
+
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+				<StatCard
+					title="Total Bookings"
+					value="156"
+					change="+12%"
+					changeType="positive"
+					icon={Calendar}
+					className="bg-gradient-to-br from-primary/30 via-white to-white"
+				/>
+				<StatCard
+					title="Pending Approval"
+					value="8"
+					change="-2"
+					changeType="positive"
+					icon={CheckCircle}
+					className="bg-gradient-to-br from-primary/30 via-white to-white"
+				/>
+				<StatCard
+					title="Confirmed Today"
+					value="24"
+					change="+5"
+					changeType="positive"
+					icon={CheckCircle}
+					className="bg-gradient-to-br from-primary/30 via-white to-white"
+				/>
+				<StatCard
+					title="Revenue (Dec)"
+					value="₱45,200"
+					change="+15.3%"
+					changeType="positive"
+					icon={Download} // Using Download icon for money/revenue as proxy or import DollarSign
+					className="bg-gradient-to-br from-primary/30 via-white to-white"
+				/>
 			</div>
 
 			<Card>
