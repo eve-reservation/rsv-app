@@ -45,6 +45,11 @@ export const categories: Category[] = [
 	{ id: "golf", name: "Golf", icon: "golf", count: 2 },
 	{ id: "rugby", name: "Rugby", icon: "rugby", count: 3 },
 	{ id: "pickleball", name: "Pickleball", icon: "pickleball", count: 5 },
+	{ id: "dining", name: "Dining", icon: "dining", count: 1 },
+	{ id: "function-hall", name: "Function Hall", icon: "function-hall", count: 1 },
+	{ id: "spa", name: "Spa", icon: "spa", count: 2 },
+	{ id: "wellness", name: "Wellness", icon: "wellness", count: 1 },
+	{ id: "bar-lounge", name: "Bar & Lounge", icon: "bar-lounge", count: 1 },
 ];
 
 export const facilities: Facility[] = [
@@ -60,8 +65,10 @@ export const facilities: Facility[] = [
 		reviewCount: 154,
 		images: [
 			"https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=1000&auto=format&fit=crop",
-			"https://images.unsplash.com/photo-1519861531473-920026393112?q=80&w=1000&auto=format&fit=crop",
 			"https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=1000&auto=format&fit=crop",
+			"https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=1000&auto=format&fit=crop",
+			"https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=1000&auto=format&fit=crop",
+			"https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=1000&auto=format&fit=crop",
 		],
 		amenities: ["Locker Rooms", "Showers", "Scoreboard", "Bleachers"],
 		description:

@@ -46,7 +46,7 @@ export default function LandingPage() {
 			{/* Facility Grid */}
 			{/* Facility Sections */}
 			<main className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
-				<div className="mx-auto max-w-7xl space-y-8">
+				<div className="mx-auto max-w-7xl">
 					<FacilitySection
 						title="Sports Facilities"
 						facilities={facilities.filter((f) => f.category === "sports")}

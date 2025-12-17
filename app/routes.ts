@@ -6,6 +6,7 @@ const userRoutes: RouteConfig = [
 	route("/facility/:id", "routes/facility.tsx"),
 	route("/booking/confirmation", "routes/user/booking-confirmation.tsx"),
 	route("/booking/complete", "routes/user/booking-complete.tsx"),
+	route("/booking/", "routes/user/booking-complete.tsx"),
 	route("/location-test", "routes/user/location-test.tsx"),
 	route("/profile", "routes/profile.tsx"),
 ];

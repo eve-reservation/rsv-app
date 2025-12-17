@@ -68,6 +68,7 @@ export default function UserReservations() {
 		return (
 			<div className="space-y-6">
 				{bookings.map((booking) => (
+					// booking ticket
 					<div
 						key={booking.id}
 						className="relative bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 border border-slate-100">

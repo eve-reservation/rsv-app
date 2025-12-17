@@ -14,7 +14,7 @@ export default function Facilities() {
 					<Button>Add Facility</Button>
 				</div>
 			</div>
-			<div className="space-y-8">
+			<div>
 				<FacilitySection
 					title="Sports Facilities"
 					facilities={facilities.filter((f) => f.category === "sports")}

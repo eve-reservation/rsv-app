@@ -38,13 +38,13 @@ export default function PersonalCard({ user }: PersonalCardProps) {
 		: "Not specified";
 
 	return (
-		<div className="space-y-8">
+		<div className="space-y-8 w-full flex-1">
 			<div className="bg-card border border-border rounded-lg p-8 shadow-sm">
 				<h3 className="text-sm font-medium tracking-widest uppercase text-muted-foreground mb-8">
 					Contact Information
 				</h3>
 
-				<div className="space-y-6">
+				<div className="space-y-6 w-full">
 					<div className="flex items-start gap-4">
 						<Mail className="w-5 h-5 mt-1 flex-shrink-0" />
 						<div>

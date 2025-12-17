@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Search, Building2 } from "lucide-react";
+import { Search, Building2, Utensils, Wine, Flower2, HeartPulse, Building } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import {
@@ -45,6 +45,35 @@ const iconMap: Record<string, string> = {
 	pickleball: pickleballIcon,
 };
 
+const CategoryIcon = ({
+	icon,
+	name,
+	className,
+}: {
+	icon: string;
+	name: string;
+	className?: string;
+}) => {
+	if (iconMap[icon]) {
+		return <img src={iconMap[icon]} alt={name} className={className} />;
+	}
+
+	switch (icon) {
+		case "dining":
+			return <Utensils className={className} />;
+		case "function-hall":
+			return <Building className={className} />;
+		case "spa":
+			return <Flower2 className={className} />;
+		case "wellness":
+			return <HeartPulse className={className} />;
+		case "bar-lounge":
+			return <Wine className={className} />;
+		default:
+			return <Building2 className={className} />;
+	}
+};
+
 export function SearchBar() {
 	const navigate = useNavigate();
 	const [category, setCategory] = useState("");
@@ -81,13 +110,13 @@ export function SearchBar() {
 									What
 								</label>
 								<div className="flex items-center gap-2 mt-1">
-									{selectedCategory && iconMap[selectedCategory.icon] && (
-										<img
-											src={iconMap[selectedCategory.icon]}
-											alt={selectedCategory.name}
+									{selectedCategory ? (
+										<CategoryIcon
+											icon={selectedCategory.icon}
+											name={selectedCategory.name}
 											className="w-5 h-5 opacity-70"
 										/>
-									)}
+									) : null}
 									<span
 										className={cn(
 											"block truncate",
@@ -119,15 +148,11 @@ export function SearchBar() {
 													setOpenCategory(false);
 												}}>
 												<div className="flex items-center gap-2">
-													{iconMap[cat.icon] ? (
-														<img
-															src={iconMap[cat.icon]}
-															alt={cat.name}
-															className="w-4 h-4"
-														/>
-													) : (
-														<Building2 className="w-4 h-4" />
-													)}
+													<CategoryIcon
+														icon={cat.icon}
+														name={cat.name}
+														className="w-4 h-4"
+													/>
 													<span>{cat.name}</span>
 												</div>
 											</CommandItem>

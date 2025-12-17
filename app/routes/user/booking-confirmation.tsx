@@ -7,9 +7,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { lebronCourt } from "@/assets/images/index";
 import { format, setHours, setMinutes } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import TimeSelector from "@/components/molecule/time-selector";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 
 export default function ConfirmPayment() {
@@ -17,7 +14,7 @@ export default function ConfirmPayment() {
 	const [activeStep, setActiveStep] = useState(1);
 	const [players, setPlayers] = useState(10);
 	const maxPlayers = 15;
-	const [paymentMethod, setPaymentMethod] = useState("card");
+	const [paymentMethod, setPaymentMethod] = useState("gcash");
 	const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date(2025, 11, 20));
 	// Default time: 4:00 PM - 6:00 PM
 	const [startTime, setStartTime] = useState<Date | undefined>(
@@ -170,20 +167,6 @@ export default function ConfirmPayment() {
 										onValueChange={setPaymentMethod}>
 										<div
 											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
-												paymentMethod === "card"
-													? "border-foreground"
-													: "border-border"
-											}`}
-											onClick={() => setPaymentMethod("card")}>
-											<Label
-												htmlFor="card"
-												className="flex-1 cursor-pointer font-medium">
-												Credit or debit card
-											</Label>
-											<RadioGroupItem value="card" id="card" />
-										</div>
-										<div
-											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
 												paymentMethod === "gcash"
 													? "border-foreground"
 													: "border-border"
@@ -209,6 +192,20 @@ export default function ConfirmPayment() {
 												Maya
 											</Label>
 											<RadioGroupItem value="maya" id="maya" />
+										</div>
+										<div
+											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
+												paymentMethod === "card"
+													? "border-foreground"
+													: "border-border"
+											}`}
+											onClick={() => setPaymentMethod("card")}>
+											<Label
+												htmlFor="card"
+												className="flex-1 cursor-pointer font-medium">
+												Credit or debit card
+											</Label>
+											<RadioGroupItem value="card" id="card" />
 										</div>
 									</RadioGroup>
 									<div className="flex justify-end">
