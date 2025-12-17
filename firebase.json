@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "eve-reservation/rsv-app",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
