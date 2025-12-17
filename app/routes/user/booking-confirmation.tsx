@@ -12,7 +12,7 @@ import { BookingDetailsSelector } from "~/components/organisms/booking-details-s
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
 	const [activeStep, setActiveStep] = useState(1);
-	const [gameType, setGameType] = useState("fixed");
+	const [gameType, setGameType] = useState<"private" | "public">("private");
 	const [players, setPlayers] = useState(10);
 	const maxPlayers = 15;
 	const [paymentMethod, setPaymentMethod] = useState("gcash");
@@ -131,44 +131,49 @@ export default function ConfirmPayment() {
 							</button>
 							{activeStep === 1 && (
 								<div className="px-6 pb-6">
-									<RadioGroup value={gameType} onValueChange={setGameType}>
+									<RadioGroup
+										value={gameType}
+										onValueChange={(value) =>
+											setGameType(value as "private" | "public")
+										} // Fixed type error
+									>
 										<div
 											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
-												gameType === "fixed"
+												gameType === "private"
 													? "border-foreground"
 													: "border-border"
 											}`}
-											onClick={() => setGameType("fixed")}>
+											onClick={() => setGameType("private")}>
 											<div className="flex flex-col gap-1">
 												<Label
-													htmlFor="fixed"
+													htmlFor="private"
 													className="cursor-pointer font-medium">
-													Fixed Game
+													Private
 												</Label>
 												<p className="text-sm text-muted-foreground">
 													Book the entire court for your group
 												</p>
 											</div>
-											<RadioGroupItem value="fixed" id="fixed" />
+											<RadioGroupItem value="private" id="private" />
 										</div>
 										<div
 											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
-												gameType === "open"
+												gameType === "public"
 													? "border-foreground"
 													: "border-border"
 											}`}
-											onClick={() => setGameType("open")}>
+											onClick={() => setGameType("public")}>
 											<div className="flex flex-col gap-1">
 												<Label
-													htmlFor="open"
+													htmlFor="public"
 													className="cursor-pointer font-medium">
-													Open Game
+													Public
 												</Label>
 												<p className="text-sm text-muted-foreground">
-													Join a game or let others join you
+													Host a game and let others join you
 												</p>
 											</div>
-											<RadioGroupItem value="open" id="open" />
+											<RadioGroupItem value="public" id="public" />
 										</div>
 									</RadioGroup>
 									<div className="flex justify-end">

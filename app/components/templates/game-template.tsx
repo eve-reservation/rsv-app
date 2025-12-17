@@ -153,7 +153,7 @@ export default function GameTemplate() {
 							<h2 className="text-xl font-semibold text-foreground mb-6">
 								Where you'll be
 							</h2>
-							<div className=" overflow-hidden border-b border-border pb-4">
+							<div className="overflow-hidden border-b border-border pb-4">
 								<FacilityCard facility={facility} />
 							</div>
 							<div className="mt-4 text-muted-foreground">

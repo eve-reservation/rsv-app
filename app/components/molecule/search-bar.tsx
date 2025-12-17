@@ -140,7 +140,8 @@ export function SearchBar() {
 						<PopoverContent
 							className="p-0"
 							style={{ width: "var(--radix-popover-trigger-width)" }}
-							align="start">
+							align="start"
+							onOpenAutoFocus={(e) => e.preventDefault()}>
 							<Command shouldFilter={false}>
 								<div className="hidden">
 									<CommandInput value={category} />
@@ -158,7 +159,6 @@ export function SearchBar() {
 													.toLowerCase()
 													.includes(category.toLowerCase()),
 											)
-											.slice(0, 5) // Limit to 5 items for cleaner look
 											.map((cat) => (
 												<CommandItem
 													key={cat.id}
@@ -167,7 +167,7 @@ export function SearchBar() {
 														setCategory(currentValue);
 														setOpenCategory(false);
 													}}>
-													<div className="flex items-center gap-2">
+													<div className="flex items-center gap-2 py-2">
 														<CategoryIcon
 															icon={cat.icon}
 															name={cat.name}
