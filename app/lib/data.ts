@@ -367,3 +367,79 @@ export const deals: Deal[] = [
 		validUntil: "July 15, 2024",
 	},
 ];
+
+export interface Game {
+	id: string;
+	name: string;
+	type: string;
+	location: string;
+	pricePerHead: number;
+	playersJoined: number;
+	maxPlayers: number;
+	images: string[];
+	date: string;
+	category: string;
+}
+
+export const games: Game[] = [
+	{
+		id: "g1",
+		name: "Saturday Night Hoops",
+		type: "Basketball",
+		location: "BGC Full Court",
+		pricePerHead: 200,
+		playersJoined: 8,
+		maxPlayers: 15,
+		images: [lebronCourt],
+		date: "Tomorrow, 7:00 PM",
+		category: "sports",
+	},
+	{
+		id: "g2",
+		name: "Sunday Morning Spikes",
+		type: "Volleyball",
+		location: "La Union Beach",
+		pricePerHead: 150,
+		playersJoined: 6,
+		maxPlayers: 12,
+		images: [beachCourt],
+		date: "Sunday, 8:00 AM",
+		category: "sports",
+	},
+	{
+		id: "g3",
+		name: "Futsal Frenzy",
+		type: "Futsal",
+		location: "Ayala Alabang",
+		pricePerHead: 250,
+		playersJoined: 4,
+		maxPlayers: 10,
+		images: [futsalCourt],
+		date: "Tonight, 9:00 PM",
+		category: "sports",
+	},
+	{
+		id: "g4",
+		name: "Badminton Smash",
+		type: "Badminton",
+		location: "Poblacion Center",
+		pricePerHead: 180,
+		playersJoined: 2,
+		maxPlayers: 4,
+		images: [badminton],
+		date: "Sunday, 2:00 PM",
+		category: "sports",
+	},
+	{
+		id: "g5",
+		name: "Tennis Doubles",
+		type: "Tennis",
+		location: "Makati Club",
+		pricePerHead: 300,
+		playersJoined: 2,
+		maxPlayers: 4,
+		images: [tennisCourt],
+		date: "Saturday, 4:00 PM",
+		category: "sports",
+	},
+];

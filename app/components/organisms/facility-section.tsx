@@ -3,11 +3,11 @@ import { Link } from "react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FacilityCard } from "@/components/molecule/facility-card";
-import type { Facility } from "@/lib/data";
+import type { Facility, Game } from "@/lib/data";
 
 interface FacilitySectionProps {
 	title: string;
-	facilities: Facility[];
+	facilities: (Facility | Game)[];
 	basePath?: string;
 }
 
@@ -39,7 +39,10 @@ export function FacilitySection({
 	return (
 		<section className="py-8">
 			<div className="flex items-center justify-between mb-6">
-				<h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
+				<div className="flex gap-1 items-center hover:gap-3 transition-all duration-300 cursor-pointer">
+					<h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
+					<ChevronRight className="h-5 w-5 font-semibold" />
+				</div>
 				<div className="flex gap-2">
 					<Button
 						variant="outline"

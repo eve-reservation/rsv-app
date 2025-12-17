@@ -5,7 +5,7 @@ export function meta({}: Route.MetaArgs) {
 	return [{ title: PAGE_TITLES.landing }];
 }
 
-import { facilities } from "@/lib/data";
+import { facilities, games } from "@/lib/data";
 import { Header } from "~/components/organisms/header";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
@@ -41,11 +41,28 @@ export default function LandingPage() {
 					<CategoryNav />
 				</div>
 			</section> */}
-			{/* <div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border"></div> */}
-
-			{/* Facility Grid */}
 			{/* Facility Sections */}
-			<main className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
+			<main>
+				<div className="mx-auto max-w-7xl">
+					<FacilitySection
+						title="Browse games near you"
+						facilities={games}
+					/>
+					<FacilitySection
+						title="Browse basketball games"
+						facilities={games.filter((g) => g.type === "Basketball")}
+					/>
+					<FacilitySection
+						title="Browse volleyball games"
+						facilities={games.filter((g) => g.type === "Volleyball")}
+					/>
+					<FacilitySection
+						title="Browse tennis games"
+						facilities={games.filter((g) => g.type === "Tennis")}
+					/>
+				</div>
+
+				<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border"></div>
 				<div className="mx-auto max-w-7xl">
 					<FacilitySection
 						title="Sports Facilities"

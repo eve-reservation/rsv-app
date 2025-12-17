@@ -1,18 +1,20 @@
 import type React from "react";
 
-import type { Facility } from "@/lib/data";
-import { Star, Heart, ChevronLeft, ChevronRight } from "lucide-react";
+import type { Facility, Game } from "@/lib/data";
+import { Star, Heart, ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface FacilityCardProps {
-	facility: Facility;
+	facility: Facility | Game;
 }
 
 export function FacilityCard({ facility }: FacilityCardProps) {
 	const [currentImage, setCurrentImage] = useState(0);
 	const [isLiked, setIsLiked] = useState(false);
+
+	const isGame = "pricePerHead" in facility;
 
 	const nextImage = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -90,17 +92,52 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 			<div className="mt-3 space-y-1">
 				<div className="flex items-start justify-between gap-2">
 					<h3 className="font-medium text-foreground line-clamp-1">{facility.name}</h3>
-					<div className="flex items-center gap-1 shrink-0">
-						<Star className="h-3.5 w-3.5 fill-foreground text-foreground" />
-						<span className="text-sm font-medium">{facility.rating}</span>
-					</div>
+					{!isGame && "rating" in facility && (
+						<div className="flex items-center gap-1 shrink-0">
+							<Star className="h-3.5 w-3.5 fill-foreground text-foreground" />
+							<span className="text-sm font-medium">{facility.rating}</span>
+						</div>
+					)}
+					{isGame && (
+						<div className="flex items-center gap-1 text-sm text-muted-foreground">
+							<Users className="h-3.5 w-3.5" />
+							<span>
+								{(facility as Game).playersJoined}/{(facility as Game).maxPlayers}
+							</span>
+						</div>
+					)}
 				</div>
 				<p className="text-sm text-muted-foreground">{facility.location}</p>
 				<p className="text-sm text-muted-foreground">{facility.type}</p>
-				<p className="mt-1">
-					<span className="font-semibold">₱{facility.price.toLocaleString()}</span>
-					<span className="text-muted-foreground"> / {facility.priceUnit}</span>
-				</p>
+				<div className="mt-1 flex items-center justify-between">
+					<div>
+						{isGame ? (
+							<>
+								<span className="font-semibold">
+									₱{(facility as Game).pricePerHead.toLocaleString()}
+								</span>
+								<span className="text-muted-foreground"> / head</span>
+							</>
+						) : (
+							<>
+								<span className="font-semibold">
+									₱{(facility as Facility).price.toLocaleString()}
+								</span>
+								<span className="text-muted-foreground">
+									{" "}
+									/ {(facility as Facility).priceUnit}
+								</span>
+							</>
+						)}
+					</div>
+					{isGame && "date" in facility && (
+						<div className="flex items-center gap-1 shrink-0">
+							<span className="text-xs font-medium text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">
+								{facility.date}
+							</span>
+						</div>
+					)}
+				</div>
 			</div>
 		</div>
 	);
