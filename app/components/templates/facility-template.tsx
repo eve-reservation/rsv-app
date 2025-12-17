@@ -134,61 +134,55 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 					</div>
 				)}
 
-				{/* Image Gallery - FIXED */}
-				<section className="relative">
-					<div className=" py-6">
-						<div className="grid grid-cols-4 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden">
-							{/* Main Large Image - Left Side (2x2) */}
-							<div
-								className="col-span-4 md:col-span-2 row-span-2 relative overflow-hidden rounded-l-2xl cursor-pointer group"
-								onClick={() => setShowAllPhotos(true)}>
-								<img
-									src={facility.images[0] || "/placeholder.svg"}
-									alt={facility.name}
-									className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-								/>
-								<div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-							</div>
-
-							{/* Right Side 2x2 Grid */}
-							{facility.images.slice(1, 5).map((image, index) => (
+				<div className="py-8">
+					<div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+						{/* Left Content */}
+						<div className="lg:col-span-2 space-y-8">
+							{/* Image Gallery */}
+							<div className="relative grid grid-cols-3 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden">
+								{/* Main Large Image - Left Side (2x2) */}
 								<div
-									key={index}
-									className={cn(
-										"relative overflow-hidden cursor-pointer group",
-										index === 0 && "rounded-tr-2xl",
-										index === 3 && "rounded-br-2xl md:rounded-br-none",
-										index === facility.images.slice(1, 5).length - 1 &&
-											facility.images.length <= 4 &&
-											"md:rounded-br-2xl",
-									)}
+									className="col-span-4 md:col-span-2 row-span-2 relative overflow-hidden rounded-l-2xl cursor-pointer group"
 									onClick={() => setShowAllPhotos(true)}>
 									<img
-										src={image || "/placeholder.svg"}
-										alt={`${facility.name} - ${index + 2}`}
+										src={facility.images[0] || "/placeholder.svg"}
+										alt={facility.name}
 										className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
 									/>
 									<div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
 								</div>
-							))}
 
-							{/* Show All Photos Button */}
-							<Button
-								variant="secondary"
-								className="absolute bottom-6 right-6 bg-white/90 backdrop-blur hover:bg-white shadow-lg border border-white/50"
-								onClick={() => setShowAllPhotos(true)}>
-								<Grid3x3 className="h-4 w-4 mr-2" />
-								Show all photos
-							</Button>
-						</div>
-					</div>
-				</section>
+								{/* Right Side 2x2 Grid */}
+								{facility.images.slice(1, 6).map((image, index) => (
+									<div
+										key={index}
+										className={cn(
+											"relative overflow-hidden cursor-pointer group",
+											index === 0 && "rounded-tr-2xl",
+											index === 3 && "rounded-br-2xl md:rounded-br-none",
+											index === facility.images.slice(1, 5).length - 1 &&
+												facility.images.length <= 4 &&
+												"md:rounded-br-2xl",
+										)}
+										onClick={() => setShowAllPhotos(true)}>
+										<img
+											src={image || "/placeholder.svg"}
+											alt={`${facility.name} - ${index + 2}`}
+											className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+										/>
+										<div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+									</div>
+								))}
 
-				{/* Content */}
-				<section className=" py-8">
-					<div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-						{/* Left Content */}
-						<div className="lg:col-span-2 space-y-8">
+								{/* Show All Photos Button */}
+								<Button
+									variant="secondary"
+									className="absolute bottom-6 right-6 bg-white/90 backdrop-blur hover:bg-white shadow-lg border border-white/50"
+									onClick={() => setShowAllPhotos(true)}>
+									<Grid3x3 className="h-4 w-4 mr-2" />
+									Show all photos
+								</Button>
+							</div>
 							{/* Header */}
 							<div className="flex items-start justify-between">
 								<div>
@@ -374,7 +368,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 							</Card>
 						</div>
 					</div>
-				</section>
+				</div>
 			</main>
 		</div>
 	);
