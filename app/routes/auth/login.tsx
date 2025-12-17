@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-import osparLogo from "@/assets/images/ospar.jpg";
+import osparLogo from "@/assets/images/avatarFlat.png";
 import { useAuth } from "~/hooks/use-auth";
 import { useNavigate } from "react-router";
 import { PAGE_TITLES } from "~/config/page-titles";
