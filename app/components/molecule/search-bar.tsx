@@ -100,63 +100,83 @@ export function SearchBar() {
 					<Popover open={openCategory} onOpenChange={setOpenCategory}>
 						<PopoverTrigger asChild>
 							<div
-								className={`flex-1 px-6 py-5 cursor-pointer transition-colors ${
+								className={`flex-1 px-6 py-5 cursor-pointer transition-colors relative group ${
 									activeField === "category" || openCategory
 										? "bg-secondary"
 										: "hover:bg-secondary/50"
 								}`}
-								onClick={() => setActiveField("category")}>
-								<label className="block text-xs font-semibold text-foreground">
+								onClick={() => {
+									setActiveField("category");
+									setOpenCategory(true);
+								}}>
+								<label className="block text-xs font-semibold text-foreground mb-1">
 									What
 								</label>
-								<div className="flex items-center gap-2 mt-1">
+								<div className="flex items-center gap-2">
+									{/* Show icon only if we have a match or valid category */}
 									{selectedCategory ? (
 										<CategoryIcon
 											icon={selectedCategory.icon}
 											name={selectedCategory.name}
-											className="w-5 h-5 opacity-70"
+											className="w-5 h-5 opacity-70 shrink-0"
 										/>
-									) : null}
-									<span
-										className={cn(
-											"block truncate",
-											category
-												? "text-foreground font-medium"
-												: "text-muted-foreground/60",
-										)}>
-										{category || "What are you playing?"}
-									</span>
+									) : (
+										// Fallback search icon when typing or empty
+										<Search className="w-5 h-5 opacity-50 shrink-0" />
+									)}
+									<input
+										type="text"
+										value={category}
+										onChange={(e) => {
+											setCategory(e.target.value);
+											setOpenCategory(true);
+										}}
+										placeholder="What are you looking for?"
+										className="bg-transparent border-none outline-none w-full text-foreground placeholder:text-muted-foreground/60 font-medium p-0 h-auto focus:ring-0"
+									/>
 								</div>
 							</div>
 						</PopoverTrigger>
-						<PopoverContent className="w-[200px] p-0" align="start">
-							<Command>
-								<CommandInput placeholder="Search category..." />
+						<PopoverContent
+							className="p-0"
+							style={{ width: "var(--radix-popover-trigger-width)" }}
+							align="start">
+							<Command shouldFilter={false}>
+								<div className="hidden">
+									<CommandInput value={category} />
+								</div>
 								<CommandList>
-									<CommandEmpty>No category found.</CommandEmpty>
+									{categories.filter((cat) =>
+										cat.name.toLowerCase().includes(category.toLowerCase()),
+									).length === 0 && (
+										<CommandEmpty>No category found.</CommandEmpty>
+									)}
 									<CommandGroup>
-										{categories.map((cat) => (
-											<CommandItem
-												key={cat.id}
-												value={cat.name}
-												onSelect={(currentValue) => {
-													setCategory(
-														currentValue === category
-															? ""
-															: currentValue,
-													);
-													setOpenCategory(false);
-												}}>
-												<div className="flex items-center gap-2">
-													<CategoryIcon
-														icon={cat.icon}
-														name={cat.name}
-														className="w-4 h-4"
-													/>
-													<span>{cat.name}</span>
-												</div>
-											</CommandItem>
-										))}
+										{categories
+											.filter((cat) =>
+												cat.name
+													.toLowerCase()
+													.includes(category.toLowerCase()),
+											)
+											.slice(0, 5) // Limit to 5 items for cleaner look
+											.map((cat) => (
+												<CommandItem
+													key={cat.id}
+													value={cat.name}
+													onSelect={(currentValue) => {
+														setCategory(currentValue);
+														setOpenCategory(false);
+													}}>
+													<div className="flex items-center gap-2">
+														<CategoryIcon
+															icon={cat.icon}
+															name={cat.name}
+															className="w-4 h-4"
+														/>
+														<span>{cat.name}</span>
+													</div>
+												</CommandItem>
+											))}
 									</CommandGroup>
 								</CommandList>
 							</Command>
@@ -219,7 +239,7 @@ export function SearchBar() {
 												? "text-foreground font-medium"
 												: "text-muted-foreground",
 										)}>
-										{guests === 1 ? "1 player" : `${guests} players`}
+										{guests === 1 ? "1 person" : `${guests} people`}
 									</span>
 								</div>
 

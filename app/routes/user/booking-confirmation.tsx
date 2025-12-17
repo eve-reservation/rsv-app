@@ -12,6 +12,7 @@ import { BookingDetailsSelector } from "~/components/organisms/booking-details-s
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
 	const [activeStep, setActiveStep] = useState(1);
+	const [gameType, setGameType] = useState("fixed");
 	const [players, setPlayers] = useState(10);
 	const maxPlayers = 15;
 	const [paymentMethod, setPaymentMethod] = useState("gcash");
@@ -121,14 +122,74 @@ export default function ConfirmPayment() {
 
 					{/* Right Column - Accordion Steps */}
 					<div className="order-1 lg:order-2 space-y-2">
-						{/* Step 1: Review date, time, and players */}
+						{/* Step 1: Choose game type */}
 						<Card className="overflow-hidden gap-0 p-0">
 							<button
 								onClick={() => setActiveStep(activeStep === 1 ? 0 : 1)}
 								className="flex w-full items-center justify-between p-6">
-								<h2 className="text-lg font-semibold">1. Review date & time</h2>
+								<h2 className="text-lg font-semibold">1. Choose game type</h2>
 							</button>
 							{activeStep === 1 && (
+								<div className="px-6 pb-6">
+									<RadioGroup value={gameType} onValueChange={setGameType}>
+										<div
+											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
+												gameType === "fixed"
+													? "border-foreground"
+													: "border-border"
+											}`}
+											onClick={() => setGameType("fixed")}>
+											<div className="flex flex-col gap-1">
+												<Label
+													htmlFor="fixed"
+													className="cursor-pointer font-medium">
+													Fixed Game
+												</Label>
+												<p className="text-sm text-muted-foreground">
+													Book the entire court for your group
+												</p>
+											</div>
+											<RadioGroupItem value="fixed" id="fixed" />
+										</div>
+										<div
+											className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
+												gameType === "open"
+													? "border-foreground"
+													: "border-border"
+											}`}
+											onClick={() => setGameType("open")}>
+											<div className="flex flex-col gap-1">
+												<Label
+													htmlFor="open"
+													className="cursor-pointer font-medium">
+													Open Game
+												</Label>
+												<p className="text-sm text-muted-foreground">
+													Join a game or let others join you
+												</p>
+											</div>
+											<RadioGroupItem value="open" id="open" />
+										</div>
+									</RadioGroup>
+									<div className="flex justify-end">
+										<Button
+											className="mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
+											onClick={() => setActiveStep(2)}>
+											Next
+										</Button>
+									</div>
+								</div>
+							)}
+						</Card>
+
+						{/* Step 2: Review date, time, and players */}
+						<Card className="overflow-hidden gap-0 p-0">
+							<button
+								onClick={() => setActiveStep(activeStep === 2 ? 0 : 2)}
+								className="flex w-full items-center justify-between p-6">
+								<h2 className="text-lg font-semibold">2. Review date & time</h2>
+							</button>
+							{activeStep === 2 && (
 								<div className="px-6 pb-6">
 									{/* Date & Time Selection */}
 									<BookingDetailsSelector
@@ -145,7 +206,7 @@ export default function ConfirmPayment() {
 									<div className="flex justify-end">
 										<Button
 											className="mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
-											onClick={() => setActiveStep(2)}>
+											onClick={() => setActiveStep(3)}>
 											Next
 										</Button>
 									</div>
@@ -153,14 +214,14 @@ export default function ConfirmPayment() {
 							)}
 						</Card>
 
-						{/* Step 2: Select payment method */}
+						{/* Step 3: Select payment method */}
 						<Card className="overflow-hidden gap-0 p-0">
 							<button
-								onClick={() => setActiveStep(activeStep === 2 ? 0 : 2)}
+								onClick={() => setActiveStep(activeStep === 3 ? 0 : 3)}
 								className="flex w-full items-center justify-between p-6">
-								<h2 className="text-lg font-semibold">2. Select payment method</h2>
+								<h2 className="text-lg font-semibold">3. Select payment method</h2>
 							</button>
-							{activeStep === 2 && (
+							{activeStep === 3 && (
 								<div className="px-6 pb-6">
 									<RadioGroup
 										value={paymentMethod}
@@ -211,7 +272,7 @@ export default function ConfirmPayment() {
 									<div className="flex justify-end">
 										<Button
 											className="mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
-											onClick={() => setActiveStep(3)}>
+											onClick={() => setActiveStep(4)}>
 											Next
 										</Button>
 									</div>
@@ -219,16 +280,16 @@ export default function ConfirmPayment() {
 							)}
 						</Card>
 
-						{/* Step 3: Review your reservation */}
+						{/* Step 4: Review your reservation */}
 						<Card className="overflow-hidden p-0">
 							<button
-								onClick={() => setActiveStep(activeStep === 3 ? 0 : 3)}
+								onClick={() => setActiveStep(activeStep === 4 ? 0 : 4)}
 								className="flex w-full items-center justify-between p-6">
 								<h2 className="text-lg font-semibold">
-									3. Review your reservation
+									4. Review your reservation
 								</h2>
 							</button>
-							{activeStep === 3 && (
+							{activeStep === 4 && (
 								<div className="px-6 pb-6">
 									<p className="text-muted-foreground">
 										Review your booking details before confirming your payment.
