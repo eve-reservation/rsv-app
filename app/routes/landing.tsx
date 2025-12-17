@@ -9,6 +9,7 @@ import { facilities, games } from "@/lib/data";
 import { Header } from "~/components/organisms/header";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
+import { DealsSection } from "~/components/organisms/deals-section";
 
 export default function LandingPage() {
 	// const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -22,18 +23,17 @@ export default function LandingPage() {
 				<div className="mx-auto max-w-7xl">
 					<div className="text-center mb-8">
 						<h1 className="font-serif text-4xl md:text-5xl font-medium tracking-tight text-foreground text-balance">
-							Find and book your perfect court
+							Book experiences near you
 						</h1>
 						<p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-							From basketball to tennis, discover and reserve courts for your next
-							game.
+							Courts, games, dining, and shared spaces — all in one place.
 						</p>
 					</div>
 					<SearchBar />
 				</div>
 			</section>
 			{/* Deals Section */}
-			{/* <DealsSection /> */}
+			<DealsSection />
 
 			{/* Categories */}
 			{/* <section className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border">
@@ -44,12 +44,9 @@ export default function LandingPage() {
 			{/* Facility Sections */}
 			<main>
 				<div className="mx-auto max-w-7xl">
+					<FacilitySection title="Browse open games near you" facilities={games} />
 					<FacilitySection
-						title="Browse games near you"
-						facilities={games}
-					/>
-					<FacilitySection
-						title="Browse basketball games"
+						title="Basketball games"
 						facilities={games.filter((g) => g.type === "Basketball")}
 					/>
 					<FacilitySection

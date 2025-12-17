@@ -137,7 +137,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 				{/* Image Gallery - FIXED */}
 				<section className="relative">
 					<div className=" py-6">
-						<div className="grid grid-cols-4 grid-rows-2 gap-2 h-[500px] md:h-[600px] rounded-2xl overflow-hidden">
+						<div className="grid grid-cols-4 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden">
 							{/* Main Large Image - Left Side (2x2) */}
 							<div
 								className="col-span-4 md:col-span-2 row-span-2 relative overflow-hidden rounded-l-2xl cursor-pointer group"

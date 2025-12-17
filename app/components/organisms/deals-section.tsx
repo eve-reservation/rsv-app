@@ -37,11 +37,11 @@ export function DealsSection() {
 							delay: 5000,
 						}),
 					]}
-					className="w-full max-w-6xl mx-auto">
-					<CarouselContent>
+					className="w-full max-w-7xl mx-auto">
+					<CarouselContent >
 						{deals.map((deal) => (
-							<CarouselItem key={deal.id} className="md:basis-1/2 lg:basis-1/3 pl-4">
-								<div className="p-1 h-full">
+							<CarouselItem key={deal.id} className="sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+								<div className="h-full">
 									<div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden rounded-xl border border-border/50 shadow-md group cursor-pointer">
 										<img
 											src={deal.image}
