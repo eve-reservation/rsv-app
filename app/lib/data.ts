@@ -84,7 +84,9 @@ export const facilities: Facility[] = [
 		capacity: 4,
 		rating: 4.7,
 		reviewCount: 150,
-		images: ["https://images.unsplash.com/photo-1626224583764-847890e0b379?q=80&w=1000"],
+		images: [
+			"https://images.unsplash.com/photo-1641352848874-c96659e03144?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+		],
 		amenities: ["7 Covered Courts", "Non-slip Flooring", "Air Flow System"],
 		description: "7 covered badminton courts designed for competitive and recreational play.",
 		available: true,
@@ -118,7 +120,7 @@ export const facilities: Facility[] = [
 		capacity: 6,
 		rating: 4.8,
 		reviewCount: 310,
-		images: ["https://images.unsplash.com/photo-1538510814877-38e5d6d9d06b?q=80&w=1000"],
+		images: ["https://images.unsplash.com/photo-1545056453-f0359c3df6db?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
 		amenities: ["10 Lanes", "Shoe Rental", "Scoring System"],
 		description: "A 10-lane bowling alley perfect for family fun or competitive leagues.",
 		available: true,
@@ -562,7 +564,9 @@ export const games: Game[] = [
 		pricePerHead: 180,
 		playersJoined: 2,
 		maxPlayers: 4,
-		images: ["https://images.unsplash.com/photo-1626224583764-847890e0b379?q=80&w=1000"],
+		images: [
+			"https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+		],
 		date: "Sunday, 2:00 PM",
 		category: "sports",
 		players: [
@@ -580,7 +584,9 @@ export const games: Game[] = [
 		pricePerHead: 500,
 		playersJoined: 3,
 		maxPlayers: 6,
-		images: ["https://images.unsplash.com/photo-1538510814877-38e5d6d9d06b?q=80&w=1000"],
+		images: [
+			"https://images.unsplash.com/photo-1545056453-f0359c3df6db?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+		],
 		date: "Friday, 8:00 PM",
 		category: "sports",
 		players: [

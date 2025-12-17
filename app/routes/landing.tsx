@@ -15,7 +15,7 @@ export default function LandingPage() {
 	// const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
 	return (
-		<div className="min-h-screen flex flex-col bg-background">
+		<div className="min-h-screen flex flex-col bg-background px-4">
 			<Header />
 
 			{/* Hero Section */}
@@ -50,11 +50,11 @@ export default function LandingPage() {
 						facilities={games.filter((g) => g.type === "Basketball")}
 					/>
 					<FacilitySection
-						title="Vx`olleyball games"
+						title="Volleyball games"
 						facilities={games.filter((g) => g.type === "Volleyball")}
 					/>
 					<FacilitySection
-						title="Tennis games"
+						title="tennis games"
 						facilities={games.filter((g) => g.type === "Tennis")}
 					/>
 				</div>

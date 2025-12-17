@@ -12,8 +12,8 @@ import { Calendar, Tag } from "lucide-react";
 
 export function DealsSection() {
 	return (
-		<section className="py-8 bg-muted/30">
-			<div className="container px-4 md:px-6 mx-auto max-w-7xl">
+		<section className="py-px-4">
+			<div className="mx-auto max-w-7xl">
 				{/* <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
 					<div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary font-medium">
 						Limited Time Offers
