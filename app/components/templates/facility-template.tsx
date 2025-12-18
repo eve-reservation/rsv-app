@@ -75,7 +75,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 	const getDuration = () => {
 		if (!startTime || !endTime) return 0;
 		const diff = endTime.getTime() - startTime.getTime();
-		return diff > 0 ? diff / (1000 * 60 * 60) : 0;
+		return diff > 0 ? Number((diff / (1000 * 60 * 60)).toFixed(2)) : 0;
 	};
 
 	const duration = getDuration();
@@ -305,7 +305,11 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 
 						{/* Booking Card */}
 						<div className="lg:col-span-1">
-							<Card className="sticky top-24 shadow-xl border-border py-0">
+							<Card
+								className={cn(
+									"sticky shadow-xl border-border py-0",
+									admin ? "top-0" : "top-24",
+								)}>
 								<CardContent className="p-6 space-y-6">
 									<div className="flex items-baseline justify-between">
 										<div>
