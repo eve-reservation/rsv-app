@@ -50,7 +50,11 @@ export const facilities: Facility[] = [
 		capacity: 50,
 		rating: 4.9,
 		reviewCount: 120,
-		images: ["https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1000"],
+		images: [
+			"https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1000",
+			"https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1000",
+			"https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1000",
+		],
 		amenities: ["25-meter Pool", "Children's Pool", "Locker Rooms", "Showers"],
 		description:
 			"A 25-meter adult competition swimming pool and separate children's pools for recreational and competitive swimming.",
@@ -120,7 +124,9 @@ export const facilities: Facility[] = [
 		capacity: 6,
 		rating: 4.8,
 		reviewCount: 310,
-		images: ["https://images.unsplash.com/photo-1545056453-f0359c3df6db?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+		images: [
+			"https://images.unsplash.com/photo-1545056453-f0359c3df6db?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+		],
 		amenities: ["10 Lanes", "Shoe Rental", "Scoring System"],
 		description: "A 10-lane bowling alley perfect for family fun or competitive leagues.",
 		available: true,
@@ -605,7 +611,10 @@ export const games: Game[] = [
 		pricePerHead: 100,
 		playersJoined: 10,
 		maxPlayers: 20,
-		images: ["https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1000"],
+		images: [
+			"https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1000",
+			"https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1000",
+		],
 		date: "Saturday, 9:00 AM",
 		category: "sports",
 		players: [

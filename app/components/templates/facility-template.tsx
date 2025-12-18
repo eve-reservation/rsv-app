@@ -142,7 +142,12 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 							<div className="relative grid grid-cols-3 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden">
 								{/* Main Large Image - Left Side (2x2) */}
 								<div
-									className="col-span-4 md:col-span-2 row-span-2 relative overflow-hidden rounded-l-2xl cursor-pointer group"
+									className={cn(
+										"row-span-2 relative overflow-hidden cursor-pointer group",
+										facility.images.length <= 1
+											? "col-span-3 rounded-2xl"
+											: "col-span-4 md:col-span-2 rounded-l-2xl",
+									)}
 									onClick={() => setShowAllPhotos(true)}>
 									<img
 										src={facility.images[0] || "/placeholder.svg"}
@@ -157,7 +162,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 									<div
 										key={index}
 										className={cn(
-											"relative overflow-hidden cursor-pointer group",
+											"relative overflow-hidden cursor-pointer group bg-gray-200",
 											index === 0 && "rounded-tr-2xl",
 											index === 3 && "rounded-br-2xl md:rounded-br-none",
 											index === facility.images.slice(1, 5).length - 1 &&
@@ -168,7 +173,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 										<img
 											src={image || "/placeholder.svg"}
 											alt={`${facility.name} - ${index + 2}`}
-											className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+											className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 "
 										/>
 										<div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
 									</div>
