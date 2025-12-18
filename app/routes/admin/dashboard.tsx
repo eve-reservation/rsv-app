@@ -6,6 +6,7 @@ import { BookingChart } from "~/components/molecule/booking-chart";
 import { PopularFacilities } from "~/components/molecule/popular-facilities";
 import { RecentBookingsTable } from "~/components/organisms/recent-bookings-table";
 import { useNavigate } from "react-router";
+import { StatCard } from "~/components/molecule/stat-card";
 
 const sportsBookings = [
 	{
@@ -156,7 +157,7 @@ const stats = [
 export default function AdminDashboard() {
 	const navigate = useNavigate();
 	return (
-		<div className="space-y-6">
+		<div className="space-y-6 w-full">
 			<div>
 				<h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
 				<p className="text-muted-foreground">
@@ -165,21 +166,17 @@ export default function AdminDashboard() {
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				import {StatCard} from "~/components/molecule/stat-card"; // ... (imports) // ...
-				(code)
-				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-					{stats.map((stat) => (
-						<StatCard
-							key={stat.title}
-							title={stat.title}
-							value={stat.value}
-							change={stat.change}
-							changeType={stat.changeType}
-							icon={stat.icon}
-							className="bg-gradient-to-br from-primary/30 via-white to-white"
-						/>
-					))}
-				</div>
+				{stats.map((stat) => (
+					<StatCard
+						key={stat.title}
+						title={stat.title}
+						value={stat.value}
+						change={stat.change}
+						changeType={stat.changeType}
+						icon={stat.icon}
+						className="bg-gradient-to-br from-primary/30 via-white to-white"
+					/>
+				))}
 			</div>
 
 			<div className="grid gap-6 lg:grid-cols-3">

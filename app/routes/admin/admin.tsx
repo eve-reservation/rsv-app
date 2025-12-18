@@ -6,6 +6,6 @@ export default function admin() {
 
 	useEffect(() => {
 		navigate("/admin/dashboard");
-	});
+	}, []);
 	return <div>admin</div>;
 }

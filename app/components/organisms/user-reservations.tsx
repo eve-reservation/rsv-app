@@ -151,7 +151,7 @@ export default function UserReservations() {
 				defaultValue={["current", "upcoming"]}
 				className="w-full space-y-4">
 				<AccordionItem value="current" className="border-none">
-					<AccordionTrigger className="font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
+					<AccordionTrigger className="cursor-pointer font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
 						Current Bookings ({currentBookings.length})
 					</AccordionTrigger>
 					<AccordionContent className="px-1">
@@ -160,7 +160,7 @@ export default function UserReservations() {
 				</AccordionItem>
 
 				<AccordionItem value="upcoming" className="border-none">
-					<AccordionTrigger className="font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
+					<AccordionTrigger className="cursor-pointer font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
 						Upcoming Bookings ({upcomingBookings.length})
 					</AccordionTrigger>
 					<AccordionContent className="px-1">
@@ -169,7 +169,7 @@ export default function UserReservations() {
 				</AccordionItem>
 
 				<AccordionItem value="past" className="border-none">
-					<AccordionTrigger className="font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
+					<AccordionTrigger className="cursor-pointer font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
 						Past Bookings ({pastBookings.length})
 					</AccordionTrigger>
 					<AccordionContent className="px-1">

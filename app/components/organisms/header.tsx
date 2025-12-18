@@ -82,7 +82,7 @@ export function Header() {
 							<DropdownMenuTrigger asChild>
 								<Button
 									variant="outline"
-									className="flex items-center gap-2 rounded-full px-3 py-2 h-auto border-border hover:shadow-md transition-shadow bg-transparent">
+									className="flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 h-auto border-border hover:shadow-md transition-shadow bg-transparent">
 									<Menu className="h-4 w-4" />
 									<div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center">
 										<User className="h-4 w-4 text-muted-foreground" />
