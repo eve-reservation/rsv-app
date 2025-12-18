@@ -35,4 +35,5 @@ export default [
 	layout("layouts/user-layout.tsx", userRoutes),
 	layout("layouts/admin-layout.tsx", adminRoutes),
 	layout("layouts/kiosk-layout.tsx", kioskRoutes),
+	route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;
