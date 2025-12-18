@@ -291,13 +291,13 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 										{format(date, "MMMM d, yyyy")}
 									</p>
 								)}
-								<div className="flex justify-center">
+								<div className="w-full">
 									<Calendar
 										mode="single"
 										selected={date}
 										onSelect={setDate}
 										disabled={(date) => date < new Date()}
-										className="rounded-xl border border-border"
+										className="rounded-xl border border-border w-full"
 									/>
 								</div>
 							</div>
