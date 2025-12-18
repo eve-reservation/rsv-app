@@ -8,9 +8,11 @@ import { cn } from "@/lib/utils";
 
 interface FacilityCardProps {
 	facility: Facility | Game;
+	variant?: "vertical" | "horizontal";
+	className?: string;
 }
 
-export function FacilityCard({ facility }: FacilityCardProps) {
+export function FacilityCard({ facility, variant = "vertical", className }: FacilityCardProps) {
 	const [currentImage, setCurrentImage] = useState(0);
 	const [isLiked, setIsLiked] = useState(false);
 
@@ -29,8 +31,14 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 	};
 
 	return (
-		<div className="group block">
-			<div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
+		<div className={cn("group", variant === "horizontal" ? "flex gap-4" : "block", className)}>
+			<div
+				className={cn(
+					"relative overflow-hidden bg-muted",
+					variant === "horizontal"
+						? "w-80 shrink-0 rounded-xl aspect-[4/3]"
+						: "aspect-[4/3] rounded-2xl w-full",
+				)}>
 				<img
 					src={facility.images[currentImage] || "/placeholder.svg"}
 					alt={facility.name}
@@ -89,7 +97,13 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 				</div>
 			</div>
 
-			<div className="mt-3 space-y-1">
+			<div
+				className={cn(
+					"space-y-1",
+					variant === "horizontal"
+						? "flex-1 min-w-0 flex flex-col justify-center space-y-2"
+						: "mt-3",
+				)}>
 				<div className="flex items-start justify-between gap-2">
 					<h3 className="font-medium text-foreground line-clamp-1">{facility.name}</h3>
 					{!isGame && "rating" in facility && (
@@ -107,8 +121,8 @@ export function FacilityCard({ facility }: FacilityCardProps) {
 						</div>
 					)}
 				</div>
-				<p className="text-sm text-muted-foreground">{facility.location}</p>
-				<p className="text-sm text-muted-foreground">{facility.type}</p>
+				<p className="text-sm text-muted-foreground line-clamp-1">{facility.location}</p>
+				<p className="text-sm text-muted-foreground line-clamp-1">{facility.type}</p>
 				<div className="mt-1 flex items-center justify-between">
 					<div>
 						{isGame ? (

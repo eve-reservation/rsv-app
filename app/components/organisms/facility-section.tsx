@@ -9,12 +9,16 @@ interface FacilitySectionProps {
 	title: string;
 	facilities: (Facility | Game)[];
 	basePath?: string;
+	columns?: number;
+	cardVariant?: "vertical" | "horizontal";
 }
 
 export function FacilitySection({
 	title,
 	facilities,
 	basePath = "/facility",
+	columns,
+	cardVariant = "vertical",
 }: FacilitySectionProps) {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +39,13 @@ export function FacilitySection({
 	};
 
 	if (facilities.length === 0) return null;
+
+	const getItemStyle = () => {
+		if (!columns) return {};
+		return {
+			width: `calc((100% - ${(columns - 1) * 1.5}rem) / ${columns})`,
+		};
+	};
 
 	return (
 		<section className="py-8">
@@ -67,9 +78,14 @@ export function FacilitySection({
 				{facilities.map((facility) => (
 					<div
 						key={facility.id}
-						className="w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none">
+						className={
+							columns
+								? "flex-none"
+								: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
+						}
+						style={getItemStyle()}>
 						<Link to={`${basePath}/${facility.id}`}>
-							<FacilityCard facility={facility} />
+							<FacilityCard facility={facility} variant={cardVariant} />
 						</Link>
 					</div>
 				))}

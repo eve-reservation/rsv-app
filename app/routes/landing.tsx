@@ -43,23 +43,7 @@ export default function LandingPage() {
 			</section> */}
 			{/* Facility Sections */}
 			<main>
-				<div className="mx-auto max-w-7xl">
-					<FacilitySection title="Browse open games near you" facilities={games} />
-					<FacilitySection
-						title="Basketball games"
-						facilities={games.filter((g) => g.type === "Basketball")}
-					/>
-					<FacilitySection
-						title="Volleyball games"
-						facilities={games.filter((g) => g.type === "Volleyball")}
-					/>
-					<FacilitySection
-						title="tennis games"
-						facilities={games.filter((g) => g.type === "Tennis")}
-					/>
-				</div>
-
-				<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border"></div>
+				{/* FIXED/PRIVATE FACILITIES */}
 				<div className="mx-auto max-w-7xl">
 					<FacilitySection
 						title="Sports Facilities"
@@ -72,6 +56,36 @@ export default function LandingPage() {
 					<FacilitySection
 						title="Wellness & Other Amenities"
 						facilities={facilities.filter((f) => f.category === "wellness")}
+					/>
+				</div>
+
+				<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border" />
+				{/* FIXED/PRIVATE FACILITIES */}
+				{/* OPEN/PUBLIC GAMES */}
+				<div className="mx-auto max-w-7xl">
+					<FacilitySection
+						title="Browse open games near you"
+						facilities={games}
+						columns={2}
+						cardVariant="horizontal"
+					/>
+					<FacilitySection
+						title="Basketball games"
+						facilities={games.filter((g) => g.type === "Basketball")}
+						columns={2}
+						cardVariant="horizontal"
+					/>
+					<FacilitySection
+						title="Volleyball games"
+						facilities={games.filter((g) => g.type === "Volleyball")}
+						columns={2}
+						cardVariant="horizontal"
+					/>
+					<FacilitySection
+						title="Tennis games"
+						facilities={games.filter((g) => g.type === "Tennis")}
+						columns={2}
+						cardVariant="horizontal"
 					/>
 				</div>
 			</main>
