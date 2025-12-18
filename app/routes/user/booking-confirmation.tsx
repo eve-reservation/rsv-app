@@ -9,6 +9,8 @@ import { lebronCourt } from "@/assets/images/index";
 import { format, setHours, setMinutes } from "date-fns";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 import { facilities, games, type Game, type Facility } from "@/lib/data";
+import { PromoCodeModal } from "~/components/organisms/promo-code-modal";
+import { Tag } from "lucide-react";
 
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
@@ -38,6 +40,7 @@ export default function ConfirmPayment() {
 		return guestParam ? parseInt(guestParam, 10) : 1;
 	});
 	const [paymentMethod, setPaymentMethod] = useState("gcash");
+	const [isPromoModalOpen, setIsPromoModalOpen] = useState(false);
 	const [selectedDate, setSelectedDate] = useState<Date | undefined>(() => {
 		if (isGameJoin && bookingItem) {
 			return new Date(); // Game date string logic handled separately in display
@@ -275,9 +278,14 @@ export default function ConfirmPayment() {
 												<RadioGroupItem value="public" id="public" />
 											</div>
 										</RadioGroup>
-										<div className="flex justify-end">
+										<div className="flex items-center justify-between mt-6">
+											<button
+												className="cursor-pointer text-sm font-medium text-primary hover:underline flex items-center gap-2 transition-colors"
+												onClick={() => setIsPromoModalOpen(true)}>
+												<Tag className="w-4 h-4" />I have a promo code
+											</button>
 											<Button
-												className="mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
+												className="rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
 												onClick={() => setActiveStep(2)}>
 												Next
 											</Button>
@@ -286,6 +294,15 @@ export default function ConfirmPayment() {
 								)}
 							</Card>
 						)}
+
+						<PromoCodeModal
+							open={isPromoModalOpen}
+							onOpenChange={setIsPromoModalOpen}
+							onApply={(code) => {
+								console.log("Applied code:", code);
+								// Logic to apply discount would go here
+							}}
+						/>
 
 						{/* Step 2: Review date, time, and players */}
 						<Card className="overflow-hidden gap-0 p-0">
