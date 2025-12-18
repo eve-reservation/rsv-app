@@ -16,8 +16,6 @@ export default function LandingPage() {
 
 	return (
 		<div className="min-h-screen flex flex-col bg-background ">
-			<Header />
-
 			{/* Hero Section */}
 			<section className="pt-8 pb-6 px-4 sm:px-6 lg:px-8">
 				<div className="mx-auto max-w-7xl">
@@ -66,8 +64,8 @@ export default function LandingPage() {
 					<FacilitySection
 						title="Browse open games near you"
 						facilities={games}
-						columns={2}
-						cardVariant="horizontal"
+						columns={3}
+						// cardVariant="horizontal"
 					/>
 					<FacilitySection
 						title="Basketball games"

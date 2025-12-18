@@ -49,7 +49,7 @@ export function Header() {
 							Explore
 						</Link>
 						<Link
-							to="/"
+							to="/sports"
 							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
 							Sports
 						</Link>
