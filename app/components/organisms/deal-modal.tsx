@@ -56,7 +56,7 @@ export function DealModal({ deal, open, onOpenChange }: DealModalProps) {
 						</DialogDescription>
 					</DialogHeader>
 
-					<div className="space-y-5">
+					<div className="space-y-2">
 						<div className="space-y-2">
 							<span className="text-xs uppercase font-bold text-muted-foreground tracking-wider">
 								Promo Code
@@ -69,7 +69,7 @@ export function DealModal({ deal, open, onOpenChange }: DealModalProps) {
 								<Button
 									size="icon"
 									variant="outline"
-									className="h-14 w-14 shrink-0 hover:bg-muted"
+									className="h-14 w-14 shrink-0 hover:bg-muted cursor-pointer"
 									onClick={copyToClipboard}>
 									{copied ? (
 										<Check className="w-5 h-5 text-green-600" />

@@ -341,7 +341,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 									/>
 
 									<Button
-										className="w-full qcsc-gradient hover:bg-primary/90 text-primary-foreground h-12 text-base font-semibold"
+										className="w-full cursor-pointer qcsc-gradient hover:bg-primary/90 text-primary-foreground h-12 text-base font-semibold"
 										onClick={handleReserve}
 										disabled={!isReservationValid}>
 										Reserve
