@@ -7,13 +7,15 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.png";
 import { useState } from "react";
 import { SignupModal } from "./signup-modal";
 
 export function Header() {
 	const [searchParams, setSearchParams] = useSearchParams();
+	const location = useLocation();
 	const [isSignupOpen, setIsSignupOpen] = useState(searchParams.get("signUp") === "true");
 
 	const handleOpenChange = (open: boolean) => {
@@ -45,18 +47,33 @@ export function Header() {
 					<nav className="hidden md:flex items-center gap-8">
 						<Link
 							to="/"
-							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
+							className={cn(
+								"text-sm font-medium transition-colors",
+								location.pathname === "/"
+									? "text-foreground"
+									: "text-muted-foreground hover:text-foreground",
+							)}>
 							Explore
 						</Link>
 						<Link
 							to="/sports"
-							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
+							className={cn(
+								"text-sm font-medium transition-colors",
+								location.pathname === "/sports"
+									? "text-foreground"
+									: "text-muted-foreground hover:text-foreground",
+							)}>
 							Sports
 						</Link>
 						<Link
-							to="/"
-							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
-							Facilities
+							to="/experiences"
+							className={cn(
+								"text-sm font-medium transition-colors",
+								location.pathname === "/experiences"
+									? "text-foreground"
+									: "text-muted-foreground hover:text-foreground",
+							)}>
+							Experiences
 						</Link>
 					</nav>
 
