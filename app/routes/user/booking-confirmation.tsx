@@ -5,12 +5,12 @@ import { Card } from "@/components/ui/card";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { lebronCourt } from "@/assets/images/index";
 import { format, setHours, setMinutes } from "date-fns";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 import { facilities, games, type Game, type Facility } from "@/lib/data";
 import { PromoCodeModal } from "~/components/organisms/promo-code-modal";
 import { Tag } from "lucide-react";
+import { gcash, maya } from "@/assets/images";
 
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
@@ -360,11 +360,9 @@ export default function ConfirmPayment() {
 													: "border-border"
 											}`}
 											onClick={() => setPaymentMethod("gcash")}>
-											<Label
-												htmlFor="gcash"
-												className="flex-1 cursor-pointer font-medium">
-												GCash
-											</Label>
+											<div className="w-20 h-full">
+												<img src={gcash} alt="GCash" />
+											</div>
 											<RadioGroupItem value="gcash" id="gcash" />
 										</div>
 										<div
@@ -374,11 +372,9 @@ export default function ConfirmPayment() {
 													: "border-border"
 											}`}
 											onClick={() => setPaymentMethod("maya")}>
-											<Label
-												htmlFor="maya"
-												className="flex-1 cursor-pointer font-medium">
-												Maya
-											</Label>
+											<div className="w-14 h-full">
+												<img src={maya} alt="Maya" />
+											</div>
 											<RadioGroupItem value="maya" id="maya" />
 										</div>
 										<div
