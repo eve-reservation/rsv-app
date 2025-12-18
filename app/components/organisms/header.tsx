@@ -78,7 +78,7 @@ export function Header() {
 								</DropdownMenuItem>
 								<DropdownMenuItem>Log in</DropdownMenuItem>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem>
+								<DropdownMenuItem asChild>
 									<Link to="/profile">Profile</Link>
 								</DropdownMenuItem>
 							</DropdownMenuContent>
