@@ -81,7 +81,7 @@ export default function TimeSelector({
 	};
 
 	return (
-		<div className={cn("grid grid-cols-2 gap-8 p-4", className)}>
+		<div className={cn("grid grid-cols-2 gap-6 p-4", className)}>
 			<div className="flex flex-col gap-4">
 				<Label className="text-center font-medium text-muted-foreground uppercase text-xs tracking-wider">
 					Start Time

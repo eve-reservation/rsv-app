@@ -135,7 +135,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 				)}
 
 				<div className="py-8">
-					<div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+					<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 						{/* Left Content */}
 						<div className="lg:col-span-2 space-y-8">
 							{/* Image Gallery */}
