@@ -14,6 +14,7 @@ interface BookingDetailsSelectorProps {
 	setGuests: (guests: number) => void;
 	maxGuests: number;
 	guestLabel?: string;
+	minuteInterval?: 1 | 5 | 10 | 15 | 30;
 	className?: string; // Allow custom styling wrapper/overrides if needed
 	readOnly?: boolean;
 }
@@ -28,6 +29,7 @@ export function BookingDetailsSelector({
 	setGuests,
 	maxGuests,
 	guestLabel = "Guests",
+	minuteInterval = 15,
 	className,
 	readOnly = false,
 }: BookingDetailsSelectorProps) {
@@ -90,13 +92,12 @@ export function BookingDetailsSelector({
 								</span>
 							</div>
 						</PopoverTrigger>
-						<PopoverContent
-							className="w-[400px] h-[400px] overflow-auto p-4"
-							align="start">
+						<PopoverContent className="w-[360px] p-0" align="end">
 							<TimeSelector
 								initialStart={startTime}
 								initialEnd={endTime}
 								onChange={onTimeChange}
+								minuteInterval={minuteInterval}
 							/>
 						</PopoverContent>
 					</Popover>
