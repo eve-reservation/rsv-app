@@ -1,22 +1,4 @@
-import {
-	LayoutDashboard,
-	Package,
-	ShoppingCart,
-	Send,
-	Barcode,
-	FileText,
-	Settings,
-	ChevronRight,
-	Building2,
-	Package2,
-	User,
-	Factory,
-	Layers,
-	Tag,
-	Building,
-	Users,
-	UserRound,
-} from "lucide-react";
+import { LayoutDashboard, Send, User, Layers, Tag, Percent, Users, Factory, Building } from "lucide-react";
 
 import {
 	Sidebar,
@@ -67,12 +49,17 @@ export function AppSidebar() {
 				{
 					title: "Facility",
 					href: `/admin/facility`,
-					icon: Tag,
+					icon: Building,
 				},
 				{
 					title: "Users",
 					href: `/admin/user`,
-					icon: Send,
+					icon: Users,
+				},
+				{
+					title: "Deals & Promos",
+					href: `/admin/deal`,
+					icon: Percent,
 				},
 			],
 		},

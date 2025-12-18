@@ -20,6 +20,7 @@ const adminRoutes: RouteConfig = prefix("/admin", [
 	route("/facility", "routes/admin/facilities.tsx"),
 	route("/facility/:id", "routes/admin/facility.tsx"),
 	route("/user", "routes/admin/users.tsx"),
+	route("/deal", "routes/admin/deals.tsx"),
 ]);
 
 const kioskRoutes: RouteConfig = prefix("/kiosk", [
