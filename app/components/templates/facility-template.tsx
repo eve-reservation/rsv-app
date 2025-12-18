@@ -98,7 +98,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 	return (
 		<div className="animate-in fade-in duration-500">
 			<div className="flex items-center justify-between">
-				<BackButton fallbackPath="/admin/booking" showText />
+				<BackButton showText />
 				{admin && <Button>Edit Facility</Button>}
 			</div>
 
