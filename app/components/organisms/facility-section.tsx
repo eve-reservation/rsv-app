@@ -11,6 +11,7 @@ interface FacilitySectionProps {
 	basePath?: string;
 	columns?: number;
 	cardVariant?: "vertical" | "horizontal";
+	action?: React.ReactNode;
 }
 
 export function FacilitySection({
@@ -19,6 +20,7 @@ export function FacilitySection({
 	basePath = "/facility",
 	columns,
 	cardVariant = "vertical",
+	action,
 }: FacilitySectionProps) {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -54,7 +56,7 @@ export function FacilitySection({
 					<h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
 					<ChevronRight className="h-5 w-5 font-semibold" />
 				</div>
-				<div className="flex gap-2">
+				<div className="flex gap-2 items-center">
 					<Button
 						variant="outline"
 						size="icon"
@@ -71,6 +73,7 @@ export function FacilitySection({
 						aria-label="Scroll right">
 						<ChevronRight className="h-4 w-4" />
 					</Button>
+					{action && <div className="ml-2">{action}</div>}
 				</div>
 			</div>
 

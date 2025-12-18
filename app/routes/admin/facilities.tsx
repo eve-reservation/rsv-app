@@ -10,25 +10,25 @@ export default function Facilities() {
 					<h1 className="text-2xl font-bold text-foreground">Facility Management</h1>
 					<p className="text-muted-foreground">Manage and track all facilities</p>
 				</div>
-				<div>
-					<Button>Add Facility</Button>
-				</div>
 			</div>
 			<div>
 				<FacilitySection
 					title="Sports Facilities"
 					facilities={facilities.filter((f) => f.category === "sports")}
 					basePath="/admin/facility"
+					action={<Button size="sm">Add Facility</Button>}
 				/>
 				<FacilitySection
 					title="Dining & Function Facilities"
 					facilities={facilities.filter((f) => f.category === "dining")}
 					basePath="/admin/facility"
+					action={<Button size="sm">Add Facility</Button>}
 				/>
 				<FacilitySection
 					title="Wellness & Other Amenities"
 					facilities={facilities.filter((f) => f.category === "wellness")}
 					basePath="/admin/facility"
+					action={<Button size="sm">Add Facility</Button>}
 				/>
 			</div>
 		</div>
