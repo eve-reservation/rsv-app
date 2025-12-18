@@ -3,13 +3,13 @@ import { type RouteConfig, index, layout, prefix, route } from "@react-router/de
 const authRoutes: RouteConfig = [route("/login", "routes/auth/login.tsx")];
 
 const userRoutes: RouteConfig = [
-	index("routes/landing.tsx"),
-	route("/facility/:id", "routes/facility.tsx"),
+	index("routes/user/landing.tsx"),
+	route("/facility/:id", "routes/user/facility.tsx"),
 	route("/booking/confirmation", "routes/user/booking-confirmation.tsx"),
 	route("/booking/complete", "routes/user/booking-complete.tsx"),
 	route("/location-test", "routes/user/location-test.tsx"),
-	route("/profile", "routes/profile.tsx"),
-	route("/sports", "routes/sports.tsx"),
+	route("/profile", "routes/user/profile.tsx"),
+	route("/sports", "routes/user/sports.tsx"),
 ];
 
 // Admin routes
