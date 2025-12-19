@@ -19,10 +19,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	// Get current user from API
 	const getCurrentUser = async () => {
-		const authUrl = import.meta.env.VITE_AUTH_URL || "http://localhost:3000/api";
-		const baseUrl = import.meta.env.VITE_BASE_URL || "http://localhost:3000/api";
-		console.log("authUrl", authUrl);
-		console.log("baseUrl", baseUrl);
 		try {
 			setIsLoading(true);
 			setError(null);
@@ -49,7 +45,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
 			return response;
 		} catch (error: any) {
-			console.error("Login error:", error);
 			setError(error.message || "Login failed. Please try again.");
 			throw error; // Re-throw so the login form can handle it
 		} finally {
