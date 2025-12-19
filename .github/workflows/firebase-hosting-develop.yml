@@ -39,9 +39,10 @@ jobs:
 
             - name: Configure Firebase target
               run: |
+                  echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_DEV }}' > ${{ runner.temp }}/gcp-key.json
                   export GOOGLE_APPLICATION_CREDENTIALS="${{ runner.temp }}/gcp-key.json"
-                  echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_DEV }}' > $GOOGLE_APPLICATION_CREDENTIALS
-                  npx firebase target:apply hosting develop qcsports-app-dev --project qcsports-app-dev
+                  npm install -g firebase-tools
+                  firebase target:apply hosting develop qcsports-app-dev --project qcsports-app-dev
 
             - name: Deploy to Firebase Develop
               uses: FirebaseExtended/action-hosting-deploy@v0

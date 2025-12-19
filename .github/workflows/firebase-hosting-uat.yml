@@ -39,9 +39,10 @@ jobs:
 
             - name: Configure Firebase target
               run: |
+                  echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_UAT }}' > ${{ runner.temp }}/gcp-key.json
                   export GOOGLE_APPLICATION_CREDENTIALS="${{ runner.temp }}/gcp-key.json"
-                  echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_UAT }}' > $GOOGLE_APPLICATION_CREDENTIALS
-                  npx firebase target:apply hosting uat qcsports-app-uat --project qcsports-app-uat
+                  npm install -g firebase-tools
+                  firebase target:apply hosting uat qcsports-app-uat --project qcsports-app-uat
 
             - name: Deploy to Firebase UAT
               uses: FirebaseExtended/action-hosting-deploy@v0
