@@ -1,6 +1,6 @@
 import { type RouteConfig, index, layout, prefix, route } from "@react-router/dev/routes";
 
-const authRoutes: RouteConfig = [route("/login", "routes/auth/login.tsx")];
+const authRoutes: RouteConfig = [route("/admin/login", "routes/auth/login.tsx")];
 
 const userRoutes: RouteConfig = [
 	index("routes/user/landing.tsx"),
@@ -23,7 +23,7 @@ const adminRoutes: RouteConfig = prefix("/admin", [
 	route("/facility/:id", "routes/admin/facility.tsx"),
 	route("/user", "routes/admin/users.tsx"),
 	route("/deal", "routes/admin/deals.tsx"),
-	route("/profile", "routes/admin/deals.tsx"),
+	route("/profile", "routes/admin/profile.tsx"),
 ]);
 
 const kioskRoutes: RouteConfig = prefix("/scheduling", [

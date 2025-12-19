@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent } from "~/components/ui/card";
+import { useNavigate } from "react-router";
 
 export const defaultMockUser = {
 	firstName: "Alex",
@@ -40,6 +41,7 @@ interface ProfileTemplateProps {
 }
 
 export default function ProfileTemplate({ user = defaultMockUser }: ProfileTemplateProps) {
+	const navigate = useNavigate();
 	const firstInitial = user.firstName.charAt(0);
 	const fullName = `${user.firstName} ${user.lastName}`;
 	const vipLevelDisplay = `${user.vipLevel} Member`;
@@ -54,6 +56,7 @@ export default function ProfileTemplate({ user = defaultMockUser }: ProfileTempl
 					<div className="h-48 bg-gradient-to-r from-primary/10 via-primary/5 to-background relative">
 						<div className="absolute top-4 right-4">
 							<Button
+								onClick={() => navigate("/admin/login")}
 								variant="ghost"
 								size="sm"
 								className="cursor-pointer text-muted-foreground hover:text-destructive gap-2 bg-background/50 backdrop-blur-sm">
