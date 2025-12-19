@@ -30,8 +30,7 @@ export default function LoginPage() {
 		try {
 			const user = await login(identifier, password);
 			if (user) {
-				await new Promise((resolve) => setTimeout(resolve, 1000));
-				navigate("/");
+				navigate("/admin");
 			}
 		} catch (err) {
 			// Error is handled by the hook, but you can add additional handling here if needed

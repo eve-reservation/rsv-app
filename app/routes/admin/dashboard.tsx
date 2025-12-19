@@ -187,7 +187,9 @@ export default function AdminDashboard() {
 								<Users className="h-5 w-5" />
 								Sports Bookings
 							</div>
-							<Badge variant="secondary">{sportsBookings.length}</Badge>
+							<Badge variant="secondary" className="bg-primary/20">
+								{sportsBookings.length}
+							</Badge>
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
@@ -202,7 +204,9 @@ export default function AdminDashboard() {
 								<Users className="h-5 w-5" />
 								Dining Bookings
 							</div>
-							<Badge variant="secondary">{diningBookings.length}</Badge>
+							<Badge variant="secondary" className="bg-primary/20">
+								{diningBookings.length}
+							</Badge>
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
@@ -217,7 +221,9 @@ export default function AdminDashboard() {
 								<Users className="h-5 w-5" />
 								Wellness Bookings
 							</div>
-							<Badge variant="secondary">{wellnessBookings.length}</Badge>
+							<Badge variant="secondary" className="bg-primary/20">
+								{wellnessBookings.length}
+							</Badge>
 						</CardTitle>
 					</CardHeader>
 					<CardContent>

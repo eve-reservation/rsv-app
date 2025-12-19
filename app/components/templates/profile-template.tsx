@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent } from "~/components/ui/card";
 import { useNavigate } from "react-router";
+import { useAuth } from "~/hooks/use-auth";
 
 export const defaultMockUser = {
 	firstName: "Alex",
@@ -38,9 +39,13 @@ export const defaultMockUser = {
 interface ProfileTemplateProps {
 	user?: typeof defaultMockUser;
 	isReadOnly?: boolean;
+	handleLogout?: () => void;
 }
 
-export default function ProfileTemplate({ user = defaultMockUser }: ProfileTemplateProps) {
+export default function ProfileTemplate({
+	user = defaultMockUser,
+	handleLogout,
+}: ProfileTemplateProps) {
 	const navigate = useNavigate();
 	const firstInitial = user.firstName.charAt(0);
 	const fullName = `${user.firstName} ${user.lastName}`;
@@ -56,7 +61,7 @@ export default function ProfileTemplate({ user = defaultMockUser }: ProfileTempl
 					<div className="h-48 bg-gradient-to-r from-primary/10 via-primary/5 to-background relative">
 						<div className="absolute top-4 right-4">
 							<Button
-								onClick={() => navigate("/admin/login")}
+								onClick={handleLogout}
 								variant="ghost"
 								size="sm"
 								className="cursor-pointer text-muted-foreground hover:text-destructive gap-2 bg-background/50 backdrop-blur-sm">

@@ -4,6 +4,7 @@ import authService from "~/services/auth-service";
 import userService from "~/services/user-service";
 import { queryClient } from "~/lib/query-client";
 import type { UserWithRelation } from "~/zod/user.zod";
+import { useNavigate } from "react-router";
 
 interface AuthProviderProps {
 	children: ReactNode;
@@ -13,6 +14,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [user, setUser] = useState<UserWithRelation | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const navigate = useNavigate();
 
 	// Clear error function
 	const clearError = () => setError(null);
@@ -22,13 +24,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 		try {
 			setIsLoading(true);
 			setError(null);
-			const response = await userService.getCurrentUser();
+			const response = await authService.getCurrentUser();
 
 			setUser(response.user as UserWithRelation);
 		} catch (error: any) {
 			// console.error("Error fetching current user:", error);
-			// setUser(null);
-			// navigate("/login");
+			setUser(null);
+			navigate("/");
 		} finally {
 			setIsLoading(false);
 		}
