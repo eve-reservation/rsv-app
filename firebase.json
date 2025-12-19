@@ -1,7 +1,7 @@
 {
 	"hosting": [
 		{
-			"target": "develop",
+			"target": "qcsports-app-dev",
 			"public": "build/client",
 			"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
 			"rewrites": [
@@ -12,7 +12,7 @@
 			]
 		},
 		{
-			"target": "uat",
+			"target": "qcsports-app-uat",
 			"public": "build/client",
 			"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
 			"rewrites": [
