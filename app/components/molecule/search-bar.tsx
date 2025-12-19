@@ -74,7 +74,19 @@ const CategoryIcon = ({
 	}
 };
 
-export function SearchBar() {
+interface SearchBarProps {
+	allowedCategories?: string[]; // IDs of categories to show
+	whatPlaceholder?: string;
+	guestLabel?: string; // e.g. "person"
+	guestLabelPlural?: string; // e.g. "people"
+}
+
+export function SearchBar({
+	allowedCategories,
+	whatPlaceholder = "What are you looking for?",
+	guestLabel = "person",
+	guestLabelPlural = "people",
+}: SearchBarProps) {
 	const navigate = useNavigate();
 	const [category, setCategory] = useState("");
 	const [when, setWhen] = useState<Date | undefined>(undefined);
@@ -90,7 +102,11 @@ export function SearchBar() {
 		navigate(`/?${params.toString()}`);
 	};
 
-	const selectedCategory = categories.find((c) => c.name === category);
+	const filteredCategories = allowedCategories
+		? categories.filter((c) => allowedCategories.includes(c.id))
+		: categories;
+
+	const selectedCategory = filteredCategories.find((c) => c.name === category);
 
 	return (
 		<div className="w-full max-w-4xl mx-auto">
@@ -131,7 +147,7 @@ export function SearchBar() {
 											setCategory(e.target.value);
 											setOpenCategory(true);
 										}}
-										placeholder="What are you looking for?"
+										placeholder={whatPlaceholder}
 										className="bg-transparent border-none outline-none w-full text-foreground placeholder:text-muted-foreground/60 font-medium p-0 h-auto focus:ring-0"
 									/>
 								</div>
@@ -147,13 +163,13 @@ export function SearchBar() {
 									<CommandInput value={category} />
 								</div>
 								<CommandList>
-									{categories.filter((cat) =>
+									{filteredCategories.filter((cat) =>
 										cat.name.toLowerCase().includes(category.toLowerCase()),
 									).length === 0 && (
 										<CommandEmpty>No category found.</CommandEmpty>
 									)}
 									<CommandGroup>
-										{categories
+										{filteredCategories
 											.filter((cat) =>
 												cat.name
 													.toLowerCase()
@@ -239,7 +255,9 @@ export function SearchBar() {
 												? "text-foreground font-medium"
 												: "text-muted-foreground",
 										)}>
-										{guests === 1 ? "1 person" : `${guests} people`}
+										{guests === 1
+											? `1 ${guestLabel}`
+											: `${guests} ${guestLabelPlural}`}
 									</span>
 								</div>
 
@@ -258,7 +276,9 @@ export function SearchBar() {
 							<div className="space-y-6">
 								<div className="flex items-center justify-between">
 									<div>
-										<p className="font-medium">Players</p>
+										<p className="font-medium">
+											{guestLabel === "person" ? "Guests" : "Players"}
+										</p>
 										<p className="text-sm text-muted-foreground">
 											How many are playing?
 										</p>

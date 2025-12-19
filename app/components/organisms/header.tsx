@@ -7,13 +7,15 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.png";
 import { useState } from "react";
 import { SignupModal } from "./signup-modal";
 
 export function Header() {
 	const [searchParams, setSearchParams] = useSearchParams();
+	const location = useLocation();
 	const [isSignupOpen, setIsSignupOpen] = useState(searchParams.get("signUp") === "true");
 
 	const handleOpenChange = (open: boolean) => {
@@ -45,18 +47,33 @@ export function Header() {
 					<nav className="hidden md:flex items-center gap-8">
 						<Link
 							to="/"
-							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
+							className={cn(
+								"text-sm font-medium transition-colo	rs",
+								location.pathname === "/"
+									? "text-foreground"
+									: "text-muted-foreground hover:text-foreground",
+							)}>
 							Explore
 						</Link>
 						<Link
-							to="/"
-							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
+							to="/sports"
+							className={cn(
+								"text-sm font-medium transition-colors",
+								location.pathname === "/sports"
+									? "text-foreground"
+									: "text-muted-foreground hover:text-foreground",
+							)}>
 							Sports
 						</Link>
 						<Link
-							to="/"
-							className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors">
-							Facilities
+							to="/lifestyle"
+							className={cn(
+								"text-sm font-medium transition-colors",
+								location.pathname === "/lifestyle"
+									? "text-foreground"
+									: "text-muted-foreground hover:text-foreground",
+							)}>
+							Lifestyle
 						</Link>
 					</nav>
 
@@ -65,7 +82,7 @@ export function Header() {
 							<DropdownMenuTrigger asChild>
 								<Button
 									variant="outline"
-									className="flex items-center gap-2 rounded-full px-3 py-2 h-auto border-border hover:shadow-md transition-shadow bg-transparent">
+									className="flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 h-auto border-border hover:shadow-md transition-shadow bg-transparent">
 									<Menu className="h-4 w-4" />
 									<div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center">
 										<User className="h-4 w-4 text-muted-foreground" />
@@ -78,8 +95,11 @@ export function Header() {
 								</DropdownMenuItem>
 								<DropdownMenuItem>Log in</DropdownMenuItem>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem>
+								<DropdownMenuItem asChild>
 									<Link to="/profile">Profile</Link>
+								</DropdownMenuItem>
+								<DropdownMenuItem asChild>
+									<Link to="/settings">Settings</Link>
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>

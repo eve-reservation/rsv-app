@@ -106,20 +106,19 @@ export default function UserReservations() {
 
 							{/* Right Section - Details */}
 							<div className="flex-1 p-6 flex flex-col justify-between">
+								<h2 className="text-xl font-bold text-slate-900 mb-4">
+									{booking.facility}
+								</h2>
 								<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 									<div>
-										<h2 className="text-2xl font-bold text-slate-900 mb-4">
-											{booking.facility}
-										</h2>
-
 										<div className="space-y-3">
 											<div className="flex items-center text-slate-700">
-												<Calendar className="w-5 h-5 mr-3 text-blue-600" />
+												<Calendar className="w-5 h-5 mr-3 text-primary" />
 												<span className="font-medium">{booking.date}</span>
 											</div>
 
 											<div className="flex items-center text-slate-700">
-												<Clock className="w-5 h-5 mr-3 text-blue-600" />
+												<Clock className="w-5 h-5 mr-3 text-primary" />
 												<span>{booking.time}</span>
 											</div>
 										</div>
@@ -127,12 +126,12 @@ export default function UserReservations() {
 
 									<div className="space-y-3">
 										<div className="flex items-center text-slate-700">
-											<MapPin className="w-5 h-5 mr-3 text-blue-600" />
+											<MapPin className="w-5 h-5 mr-3 text-primary" />
 											<span>{booking.location}</span>
 										</div>
 
 										<div className="flex items-center text-slate-700">
-											<User className="w-5 h-5 mr-3 text-blue-600" />
+											<User className="w-5 h-5 mr-3 text-primary" />
 											<span>Booked by: {booking.bookedBy}</span>
 										</div>
 									</div>
@@ -152,7 +151,7 @@ export default function UserReservations() {
 				defaultValue={["current", "upcoming"]}
 				className="w-full space-y-4">
 				<AccordionItem value="current" className="border-none">
-					<AccordionTrigger className="font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
+					<AccordionTrigger className="cursor-pointer font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
 						Current Bookings ({currentBookings.length})
 					</AccordionTrigger>
 					<AccordionContent className="px-1">
@@ -161,7 +160,7 @@ export default function UserReservations() {
 				</AccordionItem>
 
 				<AccordionItem value="upcoming" className="border-none">
-					<AccordionTrigger className="font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
+					<AccordionTrigger className="cursor-pointer font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
 						Upcoming Bookings ({upcomingBookings.length})
 					</AccordionTrigger>
 					<AccordionContent className="px-1">
@@ -170,7 +169,7 @@ export default function UserReservations() {
 				</AccordionItem>
 
 				<AccordionItem value="past" className="border-none">
-					<AccordionTrigger className="font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
+					<AccordionTrigger className="cursor-pointer font-semibold px-4 hover:no-underline hover:bg-slate-50 rounded-lg">
 						Past Bookings ({pastBookings.length})
 					</AccordionTrigger>
 					<AccordionContent className="px-1">

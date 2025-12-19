@@ -49,7 +49,7 @@ const booking = {
 		sport: "Basketball",
 		location: "32nd St., BGC, Taguig City",
 		capacity: "20-30 pax",
-		image: "https://images.unsplash.com/photo-1546519638-68e109498ee3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+		image: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=1000",
 	},
 	schedule: {
 		date: "December 10, 2025",

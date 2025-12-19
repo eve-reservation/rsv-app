@@ -9,12 +9,18 @@ interface FacilitySectionProps {
 	title: string;
 	facilities: (Facility | Game)[];
 	basePath?: string;
+	columns?: number;
+	cardVariant?: "vertical" | "horizontal";
+	action?: React.ReactNode;
 }
 
 export function FacilitySection({
 	title,
 	facilities,
 	basePath = "/facility",
+	columns,
+	cardVariant = "vertical",
+	action,
 }: FacilitySectionProps) {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -36,6 +42,13 @@ export function FacilitySection({
 
 	if (facilities.length === 0) return null;
 
+	const getItemStyle = () => {
+		if (!columns) return {};
+		return {
+			width: `calc((100% - ${(columns - 1) * 1.5}rem) / ${columns})`,
+		};
+	};
+
 	return (
 		<section className="py-8">
 			<div className="flex items-center justify-between mb-6">
@@ -43,7 +56,7 @@ export function FacilitySection({
 					<h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
 					<ChevronRight className="h-5 w-5 font-semibold" />
 				</div>
-				<div className="flex gap-2">
+				<div className="flex gap-2 items-center">
 					<Button
 						variant="outline"
 						size="icon"
@@ -60,6 +73,7 @@ export function FacilitySection({
 						aria-label="Scroll right">
 						<ChevronRight className="h-4 w-4" />
 					</Button>
+					{action && <div className="ml-2">{action}</div>}
 				</div>
 			</div>
 
@@ -67,9 +81,14 @@ export function FacilitySection({
 				{facilities.map((facility) => (
 					<div
 						key={facility.id}
-						className="w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none">
+						className={
+							columns
+								? "flex-none"
+								: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
+						}
+						style={getItemStyle()}>
 						<Link to={`${basePath}/${facility.id}`}>
-							<FacilityCard facility={facility} />
+							<FacilityCard facility={facility} variant={cardVariant} />
 						</Link>
 					</div>
 				))}

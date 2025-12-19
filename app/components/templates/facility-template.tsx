@@ -75,7 +75,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 	const getDuration = () => {
 		if (!startTime || !endTime) return 0;
 		const diff = endTime.getTime() - startTime.getTime();
-		return diff > 0 ? diff / (1000 * 60 * 60) : 0;
+		return diff > 0 ? Number((diff / (1000 * 60 * 60)).toFixed(2)) : 0;
 	};
 
 	const duration = getDuration();
@@ -98,7 +98,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 	return (
 		<div className="animate-in fade-in duration-500">
 			<div className="flex items-center justify-between">
-				<BackButton fallbackPath="/admin/booking" showText />
+				<BackButton showText />
 				{admin && <Button>Edit Facility</Button>}
 			</div>
 
@@ -135,14 +135,19 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 				)}
 
 				<div className="py-8">
-					<div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+					<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 						{/* Left Content */}
 						<div className="lg:col-span-2 space-y-8">
 							{/* Image Gallery */}
 							<div className="relative grid grid-cols-3 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden">
 								{/* Main Large Image - Left Side (2x2) */}
 								<div
-									className="col-span-4 md:col-span-2 row-span-2 relative overflow-hidden rounded-l-2xl cursor-pointer group"
+									className={cn(
+										"row-span-2 relative overflow-hidden cursor-pointer group",
+										facility.images.length <= 1
+											? "col-span-3 rounded-2xl"
+											: "col-span-4 md:col-span-2 rounded-l-2xl",
+									)}
 									onClick={() => setShowAllPhotos(true)}>
 									<img
 										src={facility.images[0] || "/placeholder.svg"}
@@ -157,7 +162,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 									<div
 										key={index}
 										className={cn(
-											"relative overflow-hidden cursor-pointer group",
+											"relative overflow-hidden cursor-pointer group bg-gray-200",
 											index === 0 && "rounded-tr-2xl",
 											index === 3 && "rounded-br-2xl md:rounded-br-none",
 											index === facility.images.slice(1, 5).length - 1 &&
@@ -168,7 +173,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 										<img
 											src={image || "/placeholder.svg"}
 											alt={`${facility.name} - ${index + 2}`}
-											className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+											className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 "
 										/>
 										<div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
 									</div>
@@ -286,13 +291,13 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 										{format(date, "MMMM d, yyyy")}
 									</p>
 								)}
-								<div className="flex justify-center">
+								<div className="w-full">
 									<Calendar
 										mode="single"
 										selected={date}
 										onSelect={setDate}
 										disabled={(date) => date < new Date()}
-										className="rounded-xl border border-border"
+										className="rounded-xl border border-border w-full"
 									/>
 								</div>
 							</div>
@@ -300,7 +305,11 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 
 						{/* Booking Card */}
 						<div className="lg:col-span-1">
-							<Card className="sticky top-24 shadow-xl border-border py-0">
+							<Card
+								className={cn(
+									"sticky shadow-xl border-border py-0",
+									admin ? "top-0" : "top-24",
+								)}>
 								<CardContent className="p-6 space-y-6">
 									<div className="flex items-baseline justify-between">
 										<div>
@@ -332,7 +341,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 									/>
 
 									<Button
-										className="w-full qcsc-gradient hover:bg-primary/90 text-primary-foreground h-12 text-base font-semibold"
+										className="w-full cursor-pointer qcsc-gradient hover:bg-primary/90 text-primary-foreground h-12 text-base font-semibold"
 										onClick={handleReserve}
 										disabled={!isReservationValid}>
 										Reserve

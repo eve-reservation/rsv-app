@@ -1,22 +1,4 @@
-import {
-	LayoutDashboard,
-	Package,
-	ShoppingCart,
-	Send,
-	Barcode,
-	FileText,
-	Settings,
-	ChevronRight,
-	Building2,
-	Package2,
-	User,
-	Factory,
-	Layers,
-	Tag,
-	Building,
-	Users,
-	UserRound,
-} from "lucide-react";
+import { LayoutDashboard, User, Layers, Percent, Users, Building } from "lucide-react";
 
 import {
 	Sidebar,
@@ -33,8 +15,8 @@ import {
 	SidebarSeparator,
 	useSidebar,
 } from "@/components/ui/sidebar";
-import { Link, useLocation, useNavigate, useParams } from "react-router";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link, useLocation, useNavigate } from "react-router";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import avatarFlat from "@/assets/images/avatarFlat.png";
 import { useAuth } from "~/hooks/use-auth";
 import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.png";
@@ -67,12 +49,17 @@ export function AppSidebar() {
 				{
 					title: "Facility",
 					href: `/admin/facility`,
-					icon: Tag,
+					icon: Building,
 				},
 				{
 					title: "Users",
 					href: `/admin/user`,
-					icon: Send,
+					icon: Users,
+				},
+				{
+					title: "Deals & Promos",
+					href: `/admin/deal`,
+					icon: Percent,
 				},
 			],
 		},
@@ -165,7 +152,7 @@ export function AppSidebar() {
 			</SidebarContent>
 			<SidebarFooter className="border-t border-sidebar-border p-2 py-4">
 				<button
-					onClick={() => navigate(`/profile/user/${user?.id}`)}
+					onClick={() => navigate(`/admin/profile`)}
 					className={`cursor-pointer hover:bg-accent/10 rounded-lg py-2 w-full ${sidebar.open ? "px-2" : ""}`}>
 					<div className="flex items-center gap-3 w-full">
 						<Avatar className="size-8">

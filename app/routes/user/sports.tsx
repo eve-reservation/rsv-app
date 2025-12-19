@@ -1,0 +1,93 @@
+import type { Route } from "./+types/sports";
+import { PAGE_TITLES } from "~/config/page-titles";
+import { facilities, games } from "@/lib/data";
+import { Header } from "~/components/organisms/header";
+import { SearchBar } from "~/components/molecule/search-bar";
+import { FacilitySection } from "~/components/organisms/facility-section";
+
+export function meta({}: Route.MetaArgs) {
+	return [{ title: PAGE_TITLES.sports || "Sports | Reserve" }];
+}
+
+export default function SportsPage() {
+	const sportsFacilities = facilities.filter((f) => f.category === "sports");
+	const popularCourts = sportsFacilities.filter((f) => f.rating >= 4.8);
+	const basketballFacilities = sportsFacilities.filter(
+		(f) =>
+			f.name.toLowerCase().includes("basketball") ||
+			f.description.toLowerCase().includes("basketball"),
+	);
+	const racquetFacilities = sportsFacilities.filter((f) => f.type === "Racquet Sports");
+
+	return (
+		<div className="min-h-screen flex flex-col bg-background relative isolate overflow-hidden">
+			{/* Minimal Background Pattern */}
+			<div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+			<div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/20 opacity-20 blur-[100px] pointer-events-none" />
+			{/* Hero Section */}
+			<section className="pt-8 pb-6 px-4 sm:px-6 lg:px-8">
+				<div className="mx-auto max-w-7xl">
+					{/* <div className="text-center mb-8">
+						<h1 className="font-serif text-4xl md:text-5xl font-medium tracking-tight text-foreground text-balance">
+							Find your perfect court
+						</h1>
+						<p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
+							Discover and book top-rated sports venues near you.
+						</p>
+					</div> */}
+					<SearchBar
+						allowedCategories={["sports"]}
+						whatPlaceholder="Search for sports facilities..."
+						guestLabel="player"
+						guestLabelPlural="players"
+					/>
+				</div>
+			</section>
+
+			<main>
+				<div className="mx-auto max-w-7xl">
+					{/* Popular Courts */}
+					<FacilitySection
+						title="Most Popular Courts"
+						facilities={popularCourts}
+						columns={4}
+					/>
+
+					{/* Open Games */}
+					<FacilitySection
+						title="Open Games Near You"
+						facilities={games}
+						columns={3}
+						// cardVariant="horizontal"
+					/>
+
+					<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border mb-6" />
+
+					{/* Specific Sports Facilities */}
+					{basketballFacilities.length > 0 && (
+						<FacilitySection
+							title="Basketball Facilities"
+							facilities={basketballFacilities}
+						/>
+					)}
+
+					{racquetFacilities.length > 0 && (
+						<FacilitySection
+							title="Racquet Sports Facilities"
+							facilities={racquetFacilities}
+						/>
+					)}
+
+					{/* Remaining Sports - if needed, or just general "Other Sports" */}
+					<FacilitySection
+						title="All Sports Facilities"
+						facilities={sportsFacilities.filter(
+							(f) =>
+								!basketballFacilities.includes(f) && !racquetFacilities.includes(f),
+						)}
+					/>
+				</div>
+			</main>
+		</div>
+	);
+}
