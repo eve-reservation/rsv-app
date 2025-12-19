@@ -66,14 +66,14 @@ export function Header() {
 							Sports
 						</Link>
 						<Link
-							to="/experiences"
+							to="/lifestyle"
 							className={cn(
 								"text-sm font-medium transition-colors",
-								location.pathname === "/experiences"
+								location.pathname === "/lifestyle"
 									? "text-foreground"
 									: "text-muted-foreground hover:text-foreground",
 							)}>
-							Experiences
+							Lifestyle
 						</Link>
 					</nav>
 

@@ -10,6 +10,7 @@ const userRoutes: RouteConfig = [
 	route("/location-test", "routes/user/location-test.tsx"),
 	route("/profile", "routes/user/profile.tsx"),
 	route("/sports", "routes/user/sports.tsx"),
+	route("/lifestyle", "routes/user/lifestyle.tsx"),
 ];
 
 // Admin routes

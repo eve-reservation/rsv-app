@@ -4,7 +4,6 @@ import authService from "~/services/auth-service";
 import userService from "~/services/user-service";
 import { queryClient } from "~/lib/query-client";
 import type { UserWithRelation } from "~/zod/user.zod";
-import { useNavigate } from "react-router";
 
 interface AuthProviderProps {
 	children: ReactNode;
@@ -14,13 +13,16 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [user, setUser] = useState<UserWithRelation | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const navigate = useNavigate();
 
 	// Clear error function
 	const clearError = () => setError(null);
 
 	// Get current user from API
 	const getCurrentUser = async () => {
+		const authUrl = import.meta.env.VITE_AUTH_URL || "http://localhost:3000/api";
+		const baseUrl = import.meta.env.VITE_BASE_URL || "http://localhost:3000/api";
+		console.log("authUrl", authUrl);
+		console.log("baseUrl", baseUrl);
 		try {
 			setIsLoading(true);
 			setError(null);
@@ -28,7 +30,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
 			setUser(response.user as UserWithRelation);
 		} catch (error: any) {
-			console.error("Error fetching current user:", error);
+			// console.error("Error fetching current user:", error);
 			// setUser(null);
 			// navigate("/login");
 		} finally {

@@ -40,7 +40,6 @@ class UserService extends APIService {
 			const response: ApiResponse<loginResponse> = await apiClient.get(USER.GET_CURRENT);
 			return response.data;
 		} catch (error: any) {
-			console.error("Error fetching current user:", error);
 			throw new Error(
 				error.data?.errors?.[0]?.message || error.message || "Error fetching current user",
 			);
@@ -57,8 +56,6 @@ class UserService extends APIService {
 			}
 			return response.data;
 		} catch (error: any) {
-			console.log(JSON.stringify(error));
-			console.error("Error creating user:", error);
 			throw new Error(
 				error.data?.errors?.[0]?.message || error.message || "Error creating user",
 			);
