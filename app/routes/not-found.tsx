@@ -6,7 +6,6 @@ import notfoundGif from "@/assets/404.gif";
 export default function NotFound() {
 	return (
 		<div className="min-h-screen flex flex-col bg-background font-sans text-foreground">
-			<Header />
 			<main className="flex-1 flex gap-24 justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 md:py-24">
 				<div className="max-w-2xl w-full">
 					<p className="text-sm font-semibold text-primary mb-4 tracking-wide uppercase">
