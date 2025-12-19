@@ -43,5 +43,6 @@ jobs:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"
                   firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_UAT }}"
                   projectId: qcsports-app-uat
+                  channelId: live
                   target: uat
                   entryPoint: .

@@ -1,17 +1,6 @@
 {
 	"hosting": [
 		{
-			"site": "qcsports-app-dev",
-			"public": "build/client",
-			"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-			"rewrites": [
-				{
-					"source": "**",
-					"destination": "/index.html"
-				}
-			]
-		},
-		{
 			"target": "develop",
 			"public": "build/client",
 			"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
