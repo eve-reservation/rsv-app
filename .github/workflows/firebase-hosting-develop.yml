@@ -37,6 +37,12 @@ jobs:
                   DISABLE_ESLINT_PLUGIN: true
                   SKIP_ESLINT: true
 
+            - name: Configure Firebase target
+              run: |
+                  export GOOGLE_APPLICATION_CREDENTIALS="${{ runner.temp }}/gcp-key.json"
+                  echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_DEV }}' > $GOOGLE_APPLICATION_CREDENTIALS
+                  npx firebase target:apply hosting develop qcsports-app-dev --project qcsports-app-dev
+
             - name: Deploy to Firebase Develop
               uses: FirebaseExtended/action-hosting-deploy@v0
               with:
@@ -44,4 +50,5 @@ jobs:
                   firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_DEV }}"
                   projectId: qcsports-app-dev
                   channelId: live
+                  target: develop
                   entryPoint: .

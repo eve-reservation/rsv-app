@@ -37,6 +37,12 @@ jobs:
                   DISABLE_ESLINT_PLUGIN: true
                   SKIP_ESLINT: true
 
+            - name: Configure Firebase target
+              run: |
+                  export GOOGLE_APPLICATION_CREDENTIALS="${{ runner.temp }}/gcp-key.json"
+                  echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_UAT }}' > $GOOGLE_APPLICATION_CREDENTIALS
+                  npx firebase target:apply hosting uat qcsports-app-uat --project qcsports-app-uat
+
             - name: Deploy to Firebase UAT
               uses: FirebaseExtended/action-hosting-deploy@v0
               with:
