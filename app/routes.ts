@@ -25,8 +25,8 @@ const adminRoutes: RouteConfig = prefix("/admin", [
 ]);
 
 const kioskRoutes: RouteConfig = prefix("/scheduling", [
-	route("/facility/:id", "routes/kiosk/facility.tsx"),
-	route("/reservation/confirmation", "routes/kiosk/reservation-confirmation.tsx"),
+	route("/facility/:id", "routes/scheduling/facility.tsx"),
+	route("/reservation/confirmation", "routes/scheduling/reservation-confirmation.tsx"),
 ]);
 
 // Main routes
