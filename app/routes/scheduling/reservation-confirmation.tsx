@@ -166,7 +166,7 @@ export default function ReservationConfirmation() {
 							</>
 						) : (
 							<button
-								onClick={() => navigate("/kiosk/facility/1")}
+								onClick={() => navigate("/scheduling/facility/1")}
 								className="w-full h-12 neu-btn-primary flex items-center justify-center gap-2 text-sm font-medium tracking-wide uppercase transition-transform active:scale-95">
 								<Home size={18} />
 								Done

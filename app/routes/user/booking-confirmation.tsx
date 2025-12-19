@@ -285,7 +285,7 @@ export default function ConfirmPayment() {
 												<Tag className="w-4 h-4" />I have a promo code
 											</button>
 											<Button
-												className="rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
+												className="cursor-pointer rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
 												onClick={() => setActiveStep(2)}>
 												Next
 											</Button>
@@ -330,7 +330,7 @@ export default function ConfirmPayment() {
 									/>
 									<div className="flex justify-end">
 										<Button
-											className="mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
+											className="cursor-pointer mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
 											onClick={() => setActiveStep(3)}>
 											Next
 										</Button>
@@ -394,7 +394,7 @@ export default function ConfirmPayment() {
 									</RadioGroup>
 									<div className="flex justify-end">
 										<Button
-											className="mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
+											className="cursor-pointer mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
 											onClick={() => setActiveStep(4)}>
 											Next
 										</Button>
@@ -420,7 +420,7 @@ export default function ConfirmPayment() {
 									<div className="flex justify-end">
 										<Button
 											onClick={() => navigate("/booking/complete")}
-											className="mt-6 w-full rounded-lg qcsc-gradient text-white  py-6 px-8">
+											className="cursor-pointer mt-6 w-full rounded-lg qcsc-gradient text-white  py-6 px-8">
 											Confirm and pay
 										</Button>
 									</div>
