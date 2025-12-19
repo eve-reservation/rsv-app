@@ -48,7 +48,7 @@ export function Header() {
 						<Link
 							to="/"
 							className={cn(
-								"text-sm font-medium transition-colors",
+								"text-sm font-medium transition-colo	rs",
 								location.pathname === "/"
 									? "text-foreground"
 									: "text-muted-foreground hover:text-foreground",
@@ -97,6 +97,9 @@ export function Header() {
 								<DropdownMenuSeparator />
 								<DropdownMenuItem asChild>
 									<Link to="/profile">Profile</Link>
+								</DropdownMenuItem>
+								<DropdownMenuItem asChild>
+									<Link to="/settings">Settings</Link>
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>

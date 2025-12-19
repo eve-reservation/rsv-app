@@ -152,7 +152,7 @@ export function AppSidebar() {
 			</SidebarContent>
 			<SidebarFooter className="border-t border-sidebar-border p-2 py-4">
 				<button
-					onClick={() => navigate(`/profile/user/${user?.id}`)}
+					onClick={() => navigate(`profile`)}
 					className={`cursor-pointer hover:bg-accent/10 rounded-lg py-2 w-full ${sidebar.open ? "px-2" : ""}`}>
 					<div className="flex items-center gap-3 w-full">
 						<Avatar className="size-8">
