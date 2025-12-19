@@ -1,24 +1,24 @@
 {
-	"projects": {
-		"default": "qcsports-app-dev",
-		"develop": "qcsports-app-dev",
-		"uat": "qcsports-app-uat"
-	},
-	"targets": {
-		"qcsports-app-dev": {
-			"hosting": {
-				"develop": [
-					"qcsports-app-dev"
-				]
-			}
-		},
-		"qcsports-app-uat": {
-			"hosting": {
-				"uat": [
-					"qcsports-app-uat"
-				]
-			}
-		}
-	},
-	"etags": {}
+  "projects": {
+    "default": "qcsports-app-dev",
+    "develop": "qcsports-app-dev",
+    "uat": "qcsports-app-uat"
+  },
+  "targets": {
+    "qcsports-app-dev": {
+      "hosting": {
+        "develop": [
+          "qcsports-app-dev"
+        ]
+      }
+    },
+    "qcsports-app-uat": {
+      "hosting": {
+        "uat": [
+          "qcsports-app-uat"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
