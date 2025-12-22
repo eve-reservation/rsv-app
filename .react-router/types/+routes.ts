@@ -62,6 +62,9 @@ type Pages = {
       "id": string;
     };
   };
+  "/admin/facility-type": {
+    params: {};
+  };
   "/admin/user": {
     params: {};
   };
@@ -89,7 +92,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/admin/login" | "/facility/:id" | "/booking/confirmation" | "/booking/complete" | "/location-test" | "/profile" | "/sports" | "/lifestyle" | "/admin" | "/admin/dashboard" | "/admin/booking" | "/admin/booking/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
+    page: "/" | "/admin/login" | "/facility/:id" | "/booking/confirmation" | "/booking/complete" | "/location-test" | "/profile" | "/sports" | "/lifestyle" | "/admin" | "/admin/dashboard" | "/admin/booking" | "/admin/booking/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility-type" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
   };
   "layouts/auth-layout.tsx": {
     id: "layouts/auth-layout";
@@ -137,7 +140,7 @@ type RouteFiles = {
   };
   "layouts/admin-layout.tsx": {
     id: "layouts/admin-layout";
-    page: "/admin" | "/admin/dashboard" | "/admin/booking" | "/admin/booking/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/user" | "/admin/deal" | "/admin/profile";
+    page: "/admin" | "/admin/dashboard" | "/admin/booking" | "/admin/booking/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility-type" | "/admin/user" | "/admin/deal" | "/admin/profile";
   };
   "routes/admin/admin.tsx": {
     id: "routes/admin/admin";
@@ -162,6 +165,10 @@ type RouteFiles = {
   "routes/admin/facility.tsx": {
     id: "routes/admin/facility";
     page: "/admin/facility/:id";
+  };
+  "routes/admin/facility-type.tsx": {
+    id: "routes/admin/facility-type";
+    page: "/admin/facility-type";
   };
   "routes/admin/users.tsx": {
     id: "routes/admin/users";
@@ -213,6 +220,7 @@ type RouteModules = {
   "routes/admin/booking": typeof import("./app/routes/admin/booking.tsx");
   "routes/admin/facilities": typeof import("./app/routes/admin/facilities.tsx");
   "routes/admin/facility": typeof import("./app/routes/admin/facility.tsx");
+  "routes/admin/facility-type": typeof import("./app/routes/admin/facility-type.tsx");
   "routes/admin/users": typeof import("./app/routes/admin/users.tsx");
   "routes/admin/deals": typeof import("./app/routes/admin/deals.tsx");
   "routes/admin/profile": typeof import("./app/routes/admin/profile.tsx");

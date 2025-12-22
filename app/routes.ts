@@ -21,6 +21,7 @@ const adminRoutes: RouteConfig = prefix("/admin", [
 	route("/booking/:id", "routes/admin/booking.tsx"),
 	route("/facility", "routes/admin/facilities.tsx"),
 	route("/facility/:id", "routes/admin/facility.tsx"),
+	route("/facility-type", "routes/admin/facility-type.tsx"),
 	route("/user", "routes/admin/users.tsx"),
 	route("/deal", "routes/admin/deals.tsx"),
 	route("/profile", "routes/admin/profile.tsx"),
