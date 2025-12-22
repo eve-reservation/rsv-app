@@ -229,7 +229,9 @@ export default function ConfirmPayment() {
 								<button
 									onClick={() => setActiveStep(activeStep === 1 ? 0 : 1)}
 									className="flex w-full items-center justify-between p-6">
-									<h2 className="text-lg font-semibold">1. Choose game type</h2>
+									<h2 className="text-lg font-semibold">
+										1. Choose reservation type
+									</h2>
 								</button>
 								{activeStep === 1 && (
 									<div className="px-6 pb-6">
@@ -253,7 +255,7 @@ export default function ConfirmPayment() {
 														Private
 													</Label>
 													<p className="text-sm text-muted-foreground">
-														Book the entire court for your group
+														Book the entire facility for your group
 													</p>
 												</div>
 												<RadioGroupItem value="private" id="private" />
@@ -272,18 +274,13 @@ export default function ConfirmPayment() {
 														Public
 													</Label>
 													<p className="text-sm text-muted-foreground">
-														Host a game and let others join you
+														Host a facility and let others join you
 													</p>
 												</div>
 												<RadioGroupItem value="public" id="public" />
 											</div>
 										</RadioGroup>
-										<div className="flex items-center justify-between mt-6">
-											<button
-												className="cursor-pointer text-sm font-medium text-primary hover:underline flex items-center gap-2 transition-colors"
-												onClick={() => setIsPromoModalOpen(true)}>
-												<Tag className="w-4 h-4" />I have a promo code
-											</button>
+										<div className="flex items-center justify-end mt-6">
 											<Button
 												className="cursor-pointer rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
 												onClick={() => setActiveStep(2)}>
@@ -392,9 +389,14 @@ export default function ConfirmPayment() {
 											<RadioGroupItem value="card" id="card" />
 										</div>
 									</RadioGroup>
-									<div className="flex justify-end">
+									<div className="flex items-center justify-between mt-6">
+										<button
+											className="cursor-pointer text-sm font-medium text-primary hover:underline flex items-center gap-2 transition-colors"
+											onClick={() => setIsPromoModalOpen(true)}>
+											<Tag className="w-4 h-4" />I have a promo code
+										</button>
 										<Button
-											className="cursor-pointer mt-6 rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
+											className="cursor-pointer rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
 											onClick={() => setActiveStep(4)}>
 											Next
 										</Button>
@@ -419,7 +421,7 @@ export default function ConfirmPayment() {
 									</p>
 									<div className="flex justify-end">
 										<Button
-											onClick={() => navigate("/booking/complete")}
+											onClick={() => navigate("/reservation/complete")}
 											className="cursor-pointer mt-6 w-full rounded-lg qcsc-gradient text-white  py-6 px-8">
 											Confirm and pay
 										</Button>

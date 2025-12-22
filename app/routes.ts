@@ -5,8 +5,8 @@ const authRoutes: RouteConfig = [route("/admin/login", "routes/auth/login.tsx")]
 const userRoutes: RouteConfig = [
 	index("routes/user/landing.tsx"),
 	route("/facility/:id", "routes/user/facility.tsx"),
-	route("/booking/confirmation", "routes/user/booking-confirmation.tsx"),
-	route("/booking/complete", "routes/user/booking-complete.tsx"),
+	route("/reservation/confirmation", "routes/user/booking-confirmation.tsx"),
+	route("/reservation/complete", "routes/user/booking-complete.tsx"),
 	route("/location-test", "routes/user/location-test.tsx"),
 	route("/profile", "routes/user/profile.tsx"),
 	route("/sports", "routes/user/sports.tsx"),
@@ -17,8 +17,8 @@ const userRoutes: RouteConfig = [
 const adminRoutes: RouteConfig = prefix("/admin", [
 	route("/", "routes/admin/admin.tsx"),
 	route("/dashboard", "routes/admin/dashboard.tsx"),
-	route("/booking", "routes/admin/bookings.tsx"),
-	route("/booking/:id", "routes/admin/booking.tsx"),
+	route("/reservation", "routes/admin/bookings.tsx"),
+	route("/reservation/:id", "routes/admin/booking.tsx"),
 	route("/facility", "routes/admin/facilities.tsx"),
 	route("/facility/:id", "routes/admin/facility.tsx"),
 	route("/facility-type", "routes/admin/facility-type.tsx"),

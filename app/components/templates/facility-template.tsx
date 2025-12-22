@@ -92,7 +92,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		if (startTime) params.set("startTime", format(startTime, "HH:mm"));
 		if (endTime) params.set("endTime", format(endTime, "HH:mm"));
 		params.set("guests", guests.toString());
-		navigate(`/booking/confirmation?${params.toString()}`);
+		navigate(`/reservation/confirmation?${params.toString()}`);
 	};
 
 	return (

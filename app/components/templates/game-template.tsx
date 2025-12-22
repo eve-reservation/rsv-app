@@ -43,7 +43,7 @@ export default function GameTemplate() {
 		const params = new URLSearchParams();
 		params.set("facilityId", game.id);
 		params.set("type", "game");
-		navigate(`/booking/confirmation?${params.toString()}`);
+		navigate(`/reservation/confirmation?${params.toString()}`);
 	};
 
 	return (

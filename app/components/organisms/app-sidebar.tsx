@@ -43,7 +43,7 @@ export function AppSidebar() {
 			items: [
 				{
 					title: "Bookings",
-					href: `/admin/booking`,
+					href: `/admin/reservation`,
 					icon: Layers,
 				},
 				{
