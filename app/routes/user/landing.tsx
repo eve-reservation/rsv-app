@@ -64,7 +64,7 @@ export default function LandingPage() {
 				{/* OPEN/PUBLIC GAMES */}
 				<div className="mx-auto max-w-7xl">
 					<FacilitySection
-						title="Browse open games near you"
+						title="Browse public games near you"
 						facilities={games}
 						columns={3}
 						// cardVariant="horizontal"

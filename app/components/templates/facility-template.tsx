@@ -20,6 +20,7 @@ import {
 	Check,
 	X,
 	Grid3x3,
+	Pencil,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, setHours, setMinutes } from "date-fns";
@@ -99,7 +100,6 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		<div className="animate-in fade-in duration-500">
 			<div className="flex items-center justify-between">
 				<BackButton showText />
-				{admin && <Button>Edit Facility</Button>}
 			</div>
 
 			<main className="flex-1 ">
@@ -328,49 +328,68 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 									</div>
 
 									{/* Date & Time Selection */}
-									<BookingDetailsSelector
-										date={date}
-										setDate={setDate}
-										startTime={startTime}
-										endTime={endTime}
-										onTimeChange={handleTimeChange}
-										guests={guests}
-										setGuests={setGuests}
-										maxGuests={facility.capacity}
-										guestLabel="Guests"
-									/>
-
-									<Button
-										className="w-full cursor-pointer qcsc-gradient hover:bg-primary/90 text-primary-foreground h-12 text-base font-semibold"
-										onClick={handleReserve}
-										disabled={!isReservationValid}>
-										Reserve
-									</Button>
-
-									{isReservationValid && (
+									{admin ? (
+										<Button
+											className="w-full cursor-pointer h-12 text-base font-semibold gap-2"
+											onClick={() =>
+												navigate(`/admin/edit-facility/${facility.id}`)
+											}>
+											<Pencil className="h-4 w-4" />
+											Edit Facility
+										</Button>
+									) : (
 										<>
-											{/* <p className="text-center text-sm text-muted-foreground">
+											<BookingDetailsSelector
+												date={date}
+												setDate={setDate}
+												startTime={startTime}
+												endTime={endTime}
+												onTimeChange={handleTimeChange}
+												guests={guests}
+												setGuests={setGuests}
+												maxGuests={facility.capacity}
+												guestLabel="Guests"
+											/>
+
+											<Button
+												className="w-full cursor-pointer qcsc-gradient hover:bg-primary/90 text-primary-foreground h-12 text-base font-semibold"
+												onClick={handleReserve}
+												disabled={!isReservationValid}>
+												Reserve
+											</Button>
+
+											{isReservationValid && (
+												<>
+													{/* <p className="text-center text-sm text-muted-foreground">
 												You won't be charged yet
 											</p> */}
 
-											<div className="space-y-3 pt-4 border-t border-border">
-												<div className="flex items-center justify-between text-foreground">
-													<span className="underline">
-														₱{facility.price.toLocaleString()} x{" "}
-														{duration} {facility.priceUnit}
-														{duration > 1 ? "s" : ""}
-													</span>
-													<span>₱{totalPrice.toLocaleString()}</span>
-												</div>
-												<div className="flex items-center justify-between text-foreground">
-													<span className="underline">Service fee</span>
-													<span>₱{serviceFee.toLocaleString()}</span>
-												</div>
-												<div className="flex items-center justify-between font-semibold text-foreground pt-3 border-t border-border">
-													<span>Total</span>
-													<span>₱{total.toLocaleString()}</span>
-												</div>
-											</div>
+													<div className="space-y-3 pt-4 border-t border-border">
+														<div className="flex items-center justify-between text-foreground">
+															<span className="underline">
+																₱{facility.price.toLocaleString()} x{" "}
+																{duration} {facility.priceUnit}
+																{duration > 1 ? "s" : ""}
+															</span>
+															<span>
+																₱{totalPrice.toLocaleString()}
+															</span>
+														</div>
+														<div className="flex items-center justify-between text-foreground">
+															<span className="underline">
+																Service fee
+															</span>
+															<span>
+																₱{serviceFee.toLocaleString()}
+															</span>
+														</div>
+														<div className="flex items-center justify-between font-semibold text-foreground pt-3 border-t border-border">
+															<span>Total</span>
+															<span>₱{total.toLocaleString()}</span>
+														</div>
+													</div>
+												</>
+											)}
 										</>
 									)}
 								</CardContent>
