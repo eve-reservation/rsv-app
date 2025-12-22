@@ -1,5 +1,6 @@
 import type { Route } from "./+types/landing";
 import { PAGE_TITLES } from "~/config/page-titles";
+import { BackgroundPattern } from "~/components/ui/background-pattern";
 
 export function meta({}: Route.MetaArgs) {
 	return [{ title: PAGE_TITLES.landing }];
@@ -16,9 +17,7 @@ export default function LandingPage() {
 
 	return (
 		<div className="min-h-screen flex flex-col bg-background relative isolate overflow-hidden">
-			{/* Minimal Background Pattern */}
-			<div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#8080800a_1.5px,transparent_1.5px),linear-gradient(to_bottom,#8080800a_1.5px,transparent_1.5px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
-			<div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/20 opacity-20 blur-[100px] pointer-events-none" />
+			<BackgroundPattern />
 			{/* Hero Section */}
 			<section className="pt-8 pb-6 px-4 sm:px-6 lg:px-8">
 				<div className="mx-auto max-w-7xl">
