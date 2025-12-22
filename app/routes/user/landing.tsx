@@ -24,7 +24,7 @@ export default function LandingPage() {
 				<div className="mx-auto max-w-7xl">
 					<div className="text-center mb-8">
 						<h1 className="font-serif text-4xl md:text-5xl font-medium tracking-tight text-foreground text-balance">
-							Book experiences near you!
+							Book experiences near you
 						</h1>
 						<p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
 							Courts, games, dining, and shared spaces — all in one place.
