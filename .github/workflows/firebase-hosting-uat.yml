@@ -1,4 +1,4 @@
-name: Deploy UAT Firebase Hosting
+name: Deploy UAT
 
 on:
     push:
