@@ -37,6 +37,13 @@ jobs:
                   DISABLE_ESLINT_PLUGIN: true
                   SKIP_ESLINT: true
 
+            - name: Configure Firebase target
+              run: |
+                  echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_UAT }}' > ${{ runner.temp }}/gcp-key.json
+                  export GOOGLE_APPLICATION_CREDENTIALS="${{ runner.temp }}/gcp-key.json"
+                  npm install -g firebase-tools
+                  firebase target:apply hosting qcsports-app-uat qcsports-app-uat --project qcsports-app-uat
+
             - name: Deploy to Firebase UAT
               uses: FirebaseExtended/action-hosting-deploy@v0
               with:
@@ -44,5 +51,5 @@ jobs:
                   firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_UAT }}"
                   projectId: qcsports-app-uat
                   channelId: live
-                  target: uat
+                  target: qcsports-app-uat
                   entryPoint: .

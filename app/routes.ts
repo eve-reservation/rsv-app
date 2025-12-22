@@ -1,6 +1,6 @@
 import { type RouteConfig, index, layout, prefix, route } from "@react-router/dev/routes";
 
-const authRoutes: RouteConfig = [route("/login", "routes/auth/login.tsx")];
+const authRoutes: RouteConfig = [route("/admin/login", "routes/auth/login.tsx")];
 
 const userRoutes: RouteConfig = [
 	index("routes/user/landing.tsx"),

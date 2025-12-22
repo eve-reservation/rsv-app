@@ -14,7 +14,7 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/login": {
+  "/admin/login": {
     params: {};
   };
   "/facility/:id": {
@@ -89,15 +89,15 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/facility/:id" | "/booking/confirmation" | "/booking/complete" | "/location-test" | "/profile" | "/sports" | "/lifestyle" | "/admin" | "/admin/dashboard" | "/admin/booking" | "/admin/booking/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
+    page: "/" | "/admin/login" | "/facility/:id" | "/booking/confirmation" | "/booking/complete" | "/location-test" | "/profile" | "/sports" | "/lifestyle" | "/admin" | "/admin/dashboard" | "/admin/booking" | "/admin/booking/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
   };
   "layouts/auth-layout.tsx": {
     id: "layouts/auth-layout";
-    page: "/login";
+    page: "/admin/login";
   };
   "routes/auth/login.tsx": {
     id: "routes/auth/login";
-    page: "/login";
+    page: "/admin/login";
   };
   "layouts/user-layout.tsx": {
     id: "layouts/user-layout";
