@@ -332,7 +332,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 										<Button
 											className="w-full cursor-pointer h-12 text-base font-semibold gap-2"
 											onClick={() =>
-												navigate(`/admin/edit-facility/${facility.id}`)
+												navigate(`edit`)
 											}>
 											<Pencil className="h-4 w-4" />
 											Edit Facility
