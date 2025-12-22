@@ -32,6 +32,21 @@ jobs:
                   ESLINT_NO_DEV_ERRORS: true
                   DISABLE_ESLINT_PLUGIN: true
                   SKIP_ESLINT: true
+            - name: Create preview firebase.json without targets
+              run: |
+                  cp firebase.json firebase.json.backup
+                  echo '{
+                    "hosting": {
+                      "public": "build/client",
+                      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+                      "rewrites": [
+                        {
+                          "source": "**",
+                          "destination": "/index.html"
+                        }
+                      ]
+                    }
+                  }' > firebase.json
             - name: Deploy to Firebase Hosting Preview
               uses: FirebaseExtended/action-hosting-deploy@v0
               with:
@@ -39,3 +54,7 @@ jobs:
                   firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_DEV }}"
                   projectId: qcsports-app-dev
                   entryPoint: .
+            - name: Restore original firebase.json
+              if: always()
+              run: |
+                  mv firebase.json.backup firebase.json

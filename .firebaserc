@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "qcsports-app-dev",
-    "develop": "qcsports-app-dev",
+    "default": "qcsport-app-dev",
+    "develop": "qcsport-app-dev",
     "uat": "qcsports-app-uat"
   },
   "targets": {
