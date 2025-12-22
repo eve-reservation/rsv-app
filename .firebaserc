@@ -5,10 +5,10 @@
     "uat": "qcsports-app-uat"
   },
   "targets": {
-    "qcsports-app-dev": {
+    "qcsport-app-dev": {
       "hosting": {
-        "qcsports-app-dev": [
-          "qcsports-app-dev"
+        "qcsport-app-dev": [
+          "qcsport-app-dev"
         ]
       }
     },
