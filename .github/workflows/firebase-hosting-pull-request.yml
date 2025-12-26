@@ -52,7 +52,7 @@ jobs:
               with:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"
                   firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_DEV }}"
-                  projectId: qcsport-app-dev
+                  projectId: qc-sports-ph-app-dev
                   entryPoint: .
             - name: Restore original firebase.json
               if: always()
