@@ -42,14 +42,14 @@ jobs:
                   echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_DEV }}' > ${{ runner.temp }}/gcp-key.json
                   export GOOGLE_APPLICATION_CREDENTIALS="${{ runner.temp }}/gcp-key.json"
                   npm install -g firebase-tools
-                  firebase target:apply hosting qcsport-app-dev qcsport-app-dev --project qcsport-app-dev
+                  firebase target:apply hosting develop qc-sports-ph-app-dev --project qc-sports-ph-app-dev
 
             - name: Deploy to Firebase Develop
               uses: FirebaseExtended/action-hosting-deploy@v0
               with:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"
                   firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_QCSPORTS_APP_DEV }}"
-                  projectId: qcsport-app-dev
+                  projectId: qc-sports-ph-app-dev
                   channelId: live
-                  target: qcsport-app-dev
+                  target: develop
                   entryPoint: .
