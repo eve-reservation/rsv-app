@@ -1,7 +1,10 @@
 {
-	"hosting": {
-		"target": "qcsport-app-dev",
-		"public": "build/client",
-		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
-	}
+  "hosting": {
+    "public": "build/client",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
 }
