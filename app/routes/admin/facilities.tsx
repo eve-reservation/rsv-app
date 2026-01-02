@@ -61,6 +61,7 @@ export default function Facilities() {
 									trigger={<Button size="sm">Add Facility</Button>}
 								/>
 							}
+							facilityTypeId={type.id}
 						/>
 					);
 				})}

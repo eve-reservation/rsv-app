@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FacilityCard } from "@/components/molecule/facility-card";
 import type { Facility, Game } from "@/lib/data";
+import { CreateFacilityModal } from "@/components/molecule/create-facility-modal";
 
 interface FacilitySectionProps {
 	title: string;
@@ -12,6 +13,7 @@ interface FacilitySectionProps {
 	columns?: number;
 	cardVariant?: "vertical" | "horizontal";
 	action?: React.ReactNode;
+	facilityTypeId?: string;
 }
 
 export function FacilitySection({
@@ -21,7 +23,10 @@ export function FacilitySection({
 	columns,
 	cardVariant = "vertical",
 	action,
+	facilityTypeId,
 }: FacilitySectionProps) {
+	// ... (existing code: scrollContainerRef, scroll function, getItemStyle)
+
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
 	const scroll = (direction: "left" | "right") => {
@@ -49,6 +54,7 @@ export function FacilitySection({
 
 	return (
 		<section className="py-8">
+			{/* ... (existing header code) */}
 			<div className="flex items-center justify-between mb-6">
 				<div className="flex gap-1 items-center hover:gap-3 transition-all duration-300 cursor-pointer">
 					<h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
@@ -93,35 +99,82 @@ export function FacilitySection({
 							</Link>
 						</div>
 					))}
+					{/* Always show "Create Facility" card at the end if facilityTypeId is present */}
+					{facilityTypeId && (
+						<div
+							className={
+								columns
+									? "flex-none"
+									: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
+							}
+							style={getItemStyle()}>
+							<CreateFacilityModal
+								facilityTypeId={facilityTypeId}
+								trigger={
+									<div className="group block cursor-pointer">
+										<div
+											className={
+												cardVariant === "horizontal"
+													? "w-80 shrink-0 rounded-xl aspect-[4/3] relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
+													: "aspect-[4/3] rounded-2xl w-full relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
+											}>
+											<Plus className="h-12 w-12 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
+										</div>
+										<div
+											className={
+												cardVariant === "horizontal" ? "mt-0" : "mt-3"
+											}>
+											<h3 className="font-medium text-foreground text-center">
+												Create Facility
+											</h3>
+											<p className="text-sm text-muted-foreground text-center">
+												Add a new facility to this category
+											</p>
+										</div>
+									</div>
+								}
+							/>
+						</div>
+					)}
 				</div>
 			) : (
 				<div className="flex gap-6 overflow-hidden pb-4">
-					<div
-						className={
-							columns
-								? "flex-none"
-								: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
-						}
-						style={getItemStyle()}>
-						<div className="group block cursor-pointer">
-							<div
-								className={
-									cardVariant === "horizontal"
-										? "w-80 shrink-0 rounded-xl aspect-[4/3] relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
-										: "aspect-[4/3] rounded-2xl w-full relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
-								}>
-								<Plus className="h-12 w-12 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
-							</div>
-							<div className={cardVariant === "horizontal" ? "mt-0" : "mt-3"}>
-								<h3 className="font-medium text-foreground text-center">
-									Create Facility
-								</h3>
-								<p className="text-sm text-muted-foreground text-center">
-									Add a new facility to this category
-								</p>
-							</div>
+					{facilityTypeId && (
+						<div
+							className={
+								columns
+									? "flex-none"
+									: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
+							}
+							style={getItemStyle()}>
+							<CreateFacilityModal
+								facilityTypeId={facilityTypeId}
+								trigger={
+									<div className="group block cursor-pointer">
+										<div
+											className={
+												cardVariant === "horizontal"
+													? "w-80 shrink-0 rounded-xl aspect-[4/3] relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
+													: "aspect-[4/3] rounded-2xl w-full relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
+											}>
+											<Plus className="h-12 w-12 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
+										</div>
+										<div
+											className={
+												cardVariant === "horizontal" ? "mt-0" : "mt-3"
+											}>
+											<h3 className="font-medium text-foreground text-center">
+												Create Facility
+											</h3>
+											<p className="text-sm text-muted-foreground text-center">
+												Add a new facility to this category
+											</p>
+										</div>
+									</div>
+								}
+							/>
 						</div>
-					</div>
+					)}
 				</div>
 			)}
 		</section>
