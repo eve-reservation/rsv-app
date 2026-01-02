@@ -47,6 +47,7 @@ export const useUpdateFacility = () => {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["facilities"] });
+			queryClient.invalidateQueries({ queryKey: ["facility-by-id"] });
 		},
 	});
 };

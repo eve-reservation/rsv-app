@@ -1,7 +1,5 @@
-import type React from "react";
-
 import { useState, useEffect } from "react";
-import { facilities } from "@/lib/data";
+// import { facilities } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,11 +9,18 @@ import { Star, Share, Heart, MapPin, Users, Upload, Trash2, Plus, Save } from "l
 import { cn } from "@/lib/utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BackButton } from "~/components/molecule/back-button";
+import { useGetFacilityById, useUpdateFacility } from "~/hooks/use-facilities";
+import { toast } from "sonner";
 
 export default function EditFacility() {
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const originalFacility = facilities.find((f) => f.id === id);
+
+	const { data: facilityData, isLoading } = useGetFacilityById(id!, {
+		fields: "identifier, displayName, metadata, status, createdAt, updatedAt, location, images",
+	});
+
+	const { mutate: updateFacility, isPending: isUpdating } = useUpdateFacility();
 
 	// Form State
 	const [formData, setFormData] = useState({
@@ -31,25 +36,31 @@ export default function EditFacility() {
 	});
 
 	useEffect(() => {
-		if (originalFacility) {
+		if (facilityData) {
+			const metadata = facilityData.metadata || {};
 			setFormData({
-				name: originalFacility.name,
-				location: originalFacility.location,
-				description: originalFacility.description,
-				price: originalFacility.price,
-				priceUnit: originalFacility.priceUnit,
-				capacity: originalFacility.capacity,
-				type: originalFacility.type,
-				amenities: [...originalFacility.amenities],
+				name: facilityData.displayName || facilityData.identifier,
+				location: facilityData.location || "",
+				description: metadata.description || "",
+				price: metadata.price || 0,
+				priceUnit: metadata.priceUnit || "hour",
+				capacity: metadata.maxOccupancy || 0,
+				type: metadata.type || "",
+				amenities: metadata.amenities || [],
 				// Ensure we have at least 5 slots for the grid layout
 				images: Array(5)
 					.fill(null)
-					.map((_, i) => originalFacility.images[i] || null),
+					.map((_, i) => {
+						const img = facilityData.images?.[i];
+						return typeof img === "string" ? img : img?.url || null;
+					}),
 			});
 		}
-	}, [originalFacility]);
+	}, [facilityData]);
 
-	if (!originalFacility) {
+	if (isLoading) return <div>Loading...</div>;
+
+	if (!facilityData) {
 		return (
 			<div className="min-h-screen flex items-center justify-center bg-background">
 				<div className="text-center">
@@ -84,16 +95,40 @@ export default function EditFacility() {
 
 	// Mock image upload trigger
 	const handleImageClick = (index: number) => {
-		console.log(`Upload image for slot ${index}`);
-		// In a real app, this would trigger a file input
+		// console.log(`Upload image for slot ${index}`);
 	};
 
 	const handleSave = () => {
-		console.log("Saving facility data:", formData);
-		// Mock save delay
-		setTimeout(() => {
-			navigate(`/admin/facility/${id}`);
-		}, 500);
+		const payload = {
+			displayName: formData.name,
+			location: formData.location,
+			images: formData.images.filter(Boolean),
+			metadata: {
+				description: formData.description,
+				price: Number(formData.price),
+				priceUnit: formData.priceUnit,
+				maxOccupancy: Number(formData.capacity),
+				type: formData.type,
+				amenities: formData.amenities,
+			},
+		};
+
+		updateFacility(
+			{
+				facilityId: id!,
+				data: payload,
+			},
+			{
+				onSuccess: () => {
+					toast.success("Facility updated successfully");
+					navigate(`/admin/facility/${id}`);
+				},
+				onError: (error) => {
+					toast.error("Failed to update facility");
+					console.error(error);
+				},
+			},
+		);
 	};
 
 	return (
@@ -205,12 +240,8 @@ export default function EditFacility() {
 									{/* Read-only rating */}
 									<div className="mt-6 flex items-center gap-1 text-sm bg-muted px-3 py-2 rounded-md h-10">
 										<Star className="h-4 w-4 fill-foreground text-foreground" />
-										<span className="font-medium">
-											{originalFacility.rating}
-										</span>
-										<span className="text-muted-foreground">
-											({originalFacility.reviewCount} reviews)
-										</span>
+										<span className="font-medium">{0}</span>
+										<span className="text-muted-foreground">({0} reviews)</span>
 									</div>
 								</div>
 							</div>
@@ -351,9 +382,16 @@ export default function EditFacility() {
 
 									<Button
 										className="w-full cursor-pointer h-12 text-base font-semibold gap-2"
-										onClick={handleSave}>
-										<Save className="h-4 w-4" />
-										Save Changes
+										onClick={handleSave}
+										disabled={isUpdating}>
+										{isUpdating ? (
+											"Saving..."
+										) : (
+											<>
+												<Save className="h-4 w-4" />
+												Save Changes
+											</>
+										)}
 									</Button>
 
 									<p className="text-xs text-muted-foreground text-center">
