@@ -1,7 +1,7 @@
 import type React from "react";
 
 import type { Facility, Game } from "@/lib/data";
-import { Star, Heart, ChevronLeft, ChevronRight, Users } from "lucide-react";
+import { Star, Heart, ChevronLeft, ChevronRight, Users, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -44,11 +44,17 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 						? "w-80 shrink-0 rounded-xl aspect-[4/3]"
 						: "aspect-[4/3] rounded-2xl w-full",
 				)}>
-				<img
-					src={images[currentImage] || "/placeholder.svg"}
-					alt={facility.name}
-					className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-				/>
+				{images.length > 0 ? (
+					<img
+						src={images[currentImage]}
+						alt={facility.name}
+						className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+					/>
+				) : (
+					<div className="flex h-full w-full items-center justify-center bg-secondary/50">
+						<ImageIcon className="h-12 w-12 text-muted-foreground/40" />
+					</div>
+				)}
 
 				{/* Navigation arrows */}
 				{images.length > 1 && (
