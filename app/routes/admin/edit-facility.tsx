@@ -313,7 +313,7 @@ export default function EditFacility() {
 
 						{/* Booking Card Editable (Price & Settings) */}
 						<div className="lg:col-span-1">
-							<Card className="sticky top-24 shadow-xl border-border py-0">
+							<Card className="sticky top-0 shadow-xl border-border py-0">
 								<CardContent className="p-6 space-y-6">
 									<div className="space-y-4">
 										<h3 className="font-semibold text-lg">Pricing Settings</h3>

@@ -10,6 +10,11 @@ export default function Facilities() {
 					<h1 className="text-2xl font-bold text-foreground">Facility Management</h1>
 					<p className="text-muted-foreground">Manage and track all facilities</p>
 				</div>
+				<div>
+					<Button variant="outline" className="cursor-pointer">
+						Add facility type
+					</Button>
+				</div>
 			</div>
 			<div>
 				<FacilitySection
