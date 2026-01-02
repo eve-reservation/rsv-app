@@ -37,4 +37,13 @@ export const API_ENDPOINTS = {
 		UPDATE: "/facilityType/:id",
 		DELETE: "/facilityType/:id", // Soft delete
 	},
+	
+	// Facility API endpoints
+	FACILITY: {
+		GET_ALL: "/facility",
+		GET_BY_ID: "/facility/:id",
+		CREATE: "/facility",
+		UPDATE: "/facility/:id",
+		DELETE: "/facility/:id", // Soft delete
+	},
 };

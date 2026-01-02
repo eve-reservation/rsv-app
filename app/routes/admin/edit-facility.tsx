@@ -97,13 +97,13 @@ export default function EditFacility() {
 	};
 
 	return (
-		<div className="animate-in fade-in duration-500 container mx-auto px-4 pb-10">
+		<div className="animate-in fade-in duration-500 container mx-auto pb-10">
 			<div className="flex items-center justify-between">
 				<BackButton showText text="Cancel" />
-				<Button onClick={handleSave} className="gap-2">
+				{/* <Button onClick={handleSave} className="gap-2">
 					<Save className="h-4 w-4" />
 					Save Changes
-				</Button>
+				</Button> */}
 			</div>
 
 			<main className="flex-1">

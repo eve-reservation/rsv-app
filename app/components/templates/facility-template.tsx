@@ -27,6 +27,7 @@ import { format, setHours, setMinutes } from "date-fns";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 import { BackButton } from "../molecule/back-button";
+import { useGetFacilityById } from "~/hooks/use-facilities";
 
 const amenityIcons: Record<string, React.ElementType> = {
 	WiFi: Wifi,
@@ -59,6 +60,10 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		setStartTime(start);
 		setEndTime(end);
 	};
+
+	// const { data, isLoading } = useGetFacilityById(id!);
+
+	// if (isLoading) return <div>Loading...</div>;
 
 	if (!facility) {
 		return (
@@ -331,9 +336,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 									{admin ? (
 										<Button
 											className="w-full cursor-pointer h-12 text-base font-semibold gap-2"
-											onClick={() =>
-												navigate(`edit`)
-											}>
+											onClick={() => navigate(`edit`)}>
 											<Pencil className="h-4 w-4" />
 											Edit Facility
 										</Button>
