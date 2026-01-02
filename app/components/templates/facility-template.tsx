@@ -43,7 +43,12 @@ interface FacilityTemplateProps {
 export default function FacilityTemplate({ admin = false }: FacilityTemplateProps) {
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const facility = facilities.find((f) => f.id === id);
+	// const facility = facilities.find((f) => f.id === id);
+
+	const { data: facilityData, isLoading } = useGetFacilityById(id!, {
+		fields: "identifier, displayName, metadata, status, createdAt, updatedAt, location, images",
+	});
+
 	const [currentImage, setCurrentImage] = useState(0);
 	const [isLiked, setIsLiked] = useState(false);
 	const [date, setDate] = useState<Date | undefined>(new Date());
@@ -61,11 +66,9 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		setEndTime(end);
 	};
 
-	// const { data, isLoading } = useGetFacilityById(id!);
+	if (isLoading) return <div>Loading...</div>;
 
-	// if (isLoading) return <div>Loading...</div>;
-
-	if (!facility) {
+	if (!facilityData) {
 		return (
 			<div className="min-h-screen flex items-center justify-center bg-background">
 				<div className="text-center">
@@ -77,6 +80,25 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 			</div>
 		);
 	}
+
+	// Map API data to component expected structure
+	const facility = {
+		id: facilityData.id,
+		name: facilityData.displayName || facilityData.identifier,
+		description: facilityData.description || "No description available.",
+		location: facilityData.location || "Location not specified",
+		type: facilityData.facilityType?.name || "Facility",
+		price: facilityData.price || 0,
+		priceUnit: facilityData.priceUnit || "hour",
+		rating: 0, // Not available in API response yet
+		reviewCount: 0, // Not available in API response yet
+		capacity: facilityData.metadata?.maxOccupancy || 0,
+		amenities: facilityData.metadata?.amenities || [],
+		images: (facilityData.images || []).map((img: any) =>
+			typeof img === "string" ? img : img.url || "/placeholder.svg",
+		),
+		available: facilityData.status === "AVAILABLE",
+	};
 
 	const getDuration = () => {
 		if (!startTime || !endTime) return 0;
@@ -124,7 +146,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 							</span>
 						</div>
 						<div className="max-w-4xl mx-auto py-8 px-4 space-y-4">
-							{facility.images.map((image, index) => (
+							{facility.images.map((image: string, index: number) => (
 								<div
 									key={index}
 									className="relative aspect-video rounded-xl overflow-hidden">
@@ -163,7 +185,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 								</div>
 
 								{/* Right Side 2x2 Grid */}
-								{facility.images.slice(1, 6).map((image, index) => (
+								{facility.images.slice(1, 6).map((image: string, index: number) => (
 									<div
 										key={index}
 										className={cn(
@@ -270,7 +292,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 									What this place offers
 								</h2>
 								<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									{facility.amenities.map((amenity) => {
+									{facility.amenities.map((amenity: string) => {
 										const Icon = amenityIcons[amenity] || Check;
 										return (
 											<div key={amenity} className="flex items-center gap-4">
