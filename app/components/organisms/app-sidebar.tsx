@@ -52,11 +52,6 @@ export function AppSidebar() {
 					icon: Building,
 				},
 				{
-					title: "Facility Type",
-					href: `/admin/facility-type`,
-					icon: Building2,
-				},
-				{
 					title: "Users",
 					href: `/admin/user`,
 					icon: Users,
