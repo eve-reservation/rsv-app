@@ -1,8 +1,14 @@
-import { facilities } from "@/lib/data";
 import { Button } from "~/components/ui/button";
 import { FacilitySection } from "~/components/organisms/facility-section";
+import { useGetFacilityTypes } from "~/hooks/use-facility-types";
 
 export default function Facilities() {
+	const { data, isLoading } = useGetFacilityTypes();
+
+	if (isLoading) return <div>Loading...</div>;
+
+	const facilityTypes = data?.facilityTypes || [];
+
 	return (
 		<div className="space-y-6">
 			<div className="flex justify-between items-center">
@@ -17,24 +23,15 @@ export default function Facilities() {
 				</div>
 			</div>
 			<div>
-				<FacilitySection
-					title="Sports Facilities"
-					facilities={facilities.filter((f) => f.category === "sports")}
-					basePath="/admin/facility"
-					action={<Button size="sm">Add Facility</Button>}
-				/>
-				<FacilitySection
-					title="Dining & Function Facilities"
-					facilities={facilities.filter((f) => f.category === "dining")}
-					basePath="/admin/facility"
-					action={<Button size="sm">Add Facility</Button>}
-				/>
-				<FacilitySection
-					title="Wellness & Other Amenities"
-					facilities={facilities.filter((f) => f.category === "wellness")}
-					basePath="/admin/facility"
-					action={<Button size="sm">Add Facility</Button>}
-				/>
+				{facilityTypes.map((type: any) => (
+					<FacilitySection
+						key={type.id}
+						title={type.name}
+						facilities={type.facilities}
+						basePath="/admin/facility"
+						action={<Button size="sm">Add Facility</Button>}
+					/>
+				))}
 			</div>
 		</div>
 	);

@@ -31,10 +31,10 @@ export const API_ENDPOINTS = {
 
 	// Facility Type API endpoints
 	FACILITY_TYPE: {
-		GET_ALL: "/facility-type",
-		GET_BY_ID: "/facility-type/:id",
-		CREATE: "/facility-type",
-		UPDATE: "/facility-type/:id",
-		DELETE: "/facility-type/:id", // Soft delete
+		GET_ALL: "/facilityType",
+		GET_BY_ID: "/facilityType/:id",
+		CREATE: "/facilityType",
+		UPDATE: "/facilityType/:id",
+		DELETE: "/facilityType/:id", // Soft delete
 	},
 };

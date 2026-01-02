@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Link } from "react-router";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FacilityCard } from "@/components/molecule/facility-card";
 import type { Facility, Game } from "@/lib/data";
@@ -40,8 +40,6 @@ export function FacilitySection({
 		}
 	};
 
-	if (facilities.length === 0) return null;
-
 	const getItemStyle = () => {
 		if (!columns) return {};
 		return {
@@ -77,22 +75,55 @@ export function FacilitySection({
 				</div>
 			</div>
 
-			<div ref={scrollContainerRef} className="flex gap-6 overflow-hidden pb-4 scroll-smooth">
-				{facilities.map((facility) => (
+			{facilities.length > 0 ? (
+				<div
+					ref={scrollContainerRef}
+					className="flex gap-6 overflow-hidden pb-4 scroll-smooth">
+					{facilities.map((facility) => (
+						<div
+							key={facility.id}
+							className={
+								columns
+									? "flex-none"
+									: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
+							}
+							style={getItemStyle()}>
+							<Link to={`${basePath}/${facility.id}`}>
+								<FacilityCard facility={facility} variant={cardVariant} />
+							</Link>
+						</div>
+					))}
+				</div>
+			) : (
+				<div className="flex gap-6 overflow-hidden pb-4">
 					<div
-						key={facility.id}
 						className={
 							columns
 								? "flex-none"
 								: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
 						}
 						style={getItemStyle()}>
-						<Link to={`${basePath}/${facility.id}`}>
-							<FacilityCard facility={facility} variant={cardVariant} />
-						</Link>
+						<div className="group block cursor-pointer">
+							<div
+								className={
+									cardVariant === "horizontal"
+										? "w-80 shrink-0 rounded-xl aspect-[4/3] relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
+										: "aspect-[4/3] rounded-2xl w-full relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
+								}>
+								<Plus className="h-12 w-12 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
+							</div>
+							<div className={cardVariant === "horizontal" ? "mt-0" : "mt-3"}>
+								<h3 className="font-medium text-foreground text-center">
+									Create Facility
+								</h3>
+								<p className="text-sm text-muted-foreground text-center">
+									Add a new facility to this category
+								</p>
+							</div>
+						</div>
 					</div>
-				))}
-			</div>
+				</div>
+			)}
 		</section>
 	);
 }

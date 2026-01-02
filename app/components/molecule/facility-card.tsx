@@ -17,17 +17,22 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 	const [isLiked, setIsLiked] = useState(false);
 
 	const isGame = "pricePerHead" in facility;
+	const images = facility.images || [];
 
 	const nextImage = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setCurrentImage((prev) => (prev + 1) % facility.images.length);
+		if (images.length > 0) {
+			setCurrentImage((prev) => (prev + 1) % images.length);
+		}
 	};
 
 	const prevImage = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setCurrentImage((prev) => (prev - 1 + facility.images.length) % facility.images.length);
+		if (images.length > 0) {
+			setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
+		}
 	};
 
 	return (
@@ -40,28 +45,30 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 						: "aspect-[4/3] rounded-2xl w-full",
 				)}>
 				<img
-					src={facility.images[currentImage] || "/placeholder.svg"}
+					src={images[currentImage] || "/placeholder.svg"}
 					alt={facility.name}
 					className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
 				/>
 
 				{/* Navigation arrows */}
-				<div className="absolute inset-0 flex items-center justify-between px-2 opacity-0 group-hover:opacity-100 transition-opacity">
-					<Button
-						variant="secondary"
-						size="icon"
-						className="h-7 w-7 rounded-full bg-card/90 hover:bg-card shadow-md cursor-pointer"
-						onClick={prevImage}>
-						<ChevronLeft className="h-4 w-4" />
-					</Button>
-					<Button
-						variant="secondary"
-						size="icon"
-						className="h-7 w-7 rounded-full bg-card/90 hover:bg-card shadow-md cursor-pointer"
-						onClick={nextImage}>
-						<ChevronRight className="h-4 w-4" />
-					</Button>
-				</div>
+				{images.length > 1 && (
+					<div className="absolute inset-0 flex items-center justify-between px-2 opacity-0 group-hover:opacity-100 transition-opacity">
+						<Button
+							variant="secondary"
+							size="icon"
+							className="h-7 w-7 rounded-full bg-card/90 hover:bg-card shadow-md cursor-pointer"
+							onClick={prevImage}>
+							<ChevronLeft className="h-4 w-4" />
+						</Button>
+						<Button
+							variant="secondary"
+							size="icon"
+							className="h-7 w-7 rounded-full bg-card/90 hover:bg-card shadow-md cursor-pointer"
+							onClick={nextImage}>
+							<ChevronRight className="h-4 w-4" />
+						</Button>
+					</div>
+				)}
 
 				{/* Like button */}
 				<Button
@@ -84,17 +91,19 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 				</Button>
 
 				{/* Image indicators */}
-				<div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
-					{facility.images.map((_, index) => (
-						<div
-							key={index}
-							className={cn(
-								"h-1.5 w-1.5 rounded-full transition-colors",
-								index === currentImage ? "bg-card" : "bg-card/50",
-							)}
-						/>
-					))}
-				</div>
+				{images.length > 1 && (
+					<div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
+						{images.map((_, index) => (
+							<div
+								key={index}
+								className={cn(
+									"h-1.5 w-1.5 rounded-full transition-colors",
+									index === currentImage ? "bg-card" : "bg-card/50",
+								)}
+							/>
+						))}
+					</div>
+				)}
 			</div>
 
 			<div
@@ -128,18 +137,18 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 						{isGame ? (
 							<>
 								<span className="font-semibold">
-									₱{(facility as Game).pricePerHead.toLocaleString()}
+									₱{((facility as Game).pricePerHead || 0).toLocaleString()}
 								</span>
 								<span className="text-muted-foreground"> / head</span>
 							</>
 						) : (
 							<>
 								<span className="font-semibold">
-									₱{(facility as Facility).price.toLocaleString()}
+									₱{((facility as Facility).price || 0).toLocaleString()}
 								</span>
 								<span className="text-muted-foreground">
 									{" "}
-									/ {(facility as Facility).priceUnit}
+									/ {(facility as Facility).priceUnit || "unit"}
 								</span>
 							</>
 						)}
@@ -147,7 +156,7 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 					{isGame && "date" in facility && (
 						<div className="flex items-center gap-1 shrink-0">
 							<span className="text-xs font-medium text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">
-								{facility.date}
+								{(facility as Game).date}
 							</span>
 						</div>
 					)}
