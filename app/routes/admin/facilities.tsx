@@ -23,15 +23,36 @@ export default function Facilities() {
 				</div>
 			</div>
 			<div>
-				{facilityTypes.map((type: any) => (
-					<FacilitySection
-						key={type.id}
-						title={type.name}
-						facilities={type.facilities}
-						basePath="/admin/facility"
-						action={<Button size="sm">Add Facility</Button>}
-					/>
-				))}
+				{facilityTypes.map((type: any) => {
+					const mappedFacilities = (type.facilities || []).map((facility: any) => ({
+						id: facility.id,
+						name: facility.displayName,
+						type: type.spaceType,
+						location: type.subtype,
+						price: type.rateType?.baseRate || 0,
+						priceUnit: type.rateType?.rateUnit || "hour",
+						capacity: facility.metadata?.maxOccupancy || 0,
+						rating: 0,
+						reviewCount: 0,
+						images: (facility.images || [])
+							.filter((img: any) => img.type === "COVER")
+							.map((img: any) => img.url),
+						amenities: facility.metadata?.amenities || [],
+						description: type.description || "",
+						available: facility.status === "AVAILABLE",
+						category: "sports",
+					}));
+
+					return (
+						<FacilitySection
+							key={type.id}
+							title={type.name}
+							facilities={mappedFacilities}
+							basePath="/admin/facility"
+							action={<Button size="sm">Add Facility</Button>}
+						/>
+					);
+				})}
 			</div>
 		</div>
 	);
