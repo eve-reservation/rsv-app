@@ -35,6 +35,7 @@ export const useCreateFacility = () => {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["facilities"] });
+			queryClient.invalidateQueries({ queryKey: ["facility-types"] });
 		},
 	});
 };

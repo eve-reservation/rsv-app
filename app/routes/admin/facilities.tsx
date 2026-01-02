@@ -2,6 +2,7 @@ import { Button } from "~/components/ui/button";
 import { FacilitySection } from "~/components/organisms/facility-section";
 import { useGetFacilityTypes } from "~/hooks/use-facility-types";
 import { CreateFacilityTypeModal } from "~/components/molecule/create-facility-type-modal";
+import { CreateFacilityModal } from "~/components/molecule/create-facility-modal";
 
 export default function Facilities() {
 	const { data, isLoading } = useGetFacilityTypes();
@@ -54,7 +55,12 @@ export default function Facilities() {
 							title={type.name}
 							facilities={mappedFacilities}
 							basePath="/admin/facility"
-							action={<Button size="sm">Add Facility</Button>}
+							action={
+								<CreateFacilityModal
+									facilityTypeId={type.id}
+									trigger={<Button size="sm">Add Facility</Button>}
+								/>
+							}
 						/>
 					);
 				})}
