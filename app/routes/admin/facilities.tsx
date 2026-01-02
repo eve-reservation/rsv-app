@@ -1,6 +1,7 @@
 import { Button } from "~/components/ui/button";
 import { FacilitySection } from "~/components/organisms/facility-section";
 import { useGetFacilityTypes } from "~/hooks/use-facility-types";
+import { CreateFacilityTypeModal } from "~/components/molecule/create-facility-type-modal";
 
 export default function Facilities() {
 	const { data, isLoading } = useGetFacilityTypes();
@@ -17,9 +18,13 @@ export default function Facilities() {
 					<p className="text-muted-foreground">Manage and track all facilities</p>
 				</div>
 				<div>
-					<Button variant="outline" className="cursor-pointer">
-						Add facility type
-					</Button>
+					<CreateFacilityTypeModal
+						trigger={
+							<Button variant="outline" className="cursor-pointer">
+								Add facility type
+							</Button>
+						}
+					/>
 				</div>
 			</div>
 			<div>
