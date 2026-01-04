@@ -18,7 +18,6 @@ import {
 	ConciergeBell,
 	Building,
 	Check,
-	X,
 	Grid3x3,
 	Pencil,
 } from "lucide-react";
@@ -49,7 +48,6 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		fields: "identifier, displayName, metadata, status, createdAt, updatedAt, location, images",
 	});
 
-	const [currentImage, setCurrentImage] = useState(0);
 	const [isLiked, setIsLiked] = useState(false);
 	const [date, setDate] = useState<Date | undefined>(new Date());
 	const [startTime, setStartTime] = useState<Date | undefined>(
@@ -59,7 +57,6 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		setMinutes(setHours(new Date(), 11), 0),
 	); // 11:00 AM
 	const [guests, setGuests] = useState(1);
-	const [showAllPhotos, setShowAllPhotos] = useState(false);
 
 	const handleTimeChange = (start: Date, end: Date) => {
 		setStartTime(start);
@@ -130,37 +127,6 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 			</div>
 
 			<main className="flex-1 ">
-				{/* Photo Gallery Modal */}
-				{showAllPhotos && (
-					<div className="fixed inset-0 z-50 bg-background overflow-y-auto">
-						<div className="sticky top-0 bg-background border-b border-border p-4 flex items-center justify-between">
-							<Button
-								variant="ghost"
-								onClick={() => setShowAllPhotos(false)}
-								className="gap-2">
-								<X className="h-4 w-4" />
-								Close
-							</Button>
-							<span className="text-sm text-muted-foreground">
-								{currentImage + 1} / {facility.images.length}
-							</span>
-						</div>
-						<div className="max-w-4xl mx-auto py-8 px-4 space-y-4">
-							{facility.images.map((image: string, index: number) => (
-								<div
-									key={index}
-									className="relative aspect-video rounded-xl overflow-hidden">
-									<img
-										src={image || "/placeholder.svg"}
-										alt={`${facility.name} - Image ${index + 1}`}
-										className="object-cover"
-									/>
-								</div>
-							))}
-						</div>
-					</div>
-				)}
-
 				<div className="py-8">
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 						{/* Left Content */}
@@ -175,7 +141,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 											? "col-span-3 rounded-2xl"
 											: "col-span-4 md:col-span-2 rounded-l-2xl",
 									)}
-									onClick={() => setShowAllPhotos(true)}>
+									onClick={() => navigate("photos")}>
 									<img
 										src={facility.images[0] || "/placeholder.svg"}
 										alt={facility.name}
@@ -196,7 +162,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 												facility.images.length <= 4 &&
 												"md:rounded-br-2xl",
 										)}
-										onClick={() => setShowAllPhotos(true)}>
+										onClick={() => navigate("photos")}>
 										<img
 											src={image || "/placeholder.svg"}
 											alt={`${facility.name} - ${index + 2}`}
@@ -210,7 +176,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 								<Button
 									variant="secondary"
 									className="absolute bottom-6 right-6 bg-white/90 backdrop-blur hover:bg-white shadow-lg border border-white/50"
-									onClick={() => setShowAllPhotos(true)}>
+									onClick={() => navigate("photos")}>
 									<Grid3x3 className="h-4 w-4 mr-2" />
 									Show all photos
 								</Button>

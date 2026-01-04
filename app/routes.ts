@@ -11,6 +11,7 @@ const userRoutes: RouteConfig = [
 	route("/profile", "routes/user/profile.tsx"),
 	route("/sports", "routes/user/sports.tsx"),
 	route("/lifestyle", "routes/user/lifestyle.tsx"),
+	route("/facility/:id/photos", "routes/user/facility-photos.tsx"),
 ];
 
 // Admin routes
@@ -25,6 +26,7 @@ const adminRoutes: RouteConfig = prefix("/admin", [
 	route("/user", "routes/admin/users.tsx"),
 	route("/deal", "routes/admin/deals.tsx"),
 	route("/profile", "routes/admin/profile.tsx"),
+	route("/facility/:id/photos", "routes/admin/facility-photos.tsx"),
 ]);
 
 const kioskRoutes: RouteConfig = prefix("/scheduling", [
