@@ -82,7 +82,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 	const facility = {
 		id: facilityData.id,
 		name: facilityData.displayName || facilityData.identifier,
-		description: facilityData.metadata.description || "No description available.",
+		description: facilityData.metadata?.description || "No description available.",
 		location: facilityData.location || "Location not specified",
 		type: facilityData.facilityType?.name || "Facility",
 		price: facilityData.price || 0,

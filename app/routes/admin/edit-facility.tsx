@@ -35,6 +35,16 @@ export default function EditFacility() {
 		images: [] as (string | null)[],
 	});
 
+	const [imageFiles, setImageFiles] = useState<(File | null)[]>(Array(5).fill(null));
+	const normalizeImages = (images: any[]) => {
+		return Array(5)
+			.fill(null)
+			.map((_, i) => {
+				const img = images?.[i];
+				return typeof img === "string" ? img : img?.url || null;
+			});
+	};
+
 	useEffect(() => {
 		if (facilityData) {
 			const metadata = facilityData.metadata || {};
@@ -48,12 +58,7 @@ export default function EditFacility() {
 				type: metadata.type || "",
 				amenities: metadata.amenities || [],
 				// Ensure we have at least 5 slots for the grid layout
-				images: Array(5)
-					.fill(null)
-					.map((_, i) => {
-						const img = facilityData.images?.[i];
-						return typeof img === "string" ? img : img?.url || null;
-					}),
+				images: normalizeImages(facilityData.images || []),
 			});
 		}
 	}, [facilityData]);
@@ -95,23 +100,55 @@ export default function EditFacility() {
 
 	// Mock image upload trigger
 	const handleImageClick = (index: number) => {
-		// console.log(`Upload image for slot ${index}`);
+		document.getElementById(`image-upload-${index}`)?.click();
+	};
+
+	const handleFileChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			// Update files state
+			const newFiles = [...imageFiles];
+			newFiles[index] = file;
+			setImageFiles(newFiles);
+
+			// Update preview state
+			const newImages = [...formData.images];
+			newImages[index] = URL.createObjectURL(file);
+			setFormData((prev) => ({ ...prev, images: newImages }));
+		}
 	};
 
 	const handleSave = () => {
-		const payload = {
-			displayName: formData.name,
-			location: formData.location,
-			images: formData.images.filter(Boolean),
-			metadata: {
-				description: formData.description,
-				price: Number(formData.price),
-				priceUnit: formData.priceUnit,
-				maxOccupancy: Number(formData.capacity),
-				type: formData.type,
-				amenities: formData.amenities,
-			},
+		const payload = new FormData();
+
+		payload.append("displayName", formData.name);
+		payload.append("location", formData.location);
+
+		// Append metadata as JSON string
+		const metadata = {
+			description: formData.description,
+			price: Number(formData.price),
+			priceUnit: formData.priceUnit,
+			maxOccupancy: Number(formData.capacity),
+			type: formData.type,
+			amenities: formData.amenities,
 		};
+		payload.append("metadata", JSON.stringify(metadata));
+
+		// Handle images
+		// Existing images (strings)
+		formData.images.forEach((img) => {
+			if (typeof img === "string" && !img.startsWith("blob:")) {
+				payload.append("images", img);
+			}
+		});
+
+		// New image files
+		imageFiles.forEach((file) => {
+			if (file) {
+				payload.append("coverImages", file);
+			}
+		});
 
 		updateFacility(
 			{
@@ -143,11 +180,11 @@ export default function EditFacility() {
 
 			<main className="flex-1">
 				<div className="py-2">
-					<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+					<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 						{/* Left Content */}
-						<div className="lg:col-span-2 space-y-8">
+						<div className="lg:col-span-2 space-y-4">
 							{/* Image Gallery Editable */}
-							<div className="relative grid grid-cols-3 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden">
+							<div className="relative grid grid-cols-3 gap-2 auto-rows-[120px] md:auto-rows-[160px] rounded-2xl overflow-hidden">
 								{/* Main Large Image - Left Side (2x2) */}
 								<div
 									className={cn(
@@ -155,6 +192,13 @@ export default function EditFacility() {
 										"col-span-4 md:col-span-2 rounded-l-2xl",
 									)}
 									onClick={() => handleImageClick(0)}>
+									<input
+										type="file"
+										id="image-upload-0"
+										className="hidden"
+										accept="image/*"
+										onChange={(e) => handleFileChange(0, e)}
+									/>
 									{formData.images[0] ? (
 										<img
 											src={formData.images[0]!}
@@ -162,7 +206,7 @@ export default function EditFacility() {
 											className="w-full h-full object-cover opacity-80 group-hover:opacity-60"
 										/>
 									) : (
-										<div className="flex flex-col items-center text-muted-foreground group-hover:text-accent">
+										<div className="flex flex-col items-center text-muted-foreground group-hover:text-foreground">
 											<Upload className="h-10 w-10 mb-2" />
 											<span className="font-medium">Upload Cover Photo</span>
 										</div>
@@ -186,6 +230,13 @@ export default function EditFacility() {
 											index === 3 && "rounded-br-2xl md:rounded-br-none",
 										)}
 										onClick={() => handleImageClick(index + 1)}>
+										<input
+											type="file"
+											id={`image-upload-${index + 1}`}
+											className="hidden"
+											accept="image/*"
+											onChange={(e) => handleFileChange(index + 1, e)}
+										/>
 										{image ? (
 											<img
 												src={image}
@@ -193,7 +244,7 @@ export default function EditFacility() {
 												className="w-full h-full object-cover opacity-80 group-hover:opacity-60"
 											/>
 										) : (
-											<Upload className="h-6 w-6 text-muted-foreground group-hover:text-accent" />
+											<Upload className="h-6 w-6 text-muted-foreground group-hover:text-foreground" />
 										)}
 									</div>
 								))}
