@@ -49,15 +49,15 @@ export default function SportsPage() {
 					<FacilitySection
 						title="Most Popular Courts"
 						facilities={popularCourts}
-						columns={4}
+						columns={3}
 					/>
 
 					{/* Open Games */}
 					<FacilitySection
 						title="Open Games Near You"
 						facilities={games}
-						columns={3}
-						// cardVariant="horizontal"
+						columns={2}
+						cardVariant="horizontal"
 					/>
 
 					<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border mb-6" />

@@ -6,17 +6,12 @@ export function meta({}: Route.MetaArgs) {
 	return [{ title: PAGE_TITLES.landing }];
 }
 
-import { facilities, games } from "@/lib/data";
-import { Header } from "~/components/organisms/header";
+import { facilities, games, mockLandingData } from "@/lib/data";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
 import { DealsSection } from "~/components/organisms/deals-section";
-import { useGetFacilityTypes } from "~/hooks/use-facility-types";
 
 export default function LandingPage() {
-	const { data, isLoading } = useGetFacilityTypes();
-	// const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
 	return (
 		<div className="min-h-screen flex flex-col bg-background relative isolate overflow-hidden">
 			<BackgroundPattern />
@@ -40,45 +35,18 @@ export default function LandingPage() {
 				<DealsSection />
 				{/* DYNAMIC FACILITY TYPES */}
 				<div className="mx-auto max-w-7xl">
-					{isLoading ? (
-						<div className="py-8 text-center text-muted-foreground">
-							Loading facilities...
-						</div>
-					) : (
-						(data?.facilityTypes || []).map((type: any) => {
-							const mappedFacilities = (type.facilities || []).map(
-								(facility: any) => ({
-									id: facility.id,
-									name: facility.displayName,
-									type: type.spaceType,
-									location: type.subtype,
-									price: type.rateType?.baseRate || 0,
-									priceUnit: type.rateType?.rateUnit || "hour",
-									capacity: facility.metadata?.maxOccupancy || 0,
-									rating: 0,
-									reviewCount: 0,
-									images: (facility.images || [])
-										.filter((img: any) => img.type === "COVER")
-										.map((img: any) => img.url),
-									amenities: facility.metadata?.amenities || [],
-									description: type.description || "",
-									available: facility.status === "AVAILABLE",
-									category: "sports", // Default category for now
-								}),
-							);
+					{mockLandingData.map((type: any) => {
+						// Only show sections that have facilities
+						if ((type.facilities || []).length === 0) return null;
 
-							// Only show sections that have facilities
-							if (mappedFacilities.length === 0) return null;
-
-							return (
-								<FacilitySection
-									key={type.id}
-									title={type.name}
-									facilities={mappedFacilities}
-								/>
-							);
-						})
-					)}
+						return (
+							<FacilitySection
+								key={type.id}
+								title={type.name}
+								facilities={type.facilities}
+							/>
+						);
+					})}
 				</div>
 
 				<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border" />
