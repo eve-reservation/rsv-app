@@ -58,18 +58,18 @@ export function DealsSection() {
 											alt={deal.title}
 											className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 										/>
+										<Badge
+											variant="destructive"
+											className="absolute top-4 left-4 self-start mb-3 font-bold px-3 py-1 shadow-sm border-white/20">
+											{deal.discount}
+										</Badge>
 										<div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6 text-white bg-opacity-80">
-											<Badge
-												variant="destructive"
-												className="self-start mb-3 font-bold px-3 py-1 shadow-sm border-white/20">
-												{deal.discount}
-											</Badge>
 											<h3 className="text-2xl font-bold font-serif mb-2 leading-tight text-white">
 												{deal.title}
 											</h3>
-											<p className="text-white/80 text-sm line-clamp-2 mb-4">
+											{/* <p className="text-white/80 text-sm line-clamp-2 mb-4">
 												{deal.description}
-											</p>
+											</p> */}
 
 											<div className="flex items-center justify-between pt-4 border-t border-white/20">
 												<div className="flex flex-col gap-1">
