@@ -11,8 +11,10 @@ import { Header } from "~/components/organisms/header";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
 import { DealsSection } from "~/components/organisms/deals-section";
+import { useGetFacilityTypes } from "~/hooks/use-facility-types";
 
 export default function LandingPage() {
+	const { data, isLoading } = useGetFacilityTypes();
 	// const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
 	return (
@@ -34,56 +36,57 @@ export default function LandingPage() {
 			</section>
 			{/* Deals Section */}
 			<DealsSection />
-
-			{/* Categories */}
-			{/* <section className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border">
-				<div className="mx-auto max-w-5xl">
-					<CategoryNav />
-				</div>
-			</section> */}
 			{/* Facility Sections */}
 			<main>
-				{/* FIXED/PRIVATE FACILITIES */}
+				{/* DYNAMIC FACILITY TYPES */}
 				<div className="mx-auto max-w-7xl">
-					<FacilitySection
-						title="Sports Facilities"
-						facilities={facilities.filter((f) => f.category === "sports")}
-					/>
-					<FacilitySection
-						title="Dining & Function Facilities"
-						facilities={facilities.filter((f) => f.category === "dining")}
-					/>
-					<FacilitySection
-						title="Wellness & Other Amenities"
-						facilities={facilities.filter((f) => f.category === "wellness")}
-					/>
+					{isLoading ? (
+						<div className="py-8 text-center text-muted-foreground">
+							Loading facilities...
+						</div>
+					) : (
+						(data?.facilityTypes || []).map((type: any) => {
+							const mappedFacilities = (type.facilities || []).map(
+								(facility: any) => ({
+									id: facility.id,
+									name: facility.displayName,
+									type: type.spaceType,
+									location: type.subtype,
+									price: type.rateType?.baseRate || 0,
+									priceUnit: type.rateType?.rateUnit || "hour",
+									capacity: facility.metadata?.maxOccupancy || 0,
+									rating: 0,
+									reviewCount: 0,
+									images: (facility.images || [])
+										.filter((img: any) => img.type === "COVER")
+										.map((img: any) => img.url),
+									amenities: facility.metadata?.amenities || [],
+									description: type.description || "",
+									available: facility.status === "AVAILABLE",
+									category: "sports", // Default category for now
+								}),
+							);
+
+							// Only show sections that have facilities
+							if (mappedFacilities.length === 0) return null;
+
+							return (
+								<FacilitySection
+									key={type.id}
+									title={type.name}
+									facilities={mappedFacilities}
+								/>
+							);
+						})
+					)}
 				</div>
 
 				<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border" />
-				{/* FIXED/PRIVATE FACILITIES */}
 				{/* OPEN/PUBLIC GAMES */}
 				<div className="mx-auto max-w-7xl">
 					<FacilitySection
 						title="Browse public games near you"
 						facilities={games}
-						columns={3}
-						// cardVariant="horizontal"
-					/>
-					<FacilitySection
-						title="Basketball games"
-						facilities={games.filter((g) => g.type === "Basketball")}
-						columns={2}
-						cardVariant="horizontal"
-					/>
-					<FacilitySection
-						title="Volleyball games"
-						facilities={games.filter((g) => g.type === "Volleyball")}
-						columns={2}
-						cardVariant="horizontal"
-					/>
-					<FacilitySection
-						title="Tennis games"
-						facilities={games.filter((g) => g.type === "Tennis")}
 						columns={2}
 						cardVariant="horizontal"
 					/>
