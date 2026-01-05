@@ -1,8 +1,8 @@
 {
   "projects": {
-    "default": "qc-sports-ph-app-dev",
+    "default": "qc-sports-ph-app-uat",
     "develop": "qc-sports-ph-app-dev",
-    "uat": "qcsports-app-uat"
+    "uat": "qc-sports-ph-app-uat"
   },
   "targets": {
     "qc-sports-ph-app-dev": {
@@ -12,10 +12,10 @@
         ]
       }
     },
-    "qcsports-app-uat": {
+    "qc-sports-ph-app-uat": {
       "hosting": {
-        "qcsports-app-uat": [
-          "qcsports-app-uat"
+        "uat": [
+          "qc-sports-ph-app-uat"
         ]
       }
     }
