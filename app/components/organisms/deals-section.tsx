@@ -97,8 +97,8 @@ export function DealsSection() {
 							</CarouselItem>
 						))}
 					</CarouselContent>
-					<CarouselPrevious className="hidden md:flex -left-12 bg-background/80 backdrop-blur-sm border-border hover:bg-background" />
-					<CarouselNext className="hidden md:flex -right-12 bg-background/80 backdrop-blur-sm border-border hover:bg-background" />
+					{/* <CarouselPrevious className="hidden md:flex -left-12 bg-background/80 backdrop-blur-sm border-border hover:bg-background" />
+					<CarouselNext className="hidden md:flex -right-12 bg-background/80 backdrop-blur-sm border-border hover:bg-background" /> */}
 				</Carousel>
 			</div>
 

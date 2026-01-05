@@ -55,7 +55,7 @@ export function FacilitySection({
 	return (
 		<section className="py-8">
 			{/* ... (existing header code) */}
-			<div className="flex items-center justify-between mb-6">
+			<div className="flex items-center justify-between mb-4">
 				<div className="flex gap-1 items-center hover:gap-3 transition-all duration-300 cursor-pointer">
 					<h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
 					<ChevronRight className="h-5 w-5 font-semibold" />
