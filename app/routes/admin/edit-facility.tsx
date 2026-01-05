@@ -137,12 +137,13 @@ export default function EditFacility() {
 		payload.append("metadata", JSON.stringify(metadata));
 
 		// Handle images
+		
 		// Existing images (strings)
-		formData.images.forEach((img) => {
-			if (typeof img === "string" && !img.startsWith("blob:")) {
-				payload.append("images", img);
-			}
-		});
+		// formData.images.forEach((img) => {
+		// 	if (typeof img === "string" && !img.startsWith("blob:")) {
+		// 		payload.append("images", img);
+		// 	}
+		// });
 
 		// New image files
 		imageFiles.forEach((file) => {
