@@ -5,12 +5,13 @@ import { Card } from "@/components/ui/card";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { format, setHours, setMinutes } from "date-fns";
+import { setHours, setMinutes } from "date-fns";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 import { facilities, games, type Game, type Facility } from "@/lib/data";
 import { PromoCodeModal } from "~/components/organisms/promo-code-modal";
 import { Tag } from "lucide-react";
 import { gcash, maya } from "@/assets/images";
+import { useGetFacilityById } from "~/hooks/use-facilities";
 
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
@@ -18,22 +19,68 @@ export default function ConfirmPayment() {
 	const facilityId = searchParams.get("facilityId");
 	const isGameJoin = searchParams.get("type") === "game";
 
-	// Find the item (Game or Facility)
-	const bookingItem = isGameJoin
-		? games.find((g) => g.id === facilityId)
-		: facilities.find((f) => f.id === facilityId);
+	// Fetch real facility data if not a game join
+	const { data: facilityData, isLoading } = useGetFacilityById(
+		facilityId!,
+		{
+			fields: "identifier, displayName, metadata, status, createdAt, updatedAt, location, images",
+		},
+		{
+			enabled: !isGameJoin && !!facilityId,
+		},
+	);
+
+	if (isLoading && !isGameJoin) {
+		return (
+			<div className="flex h-screen items-center justify-center">
+				<p>Loading booking details...</p>
+			</div>
+		);
+	}
+
+	// Helper to normalize data
+	const getBookingItem = () => {
+		if (isGameJoin) {
+			const game = games.find((g) => g.id === facilityId);
+			if (!game) return null;
+			return game;
+		}
+
+		if (facilityData) {
+			return {
+				id: facilityData.id,
+				name: facilityData.displayName || facilityData.identifier,
+				type: facilityData.facilityType?.name || "Facility", // Use optional chaining
+				images: (facilityData.images || []).map((img: any) =>
+					typeof img === "string" ? img : img.url || "/placeholder.svg",
+				),
+				price: facilityData.price || 0,
+				priceUnit: facilityData.priceUnit || "hour",
+				capacity: facilityData.metadata?.maxOccupancy || 15,
+				date: "", // Not applicable for facility directly
+			};
+		}
+
+		return null;
+	};
+
+	const bookingItem = getBookingItem();
 
 	// Get related facility for Game (to get rating/reviews if needed)
+	// For now, if it's a facility booking, we don't have a separate "linkedFacility" object from the hook unless we fetch it or it's self.
+	// But the UI uses linkedFacility for rating. Let's assume for facility booking, the item itself is the facility.
 	const linkedFacility = isGameJoin
 		? facilities.find((f) => f.id === (bookingItem as Game)?.facilityId)
-		: (bookingItem as Facility);
+		: bookingItem
+			? { ...bookingItem, rating: 0, reviewCount: 0 }
+			: null; // Mock rating for now
 
 	const [activeStep, setActiveStep] = useState(isGameJoin ? 2 : 1);
 	const [gameType, setGameType] = useState<"private" | "public">("private");
 	// Determine max players based on item type
 	const maxPlayers = isGameJoin
 		? (bookingItem as Game)?.maxPlayers
-		: (bookingItem as Facility)?.capacity || 15;
+		: (bookingItem as any)?.capacity || 15;
 
 	const [players, setPlayers] = useState(() => {
 		const guestParam = searchParams.get("guests");
@@ -79,7 +126,7 @@ export default function ConfirmPayment() {
 	const getDuration = () => {
 		if (!startTime || !endTime) return 0;
 		const diff = endTime.getTime() - startTime.getTime();
-		return diff > 0 ? diff / (1000 * 60 * 60) : 0;
+		return diff > 0 ? Number((diff / (1000 * 60 * 60)).toFixed(2)) : 0;
 	};
 
 	const duration = getDuration();
@@ -95,8 +142,8 @@ export default function ConfirmPayment() {
 			players === 1 ? "player" : "players"
 		}`;
 	} else {
-		const facility = bookingItem as Facility;
-		const hourPrice = facility.price; // Assuming hourly for basics
+		// Facility
+		const facility = bookingItem as any;
 		// For now assume price is per hour if unit is hour
 		const price = facility.price;
 		totalPrice = price * duration;

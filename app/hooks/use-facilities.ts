@@ -18,13 +18,17 @@ export const useGetFacilities = (apiParams?: ApiQueryParams) => {
 	});
 };
 
-export const useGetFacilityById = (facilityId: string, apiParams?: ApiQueryParams) => {
+export const useGetFacilityById = (
+	facilityId: string,
+	apiParams?: ApiQueryParams,
+	options?: { enabled?: boolean },
+) => {
 	return useQuery({
 		queryKey: ["facility-by-id", facilityId, apiParams],
 		queryFn: () => {
 			return facilityService.select(apiParams?.fields || "").getFacilityById(facilityId);
 		},
-		enabled: !!facilityId,
+		enabled: options?.enabled !== undefined ? options.enabled : !!facilityId,
 	});
 };
 
