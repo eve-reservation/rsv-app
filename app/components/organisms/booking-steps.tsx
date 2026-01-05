@@ -26,6 +26,7 @@ interface BookingStepsProps {
 	paymentMethod: string;
 	setPaymentMethod: (method: string) => void;
 	onConfirm: () => void;
+	isPending?: boolean;
 }
 
 export function BookingSteps({
@@ -47,6 +48,7 @@ export function BookingSteps({
 	paymentMethod,
 	setPaymentMethod,
 	onConfirm,
+	isPending = false,
 }: BookingStepsProps) {
 	return (
 		<div className="order-1 lg:order-2 space-y-2">
@@ -238,8 +240,9 @@ export function BookingSteps({
 						<div className="flex justify-end">
 							<Button
 								onClick={onConfirm}
+								disabled={isPending}
 								className="cursor-pointer mt-6 w-full rounded-lg qcsc-gradient text-white py-6 px-8">
-								Confirm and pay
+								{isPending ? "Processing..." : "Confirm and pay"}
 							</Button>
 						</div>
 					</div>

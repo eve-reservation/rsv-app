@@ -124,15 +124,13 @@ export default function LoginPage() {
 								type="submit"
 								className="w-full bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 h-10 font-medium"
 								disabled={isLoading}>
-								{isLoading ? "Verifying..." : "Access System"}
+								{isLoading ? "Verifying..." : "Login"}
 							</Button>
 						</form>
 					</CardContent>
 				</Card>
 				<div className="mt-6 text-center">
-					<p className="text-xs text-zinc-400 dark:text-zinc-600 font-mono">
-						SECURE SYSTEM • QC SPORTS
-					</p>
+					<p className="text-xs text-zinc-400 dark:text-zinc-600 font-mono">QC SPORTS</p>
 				</div>
 			</div>
 		</div>

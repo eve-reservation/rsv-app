@@ -4,6 +4,7 @@ import { setHours, setMinutes } from "date-fns";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { facilities, games, type Game } from "@/lib/data";
 import { useGetFacilityById } from "~/hooks/use-facilities";
+import { useCreateReservation } from "~/hooks/use-reservations";
 import { BookingSummary } from "~/components/organisms/booking-summary";
 import { BookingSteps } from "~/components/organisms/booking-steps";
 
@@ -12,6 +13,7 @@ export default function ConfirmPayment() {
 	const [searchParams] = useSearchParams();
 	const facilityId = searchParams.get("facilityId");
 	const isGameJoin = searchParams.get("type") === "game";
+	const { mutate: createReservation, isPending: isCreatingReservation } = useCreateReservation();
 
 	// Fetch real facility data if not a game join
 	const { data: facilityData, isLoading } = useGetFacilityById(facilityId!, {
@@ -193,7 +195,32 @@ export default function ConfirmPayment() {
 						maxPlayers={maxPlayers}
 						paymentMethod={paymentMethod}
 						setPaymentMethod={setPaymentMethod}
-						onConfirm={() => navigate("/reservation/complete")}
+						isPending={isCreatingReservation}
+						onConfirm={() => {
+							if (!facilityId || !startTime || !endTime) return;
+
+							// Construct payload
+							const payload = {
+								facilityId: facilityId,
+								guestCount: players,
+								bookingPeriod: {
+									startDateTime: startTime.toISOString(), // Ensure this date includes the date part correctly if selectedDate is different
+									endDateTime: endTime.toISOString(),
+									numberOfDays: 1, // Logic for multi-day can be added if needed, currently assumes single day/session
+									numberOfHours: duration,
+								},
+							};
+
+							createReservation(payload, {
+								onSuccess: () => {
+									navigate("/reservation/complete");
+								},
+								onError: (error) => {
+									console.error("Failed to create reservation:", error);
+									// Could show a toast or alert here
+								},
+							});
+						}}
 					/>
 				</div>
 			</main>
