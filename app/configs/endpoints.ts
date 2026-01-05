@@ -46,4 +46,14 @@ export const API_ENDPOINTS = {
 		UPDATE: "/facility/:id",
 		DELETE: "/facility/:id", // Soft delete
 	},
+	
+	// Reservation API endpoints
+	RESERVATION: {
+		GET_ALL: "/reservation",
+		GET_BY_ID: "/reservation/:id",
+		CREATE: "/reservation",
+		UPDATE: "/reservation/:id",
+		DELETE: "/reservation/:id", // Soft delete
+	},
+	
 };
