@@ -42,7 +42,7 @@ export function AppSidebar() {
 			title: "Management",
 			items: [
 				{
-					title: "Bookings",
+					title: "Reservation",
 					href: `/admin/reservation`,
 					icon: Layers,
 				},
@@ -52,7 +52,7 @@ export function AppSidebar() {
 					icon: Building,
 				},
 				{
-					title: "Users",
+					title: "User",
 					href: `/admin/user`,
 					icon: Users,
 				},
