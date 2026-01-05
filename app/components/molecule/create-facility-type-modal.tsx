@@ -12,6 +12,13 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { useCreateFacilityType } from "~/hooks/use-facility-types";
 import { toast } from "sonner";
 
@@ -19,20 +26,36 @@ interface CreateFacilityTypeModalProps {
 	trigger?: React.ReactNode;
 }
 
+const FACILITY_TYPE_OPTIONS = [
+	{
+		value: "ROOM",
+		label: "Room - Indoor enclosed spaces (hotel rooms, conference rooms, offices)",
+	},
+	{ value: "COURT", label: "Court - Sports/recreation courts (tennis, basketball, etc.)" },
+	{ value: "DINING", label: "Dining - Food & beverage spaces (restaurant, cafe, bar)" },
+	{ value: "FITNESS", label: "Fitness - Gym and fitness facilities" },
+	{ value: "PARKING", label: "Parking - Parking spaces/lots" },
+	{ value: "AMENITY", label: "Amenity - Pool, spa, lounge, etc." },
+	{ value: "OUTDOOR", label: "Outdoor - Outdoor spaces (garden, terrace, etc.)" },
+	{ value: "OTHER", label: "Other" },
+];
+
 export function CreateFacilityTypeModal({ trigger }: CreateFacilityTypeModalProps) {
 	const [name, setName] = useState("");
+	const [facilityType, setFacilityType] = useState("");
 	const [open, setOpen] = useState(false);
 	const { mutate: createFacilityType, isPending } = useCreateFacilityType();
 
 	const handleCreate = () => {
-		if (!name.trim()) return;
+		if (!name.trim() || !facilityType) return;
 
 		createFacilityType(
-			{ name },
+			{ name, spaceType: facilityType },
 			{
 				onSuccess: () => {
 					setOpen(false);
 					setName("");
+					setFacilityType("");
 					toast.success("Facility type created successfully");
 				},
 				onError: (error) => {
@@ -53,7 +76,7 @@ export function CreateFacilityTypeModal({ trigger }: CreateFacilityTypeModalProp
 					</Button>
 				)}
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="sm:max-w-xl">
 				<DialogHeader>
 					<DialogTitle>Create Facility Type</DialogTitle>
 					<DialogDescription>
@@ -70,12 +93,30 @@ export function CreateFacilityTypeModal({ trigger }: CreateFacilityTypeModalProp
 							placeholder="e.g. Sports Court"
 						/>
 					</div>
+					<div className="grid gap-2">
+						<Label htmlFor="facilityType">Facility Type</Label>
+						<Select value={facilityType} onValueChange={setFacilityType}>
+							<SelectTrigger id="facilityType" className="w-full">
+								<SelectValue placeholder="Select facility type" />
+							</SelectTrigger>
+							<SelectContent>
+								{FACILITY_TYPE_OPTIONS.map((option) => (
+									<SelectItem key={option.value} value={option.value}>
+										{option.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</div>
 				</div>
 				<DialogFooter>
 					<Button variant="outline" onClick={() => setOpen(false)} disabled={isPending}>
 						Cancel
 					</Button>
-					<Button onClick={handleCreate} disabled={!name.trim() || isPending}>
+					<Button
+						className="cursor-pointer"
+						onClick={handleCreate}
+						disabled={!name.trim() || !facilityType || isPending}>
 						{isPending ? "Creating..." : "Create"}
 					</Button>
 				</DialogFooter>
