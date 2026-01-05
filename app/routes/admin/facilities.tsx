@@ -3,6 +3,7 @@ import { FacilitySection } from "~/components/organisms/facility-section";
 import { useGetFacilityTypes } from "~/hooks/use-facility-types";
 import { CreateFacilityTypeModal } from "~/components/molecule/create-facility-type-modal";
 import { CreateFacilityModal } from "~/components/molecule/create-facility-modal";
+import { DeleteFacilityTypeModal } from "~/components/molecule/delete-facility-type-modal";
 
 export default function Facilities() {
 	const { data, isLoading } = useGetFacilityTypes();
@@ -56,10 +57,16 @@ export default function Facilities() {
 							facilities={mappedFacilities}
 							basePath="/admin/facility"
 							action={
-								<CreateFacilityModal
-									facilityTypeId={type.id}
-									trigger={<Button size="sm">Add Facility</Button>}
-								/>
+								<div className="flex gap-2">
+									<DeleteFacilityTypeModal
+										facilityTypeId={type.id}
+										typeName={type.name}
+									/>
+									<CreateFacilityModal
+										facilityTypeId={type.id}
+										trigger={<Button size="sm">Add Facility</Button>}
+									/>
+								</div>
 							}
 							facilityTypeId={type.id}
 						/>

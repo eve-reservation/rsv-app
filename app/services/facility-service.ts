@@ -68,7 +68,7 @@ class FacilityService extends APIService {
 
 	deleteFacility = async (facilityId: string) => {
 		try {
-			const response = await apiClient.put(FACILITY.DELETE.replace(":id", facilityId));
+			const response = await apiClient.delete(FACILITY.DELETE.replace(":id", facilityId));
 			return response.data;
 		} catch (error: any) {
 			throw new Error(

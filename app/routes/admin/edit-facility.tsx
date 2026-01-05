@@ -9,7 +9,7 @@ import { Star, Share, Heart, MapPin, Users, Upload, Trash2, Plus, Save } from "l
 import { cn } from "@/lib/utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BackButton } from "~/components/molecule/back-button";
-import { useGetFacilityById, useUpdateFacility } from "~/hooks/use-facilities";
+import { useGetFacilityById, useUpdateFacility, useDeleteFacility } from "~/hooks/use-facilities";
 import { toast } from "sonner";
 
 export default function EditFacility() {
@@ -21,6 +21,7 @@ export default function EditFacility() {
 	});
 
 	const { mutate: updateFacility, isPending: isUpdating } = useUpdateFacility();
+	const { mutate: deleteFacility, isPending: isDeleting } = useDeleteFacility();
 
 	// Form State
 	const [formData, setFormData] = useState({
@@ -166,6 +167,23 @@ export default function EditFacility() {
 				},
 			},
 		);
+	};
+
+	const handleDelete = () => {
+		if (
+			confirm("Are you sure you want to delete this facility? This action cannot be undone.")
+		) {
+			deleteFacility(id!, {
+				onSuccess: () => {
+					toast.success("Facility deleted successfully");
+					navigate("/admin/facilities");
+				},
+				onError: (error) => {
+					toast.error("Failed to delete facility");
+					console.error(error);
+				},
+			});
+		}
 	};
 
 	return (
@@ -431,19 +449,30 @@ export default function EditFacility() {
 										</div>
 									</div>
 
-									<Button
-										className="w-full cursor-pointer h-12 text-base font-semibold gap-2"
-										onClick={handleSave}
-										disabled={isUpdating}>
-										{isUpdating ? (
-											"Saving..."
-										) : (
-											<>
-												<Save className="h-4 w-4" />
-												Save Changes
-											</>
-										)}
-									</Button>
+									<div className="flex gap-2">
+										<Button
+											variant="outline"
+											size="icon"
+											className="h-12 w-12 shrink-0 cursor-pointer"
+											onClick={handleDelete}
+											disabled={isDeleting || isUpdating}
+											title="Delete Facility">
+											<Trash2 className="h-5 w-5" />
+										</Button>
+										<Button
+											className="flex-1 cursor-pointer h-12 text-base font-semibold gap-2"
+											onClick={handleSave}
+											disabled={isUpdating || isDeleting}>
+											{isUpdating ? (
+												"Saving..."
+											) : (
+												<>
+													<Save className="h-4 w-4" />
+													Save Changes
+												</>
+											)}
+										</Button>
+									</div>
 
 									<p className="text-xs text-muted-foreground text-center">
 										Changes will be reflected immediately after saving.
