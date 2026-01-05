@@ -35,9 +35,9 @@ export default function LandingPage() {
 				</div>
 			</section>
 			{/* Deals Section */}
-			<DealsSection />
 			{/* Facility Sections */}
-			<main>
+			<main className="pt-8 pb-6 px-4 sm:px-6 lg:px-8">
+				<DealsSection />
 				{/* DYNAMIC FACILITY TYPES */}
 				<div className="mx-auto max-w-7xl">
 					{isLoading ? (
