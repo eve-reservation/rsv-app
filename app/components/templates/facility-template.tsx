@@ -18,14 +18,15 @@ import {
 	ConciergeBell,
 	Building,
 	Check,
-	X,
 	Grid3x3,
+	Pencil,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, setHours, setMinutes } from "date-fns";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 import { BackButton } from "../molecule/back-button";
+import { useGetFacilityById } from "~/hooks/use-facilities";
 
 const amenityIcons: Record<string, React.ElementType> = {
 	WiFi: Wifi,
@@ -41,8 +42,12 @@ interface FacilityTemplateProps {
 export default function FacilityTemplate({ admin = false }: FacilityTemplateProps) {
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const facility = facilities.find((f) => f.id === id);
-	const [currentImage, setCurrentImage] = useState(0);
+	// const facility = facilities.find((f) => f.id === id);
+
+	const { data: facilityData, isLoading } = useGetFacilityById(id!, {
+		fields: "identifier, displayName, metadata, status, createdAt, updatedAt, location, images",
+	});
+
 	const [isLiked, setIsLiked] = useState(false);
 	const [date, setDate] = useState<Date | undefined>(new Date());
 	const [startTime, setStartTime] = useState<Date | undefined>(
@@ -52,14 +57,15 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		setMinutes(setHours(new Date(), 11), 0),
 	); // 11:00 AM
 	const [guests, setGuests] = useState(1);
-	const [showAllPhotos, setShowAllPhotos] = useState(false);
 
 	const handleTimeChange = (start: Date, end: Date) => {
 		setStartTime(start);
 		setEndTime(end);
 	};
 
-	if (!facility) {
+	if (isLoading) return <div>Loading...</div>;
+
+	if (!facilityData) {
 		return (
 			<div className="min-h-screen flex items-center justify-center bg-background">
 				<div className="text-center">
@@ -71,6 +77,25 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 			</div>
 		);
 	}
+
+	// Map API data to component expected structure
+	const facility = {
+		id: facilityData.id,
+		name: facilityData.displayName || facilityData.identifier,
+		description: facilityData.metadata?.description || "No description available.",
+		location: facilityData.location || "Location not specified",
+		type: facilityData.facilityType?.name || "Facility",
+		price: facilityData.price || 0,
+		priceUnit: facilityData.priceUnit || "hour",
+		rating: 0, // Not available in API response yet
+		reviewCount: 0, // Not available in API response yet
+		capacity: facilityData.metadata?.maxOccupancy || 0,
+		amenities: facilityData.metadata?.amenities || [],
+		images: (facilityData.images || []).map((img: any) =>
+			typeof img === "string" ? img : img.url || "/placeholder.svg",
+		),
+		available: facilityData.status === "AVAILABLE",
+	};
 
 	const getDuration = () => {
 		if (!startTime || !endTime) return 0;
@@ -92,48 +117,16 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		if (startTime) params.set("startTime", format(startTime, "HH:mm"));
 		if (endTime) params.set("endTime", format(endTime, "HH:mm"));
 		params.set("guests", guests.toString());
-		navigate(`/booking/confirmation?${params.toString()}`);
+		navigate(`/reservation/confirmation?${params.toString()}`);
 	};
 
 	return (
 		<div className="animate-in fade-in duration-500">
 			<div className="flex items-center justify-between">
 				<BackButton showText />
-				{admin && <Button>Edit Facility</Button>}
 			</div>
 
 			<main className="flex-1 ">
-				{/* Photo Gallery Modal */}
-				{showAllPhotos && (
-					<div className="fixed inset-0 z-50 bg-background overflow-y-auto">
-						<div className="sticky top-0 bg-background border-b border-border p-4 flex items-center justify-between">
-							<Button
-								variant="ghost"
-								onClick={() => setShowAllPhotos(false)}
-								className="gap-2">
-								<X className="h-4 w-4" />
-								Close
-							</Button>
-							<span className="text-sm text-muted-foreground">
-								{currentImage + 1} / {facility.images.length}
-							</span>
-						</div>
-						<div className="max-w-4xl mx-auto py-8 px-4 space-y-4">
-							{facility.images.map((image, index) => (
-								<div
-									key={index}
-									className="relative aspect-video rounded-xl overflow-hidden">
-									<img
-										src={image || "/placeholder.svg"}
-										alt={`${facility.name} - Image ${index + 1}`}
-										className="object-cover"
-									/>
-								</div>
-							))}
-						</div>
-					</div>
-				)}
-
 				<div className="py-8">
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 						{/* Left Content */}
@@ -148,7 +141,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 											? "col-span-3 rounded-2xl"
 											: "col-span-4 md:col-span-2 rounded-l-2xl",
 									)}
-									onClick={() => setShowAllPhotos(true)}>
+									onClick={() => navigate("photos")}>
 									<img
 										src={facility.images[0] || "/placeholder.svg"}
 										alt={facility.name}
@@ -158,7 +151,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 								</div>
 
 								{/* Right Side 2x2 Grid */}
-								{facility.images.slice(1, 6).map((image, index) => (
+								{facility.images.slice(1, 6).map((image: string, index: number) => (
 									<div
 										key={index}
 										className={cn(
@@ -169,7 +162,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 												facility.images.length <= 4 &&
 												"md:rounded-br-2xl",
 										)}
-										onClick={() => setShowAllPhotos(true)}>
+										onClick={() => navigate("photos")}>
 										<img
 											src={image || "/placeholder.svg"}
 											alt={`${facility.name} - ${index + 2}`}
@@ -183,7 +176,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 								<Button
 									variant="secondary"
 									className="absolute bottom-6 right-6 bg-white/90 backdrop-blur hover:bg-white shadow-lg border border-white/50"
-									onClick={() => setShowAllPhotos(true)}>
+									onClick={() => navigate("photos")}>
 									<Grid3x3 className="h-4 w-4 mr-2" />
 									Show all photos
 								</Button>
@@ -265,7 +258,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 									What this place offers
 								</h2>
 								<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									{facility.amenities.map((amenity) => {
+									{facility.amenities.map((amenity: string) => {
 										const Icon = amenityIcons[amenity] || Check;
 										return (
 											<div key={amenity} className="flex items-center gap-4">
@@ -328,49 +321,66 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 									</div>
 
 									{/* Date & Time Selection */}
-									<BookingDetailsSelector
-										date={date}
-										setDate={setDate}
-										startTime={startTime}
-										endTime={endTime}
-										onTimeChange={handleTimeChange}
-										guests={guests}
-										setGuests={setGuests}
-										maxGuests={facility.capacity}
-										guestLabel="Guests"
-									/>
-
-									<Button
-										className="w-full cursor-pointer qcsc-gradient hover:bg-primary/90 text-primary-foreground h-12 text-base font-semibold"
-										onClick={handleReserve}
-										disabled={!isReservationValid}>
-										Reserve
-									</Button>
-
-									{isReservationValid && (
+									{admin ? (
+										<Button
+											className="w-full cursor-pointer h-12 text-base font-semibold gap-2"
+											onClick={() => navigate(`edit`)}>
+											<Pencil className="h-4 w-4" />
+											Edit Facility
+										</Button>
+									) : (
 										<>
-											{/* <p className="text-center text-sm text-muted-foreground">
+											<BookingDetailsSelector
+												date={date}
+												setDate={setDate}
+												startTime={startTime}
+												endTime={endTime}
+												onTimeChange={handleTimeChange}
+												guests={guests}
+												setGuests={setGuests}
+												maxGuests={facility.capacity}
+												guestLabel="Guests"
+											/>
+
+											<Button
+												className="w-full cursor-pointer qcsc-gradient hover:bg-primary/90 text-primary-foreground h-12 text-base font-semibold"
+												onClick={handleReserve}
+												disabled={!isReservationValid}>
+												Reserve
+											</Button>
+
+											{isReservationValid && (
+												<>
+													{/* <p className="text-center text-sm text-muted-foreground">
 												You won't be charged yet
 											</p> */}
 
-											<div className="space-y-3 pt-4 border-t border-border">
-												<div className="flex items-center justify-between text-foreground">
-													<span className="underline">
-														₱{facility.price.toLocaleString()} x{" "}
-														{duration} {facility.priceUnit}
-														{duration > 1 ? "s" : ""}
-													</span>
-													<span>₱{totalPrice.toLocaleString()}</span>
-												</div>
-												<div className="flex items-center justify-between text-foreground">
-													<span className="underline">Service fee</span>
-													<span>₱{serviceFee.toLocaleString()}</span>
-												</div>
-												<div className="flex items-center justify-between font-semibold text-foreground pt-3 border-t border-border">
-													<span>Total</span>
-													<span>₱{total.toLocaleString()}</span>
-												</div>
-											</div>
+													<div className="space-y-3 pt-4 border-t border-border">
+														<div className="flex items-center justify-between text-foreground">
+															<span className="underline">
+																₱{facility.price.toLocaleString()} x{" "}
+																{duration} {facility.priceUnit}
+																{duration > 1 ? "s" : ""}
+															</span>
+															<span>
+																₱{totalPrice.toLocaleString()}
+															</span>
+														</div>
+														<div className="flex items-center justify-between text-foreground">
+															<span className="underline">
+																Service fee
+															</span>
+															<span>
+																₱{serviceFee.toLocaleString()}
+															</span>
+														</div>
+														<div className="flex items-center justify-between font-semibold text-foreground pt-3 border-t border-border">
+															<span>Total</span>
+															<span>₱{total.toLocaleString()}</span>
+														</div>
+													</div>
+												</>
+											)}
 										</>
 									)}
 								</CardContent>

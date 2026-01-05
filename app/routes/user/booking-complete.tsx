@@ -1,231 +1,164 @@
-import {
-	CheckCircle,
-	Calendar,
-	Users,
-	AlertCircle,
-	Home,
-} from "lucide-react";
+import { Check, Calendar, Users, MapPin, MessageSquare, ShieldCheck, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { lebronCourt } from "@/assets/images/index";
 
 export default function BookingConfirmation() {
 	return (
-		<main className="min-h-screen bg-background">
-			{/* Main Content */}
-			<div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
-				{/* Success Section */}
-				<div className="text-center mb-12">
-					<div className="flex justify-center mb-4">
-						<div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center animate-pulse">
-							<CheckCircle className="w-8 h-8 text-primary-foreground" />
+		<main className="bg-background">
+			{/* Navbar placeholder if needed, but we assume it's in a layout */}
+
+			<div className="max-w-6xl mx-auto px-6 py-6">
+				<div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
+					{/* Left Column: Confirmation Details */}
+					<div>
+						{/* Success Header */}
+						<div className="mb-8">
+							{/* <div className="mb-6 inline-flex items-center justify-center p-3 bg-green-100 rounded-full">
+								<Check className="w-8 h-8 text-green-600" />
+							</div> */}
+							<h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
+								Your reservation is confirmed
+							</h1>
+							<p className="text-lg text-muted-foreground">
+								You're going to Taguig, Metro Manila!
+							</p>
 						</div>
-					</div>
-					<h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2 text-balance">
-						You're all booked!
-					</h1>
-					<p className="text-lg text-muted-foreground">
-						Your reservation is confirmed. Check your email for details.
-					</p>
-				</div>
 
-				{/* Confirmation Number */}
-				<Card className="bg-card border border-border p-6 mb-8 text-center">
-					<p className="text-sm text-muted-foreground mb-2">Confirmation number</p>
-					<p className="text-3xl font-bold text-foreground tracking-widest">
-						QCS123XYZ
-					</p>
-				</Card>
-
-				{/* Property Details */}
-				<div className="grid md:grid-cols-3 gap-6 mb-8">
-					{/* Property Image */}
-					<div className="md:col-span-2">
-						<Card className="overflow-hidden border border-border h-full gap-0">
-							<img
-								src={lebronCourt}
-								alt="BGC Full Court"
-								className="w-full h-80 object-cover"
-							/>
-							<div className="p-6">
-								<h2 className="text-2xl font-bold text-foreground mb-2">
-									BGC Full Court
-								</h2>
-								<p className="text-muted-foreground mb-4">
-									Taguig, Metro Manila
-								</p>
-								<div className="flex gap-4 flex-wrap">
-									<span className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm">
-										Basketball
-									</span>
-									<span className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm">
-										Up to 15 players
-									</span>
-								</div>
-							</div>
-						</Card>
-					</div>
-
-					{/* Booking Summary */}
-					<Card className="bg-card border border-border p-6 h-fit sticky top-4">
-						<h3 className="text-xl font-bold text-foreground mb-6">
-							Booking details
-						</h3>
-
-						<div className="space-y-4">
-							<div className="flex gap-3">
-								<Calendar className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-								<div>
-									<p className="text-sm text-muted-foreground">Date</p>
-									<p className="font-semibold text-foreground">
-										December 20, 2025
-									</p>
-								</div>
-							</div>
-
-							<div className="flex gap-3">
-								<Calendar className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-								<div>
-									<p className="text-sm text-muted-foreground">Time Slot</p>
-									<p className="font-semibold text-foreground">
-										4:00 PM - 6:00 PM
-									</p>
-								</div>
-							</div>
-
-							<div className="flex gap-3">
-								<Users className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-								<div>
-									<p className="text-sm text-muted-foreground">Players</p>
-									<p className="font-semibold text-foreground">10 players</p>
-								</div>
-							</div>
-
-							<div className="border-t border-border pt-4 mt-4">
-								<div className="flex justify-between mb-2">
-									<p className="text-muted-foreground">
-										₱4500/hour × 2 hours
-									</p>
-									<p className="text-foreground font-semibold">₱9,000</p>
-								</div>
-								<div className="flex justify-between mb-2">
-									<p className="text-muted-foreground">Service fee</p>
-									<p className="text-foreground font-semibold">₱500</p>
-								</div>
-								<div className="border-t border-border pt-4 mt-4 flex justify-between">
-									<p className="font-bold text-foreground">Total paid</p>
-									<p className="font-bold text-primary text-lg">₱9,500</p>
-								</div>
-							</div>
+						<div className="py-6 border-t border-b border-border mb-8">
+							<p className="text-sm font-medium text-muted-foreground mb-1">
+								Confirmation code
+							</p>
+							<p className="text-xl font-mono font-semibold tracking-wide">
+								QCS123XYZ
+							</p>
 						</div>
-					</Card>
-				</div>
 
-				{/* Important Info */}
-				<div className="grid md:grid-cols-2 gap-6 mb-8">
-					<Card className="border border-border p-6">
-						<div className="flex gap-4">
-							<AlertCircle className="w-6 h-6 text-primary flex-shrink-0" />
-							<div>
-								<h4 className="font-bold text-foreground mb-2">
-									Court rules
-								</h4>
-								<ul className="text-sm text-muted-foreground space-y-1">
-									<li>• Wear proper court shoes</li>
-									<li>• No food or drinks on the court</li>
-									<li>• Good sportsmanship is required</li>
-									<li>• Check-in 15 minutes before your schedule</li>
-								</ul>
-							</div>
-						</div>
-					</Card>
+						{/* What's Next / Guidance */}
+						<div className="space-y-8">
+							<section>
+								<h3 className="text-xl font-semibold mb-4">
+									What you need to know
+								</h3>
+								<div className="space-y-6">
+									<div className="flex gap-4">
+										<MessageSquare className="w-6 h-6 text-foreground shrink-0" />
+										<div>
+											<p className="font-medium text-foreground">
+												Message the host
+											</p>
+											<p className="text-muted-foreground text-sm">
+												Coordinate check-in details with the venue manager.
+											</p>
+										</div>
+									</div>
+									<div className="flex gap-4">
+										<ShieldCheck className="w-6 h-6 text-foreground shrink-0" />
+										<div>
+											<p className="font-medium text-foreground">
+												Court Rules
+											</p>
+											<p className="text-muted-foreground text-sm">
+												Wear proper shoes, bring your own ball, and respect
+												the court.
+											</p>
+										</div>
+									</div>
+									<div className="flex gap-4">
+										<Clock className="w-6 h-6 text-foreground shrink-0" />
+										<div>
+											<p className="font-medium text-foreground">Check-in</p>
+											<p className="text-muted-foreground text-sm">
+												Please arrive 15 minutes before your scheduled time.
+											</p>
+										</div>
+									</div>
+								</div>
+							</section>
 
-					<Card className="border border-border p-6">
-						<div className="flex gap-4">
-							<Home className="w-6 h-6 text-primary flex-shrink-0" />
-							<div>
-								<h4 className="font-bold text-foreground mb-2">
-									Getting there
-								</h4>
-								<p className="text-sm text-muted-foreground mb-2">
-									The court is located in BGC. Easily accessible via Grab or
-									commute. Paid parking is available.
-								</p>
-								<p className="text-sm text-muted-foreground">
-									Present your booking confirmation at the entrance.
-								</p>
-							</div>
-						</div>
-					</Card>
-				</div>
-
-				{/* Next Steps */}
-				<Card className="border border-border p-8 mb-8 bg-muted">
-					<h3 className="text-2xl font-bold text-foreground mb-4">
-						What's next?
-					</h3>
-					<div className="space-y-3">
-						<div className="flex gap-3">
-							<div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">
-								1
-							</div>
-							<div>
-								<p className="font-semibold text-foreground">
-									Save this confirmation
-								</p>
-								<p className="text-sm text-muted-foreground">
-									You'll need it for check-in
-								</p>
-							</div>
-						</div>
-						<div className="flex gap-3">
-							<div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">
-								2
-							</div>
-							<div>
-								<p className="font-semibold text-foreground">
-									Review court rules and requirements
-								</p>
-								<p className="text-sm text-muted-foreground">
-									Check the full details in your confirmation email
-								</p>
-							</div>
-						</div>
-						<div className="flex gap-3">
-							<div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">
-								3
-							</div>
-							<div>
-								<p className="font-semibold text-foreground">
-									Invite your friends
-								</p>
-								<p className="text-sm text-muted-foreground">
-									Share your booking and get ready for the game!
-								</p>
+							<div className="pt-8">
+								<div className="flex flex-col sm:flex-row gap-4">
+									<Button size="lg" className="rounded-lg text-base px-8">
+										View booking
+									</Button>
+									<Button
+										size="lg"
+										variant="outline"
+										className="rounded-lg text-base px-8 border-foreground text-foreground hover:bg-muted">
+										Explore activities
+									</Button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</Card>
 
-				{/* CTA Buttons */}
-				<div className="flex flex-col sm:flex-row gap-4 justify-center">
-					<Button
-						size="lg"
-						className="bg-primary text-primary-foreground hover:bg-primary/90">
-						View my bookings
-					</Button>
-					<Button size="lg" variant="outline">
-						Explore more courts
-					</Button>
+					{/* Right Column: Reservation Summary */}
+					<div className="relative">
+						<div className="border border-border rounded-xl p-6 md:p-8 sticky top-8">
+							<div className="flex gap-4 mb-6 pb-6 border-b border-border">
+								<img
+									src={lebronCourt}
+									alt="BGC Full Court"
+									className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-lg bg-muted"
+								/>
+								<div className="flex flex-col justify-center">
+									<p className="text-sm text-muted-foreground mb-1">
+										Entire Court
+									</p>
+									<h2 className="text-lg font-semibold mb-1">BGC Full Court</h2>
+									<div className="flex items-center text-sm text-muted-foreground">
+										<MapPin className="w-3 h-3 mr-1" />
+										Taguig
+									</div>
+								</div>
+							</div>
+
+							<div className="space-y-4 text-sm md:text-base">
+								<div className="flex justify-between py-2 border-b border-border">
+									<div className="flex items-center gap-2">
+										<Calendar className="w-4 h-4 text-muted-foreground" />
+										<span className="font-medium">Date</span>
+									</div>
+									<span className="text-muted-foreground">Dec 20, 2025</span>
+								</div>
+								<div className="flex justify-between py-2 border-b border-border">
+									<div className="flex items-center gap-2">
+										<Clock className="w-4 h-4 text-muted-foreground" />
+										<span className="font-medium">Time</span>
+									</div>
+									<span className="text-muted-foreground">4:00 PM - 6:00 PM</span>
+								</div>
+								<div className="flex justify-between py-2 border-b border-border">
+									<div className="flex items-center gap-2">
+										<Users className="w-4 h-4 text-muted-foreground" />
+										<span className="font-medium">Players</span>
+									</div>
+									<span className="text-muted-foreground">10 players</span>
+								</div>
+							</div>
+
+							<div className="mt-8 pt-4">
+								<h3 className="font-semibold mb-4 text-lg">Payment details</h3>
+								<div className="space-y-2 text-sm md:text-base">
+									<div className="flex justify-between mb-2">
+										<span className="text-muted-foreground">
+											₱4,500 x 2 hours
+										</span>
+										<span>₱9,000</span>
+									</div>
+									<div className="flex justify-between mb-2">
+										<span className="text-muted-foreground">Service fee</span>
+										<span>₱500</span>
+									</div>
+									<div className="flex justify-between pt-4 mt-2 border-t border-border font-bold text-lg">
+										<span>Total (PHP)</span>
+										<span>₱9,500</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-
-			{/* Footer */}
-			<footer className="border-t border-border mt-16 py-8 bg-muted">
-				<div className="max-w-4xl mx-auto px-4 text-center text-sm text-muted-foreground">
-					<p>Questions? Contact us at support@qcsports.com</p>
-				</div>
-			</footer>
 		</main>
 	);
 }

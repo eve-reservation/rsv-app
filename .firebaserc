@@ -1,20 +1,20 @@
 {
   "projects": {
-    "default": "qcsports-app-dev",
-    "develop": "qcsports-app-dev",
+    "default": "qc-sports-ph-app-dev",
+    "develop": "qc-sports-ph-app-dev",
     "uat": "qcsports-app-uat"
   },
   "targets": {
-    "qcsports-app-dev": {
+    "qc-sports-ph-app-dev": {
       "hosting": {
         "develop": [
-          "qcsports-app-dev"
+          "qc-sports-ph-app-dev"
         ]
       }
     },
     "qcsports-app-uat": {
       "hosting": {
-        "uat": [
+        "qcsports-app-uat": [
           "qcsports-app-uat"
         ]
       }

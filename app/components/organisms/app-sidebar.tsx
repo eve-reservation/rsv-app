@@ -1,4 +1,4 @@
-import { LayoutDashboard, User, Layers, Percent, Users, Building } from "lucide-react";
+import { LayoutDashboard, User, Layers, Percent, Users, Building, Building2 } from "lucide-react";
 
 import {
 	Sidebar,
@@ -42,8 +42,8 @@ export function AppSidebar() {
 			title: "Management",
 			items: [
 				{
-					title: "Bookings",
-					href: `/admin/booking`,
+					title: "Reservation",
+					href: `/admin/reservation`,
 					icon: Layers,
 				},
 				{
@@ -52,7 +52,7 @@ export function AppSidebar() {
 					icon: Building,
 				},
 				{
-					title: "Users",
+					title: "User",
 					href: `/admin/user`,
 					icon: Users,
 				},

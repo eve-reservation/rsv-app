@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
 		LOGIN: "/auth/login",
 		LOGOUT: "/auth/logout",
 		REGISTER: "/auth/register",
+		ME: "/auth/me",
 	},
 
 	// User API endpoints
@@ -27,4 +28,32 @@ export const API_ENDPOINTS = {
 		UPDATE: "/person/:id",
 		DELETE: "/person/:id", // Soft delete
 	},
+
+	// Facility Type API endpoints
+	FACILITY_TYPE: {
+		GET_ALL: "/facilityType",
+		GET_BY_ID: "/facilityType/:id",
+		CREATE: "/facilityType",
+		UPDATE: "/facilityType/:id",
+		DELETE: "/facilityType/:id", // Soft delete
+	},
+	
+	// Facility API endpoints
+	FACILITY: {
+		GET_ALL: "/facility",
+		GET_BY_ID: "/facility/:id",
+		CREATE: "/facility",
+		UPDATE: "/facility/:id",
+		DELETE: "/facility/:id", // Soft delete
+	},
+	
+	// Reservation API endpoints
+	RESERVATION: {
+		GET_ALL: "/reservation",
+		GET_BY_ID: "/reservation/:id",
+		CREATE: "/reservation",
+		UPDATE: "/reservation/:id",
+		DELETE: "/reservation/:id", // Soft delete
+	},
+	
 };
