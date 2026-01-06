@@ -6,7 +6,9 @@ import { CreateFacilityModal } from "~/components/molecule/create-facility-modal
 import { DeleteFacilityTypeModal } from "~/components/molecule/delete-facility-type-modal";
 
 export default function Facilities() {
-	const { data, isLoading } = useGetFacilityTypes();
+	const { data, isLoading } = useGetFacilityTypes({
+		limit: 100,
+	});
 
 	if (isLoading) return <div>Loading...</div>;
 

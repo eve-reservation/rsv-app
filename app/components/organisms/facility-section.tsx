@@ -15,6 +15,7 @@ interface FacilitySectionProps {
 	action?: React.ReactNode;
 	facilityTypeId?: string;
 	spaceType?: string;
+	getLink?: (facility: Facility | Game) => string;
 }
 
 export function FacilitySection({
@@ -26,6 +27,7 @@ export function FacilitySection({
 	action,
 	facilityTypeId,
 	spaceType,
+	getLink,
 }: FacilitySectionProps) {
 	// ... (existing code: scrollContainerRef, scroll function, getItemStyle)
 
@@ -96,7 +98,7 @@ export function FacilitySection({
 									: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
 							}
 							style={getItemStyle()}>
-							<Link to={`${basePath}/${facility.id}`}>
+							<Link to={getLink ? getLink(facility) : `${basePath}/${facility.id}`}>
 								<FacilityCard facility={facility} variant={cardVariant} />
 							</Link>
 						</div>

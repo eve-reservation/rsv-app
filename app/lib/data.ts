@@ -29,6 +29,7 @@ export interface Facility {
 	createdAt?: string;
 	updatedAt?: string;
 	location?: any;
+	filter?: string;
 	facilityType?: {
 		id?: string;
 		name?: string;
@@ -834,6 +835,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "sports",
+				filter: "subtype:TENNIS",
 			},
 			{
 				id: "badminton",
@@ -856,6 +858,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "sports",
+				filter: "subtype:BADMINTON",
 			},
 			{
 				id: "swimming",
@@ -878,6 +881,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "sports",
+				filter: "subtype:SWIMMING_POOL",
 			},
 			{
 				id: "bowling",
@@ -900,6 +904,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "sports",
+				filter: "subtype:GAME_ROOM",
 			},
 			{
 				id: "pickleball",
@@ -922,6 +927,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "sports",
+				filter: "subtype:PICKLEBALL",
 			},
 			{
 				id: "combat-sports",
@@ -944,6 +950,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "sports",
+				filter: "subtype:OTHER",
 			},
 			{
 				id: "indoor-courts",
@@ -966,6 +973,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "sports",
+				filter: "subtype:BASKETBALL",
 			},
 			{
 				id: "others",
@@ -988,6 +996,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "sports",
+				filter: "subtype:OTHER",
 			},
 		],
 	},
@@ -1016,6 +1025,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "wellness",
+				filter: "subtype:WEIGHT_ROOM",
 			},
 			{
 				id: "massage-therapy",
@@ -1038,6 +1048,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "wellness",
+				filter: "subtype:SPA",
 			},
 			{
 				id: "personal-care",
@@ -1060,6 +1071,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "wellness",
+				filter: "subtype:OTHER",
 			},
 		],
 	},
@@ -1089,6 +1101,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "dining",
+				filter: "facilityType.spaceType:ROOM",
 			},
 			{
 				id: "dining-options",
@@ -1112,6 +1125,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "dining",
+				filter: "facilityType.spaceType:DINING",
 			},
 			{
 				id: "food-services",
@@ -1135,6 +1149,7 @@ export const mockLandingData = [
 				],
 				status: "AVAILABLE",
 				category: "dining",
+				filter: "facilityType.spaceType:DINING",
 			},
 		],
 	},

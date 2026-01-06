@@ -6,7 +6,7 @@ export function meta({}: Route.MetaArgs) {
 	return [{ title: PAGE_TITLES.landing }];
 }
 
-import { facilities, games, mockLandingData } from "@/lib/data";
+import { facilities, games, mockLandingData, type Facility } from "@/lib/data";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
 import { DealsSection } from "~/components/organisms/deals-section";
@@ -44,6 +44,9 @@ export default function LandingPage() {
 								key={type.id}
 								title={type.name}
 								facilities={type.facilities}
+								getLink={(facility) =>
+									`/facility?title=${facility.id}&filter=${(facility as Facility).filter}`
+								}
 							/>
 						);
 					})}

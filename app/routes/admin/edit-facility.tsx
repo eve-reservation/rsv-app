@@ -11,13 +11,22 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { BackButton } from "~/components/molecule/back-button";
 import { useGetFacilityById, useUpdateFacility, useDeleteFacility } from "~/hooks/use-facilities";
 import { toast } from "sonner";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { SUBTYPE_OPTIONS } from "~/components/molecule/create-facility-modal";
+import { Label } from "@/components/ui/label";
 
 export default function EditFacility() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 
 	const { data: facilityData, isLoading } = useGetFacilityById(id!, {
-		fields: "identifier, displayName, subtype, metadata, status, createdAt, updatedAt, location, images",
+		fields: "identifier, displayName, subtype, metadata, status, createdAt, updatedAt, location, images, facilityType.spaceType",
 	});
 
 	const { mutate: updateFacility, isPending: isUpdating } = useUpdateFacility();
@@ -31,10 +40,11 @@ export default function EditFacility() {
 		price: 0,
 		priceUnit: "",
 		capacity: 0,
-		type: "",
+		subtype: "",
 		amenities: [] as string[],
 		images: [] as (string | null)[],
 	});
+	const [spaceType, setSpaceType] = useState<string>("");
 
 	const [imageFiles, setImageFiles] = useState<(File | null)[]>(Array(5).fill(null));
 	const normalizeImages = (images: any[]) => {
@@ -56,11 +66,12 @@ export default function EditFacility() {
 				price: metadata.price || 0,
 				priceUnit: metadata.priceUnit || "hour",
 				capacity: metadata.maxOccupancy || 0,
-				type: metadata.type || "",
+				subtype: facilityData.subtype || "",
 				amenities: metadata.amenities || [],
 				// Ensure we have at least 5 slots for the grid layout
 				images: normalizeImages(facilityData.images || []),
 			});
+			setSpaceType(facilityData.facilityType?.spaceType || "");
 		}
 	}, [facilityData]);
 
@@ -131,10 +142,12 @@ export default function EditFacility() {
 			price: Number(formData.price),
 			priceUnit: formData.priceUnit,
 			maxOccupancy: Number(formData.capacity),
-			type: formData.type,
 			amenities: formData.amenities,
 		};
 		payload.append("metadata", JSON.stringify(metadata));
+		if (formData.subtype) {
+			payload.append("subtype", formData.subtype);
+		}
 
 		// Handle images
 
@@ -321,22 +334,26 @@ export default function EditFacility() {
 							{/* Host & Capacity Info Editable */}
 							<div className="grid grid-cols-2 gap-4">
 								<div className="space-y-2">
-									<label
-										htmlFor="type"
-										className="text-sm font-medium leading-none">
-										Property Type
-									</label>
-									<div className="relative">
-										<Users className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-										<Input
-											id="type"
-											name="type"
-											value={formData.type}
-											onChange={handleInputChange}
-											className="pl-9"
-											placeholder="e.g. Entire Villa"
-										/>
-									</div>
+									<Label htmlFor="subtype">Subtype</Label>
+									<Select
+										value={formData.subtype}
+										onValueChange={(value) =>
+											setFormData((prev) => ({ ...prev, subtype: value }))
+										}>
+										<SelectTrigger id="subtype" className="w-full">
+											<SelectValue placeholder="Select subtype" />
+										</SelectTrigger>
+										<SelectContent>
+											{spaceType &&
+												SUBTYPE_OPTIONS[spaceType]?.map((option) => (
+													<SelectItem
+														key={option.value}
+														value={option.value}>
+														{option.label}
+													</SelectItem>
+												))}
+										</SelectContent>
+									</Select>
 								</div>
 								<div className="space-y-2">
 									<label

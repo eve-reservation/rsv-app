@@ -28,7 +28,7 @@ interface CreateFacilityModalProps {
 	spaceType?: string;
 }
 
-const SUBTYPE_OPTIONS: Record<string, { value: string; label: string }[]> = {
+export const SUBTYPE_OPTIONS: Record<string, { value: string; label: string }[]> = {
 	ROOM: [
 		{ value: "GUEST_ROOM", label: "Guest Room - Hotel/accommodation rooms" },
 		{ value: "CONFERENCE_ROOM", label: "Conference Room - Meeting/conference rooms" },
