@@ -39,8 +39,6 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 		isGame ? (facility as Game).type : (facility as Facility).facilityType?.spaceType;
 	const getSubType = () => (isGame ? (facility as Game).subType : (facility as Facility).subtype);
 
-	console.log(JSON.stringify(facility, null, 2));
-
 	const nextImage = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();

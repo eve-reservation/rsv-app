@@ -17,16 +17,8 @@ export default function ConfirmPayment() {
 
 	// Fetch real facility data if not a game join
 	const { data: facilityData, isLoading } = useGetFacilityById(facilityId!, {
-		fields: "identifier, displayName, metadata, status, createdAt, updatedAt, location, images",
+		fields: "identifier, subtype, displayName, metadata, status, createdAt, updatedAt, location, images",
 	});
-
-	if (isLoading && !isGameJoin) {
-		return (
-			<div className="flex h-screen items-center justify-center">
-				<p>Loading booking details...</p>
-			</div>
-		);
-	}
 
 	// Helper to normalize data
 	const getBookingItem = () => {
@@ -40,7 +32,7 @@ export default function ConfirmPayment() {
 			return {
 				id: facilityData.id,
 				name: facilityData.displayName || facilityData.identifier,
-				type: facilityData.facilityType?.name || "Facility", // Use optional chaining
+				type: facilityData.subtype || "Facility", // Use optional chaining
 				images: (facilityData.images || []).map((img: any) =>
 					typeof img === "string" ? img : img.url || "/placeholder.svg",
 				),
@@ -104,6 +96,14 @@ export default function ConfirmPayment() {
 		}
 		return setMinutes(setHours(new Date(), 18), 0);
 	});
+
+	if (isLoading && !isGameJoin) {
+		return (
+			<div className="flex h-screen items-center justify-center">
+				<p>Loading booking details...</p>
+			</div>
+		);
+	}
 
 	if (!bookingItem) {
 		return (
