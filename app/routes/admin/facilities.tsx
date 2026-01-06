@@ -49,20 +49,22 @@ export default function Facilities() {
 					facilityTypes.map((type: any) => {
 						const mappedFacilities = (type.facilities || []).map((facility: any) => ({
 							id: facility.id,
-							name: facility.displayName,
-							type: type.spaceType,
-							subType: facility.subtype || type.subtype,
-							price: type.rateType?.baseRate || 0,
-							priceUnit: type.rateType?.rateUnit || "hour",
-							capacity: facility.metadata?.maxOccupancy || 0,
+							displayName: facility.displayName || facility.name,
+							facilityType: { spaceType: type.spaceType },
+							subtype: facility.subtype || type.subtype,
+							metadata: {
+								price: type.rateType?.baseRate || 0,
+								priceUnit: type.rateType?.rateUnit || "hour",
+								maxOccupancy: facility.metadata?.maxOccupancy || 0,
+								amenities: facility.metadata?.amenities || [],
+								description: type.description || "",
+							},
 							rating: 0,
 							reviewCount: 0,
 							images: (facility.images || [])
 								.filter((img: any) => img.type === "COVER")
-								.map((img: any) => img.url),
-							amenities: facility.metadata?.amenities || [],
-							description: type.description || "",
-							available: facility.status === "AVAILABLE",
+								.map((img: any) => ({ url: img.url, type: "COVER" })),
+							status: facility.status === "AVAILABLE" ? "AVAILABLE" : "MAINTENANCE",
 							category: "sports",
 						}));
 

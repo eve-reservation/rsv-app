@@ -17,7 +17,27 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 	const [isLiked, setIsLiked] = useState(false);
 
 	const isGame = "pricePerHead" in facility;
-	const images = facility.images || [];
+
+	// Helper to normalize images
+	const getImages = () => {
+		if (!facility.images) return [];
+		if (isGame) return (facility as Game).images;
+		// Facility images are objects
+		return (facility as Facility).images.map((img) => img.url);
+	};
+
+	const images = getImages();
+
+	// Helpers for properties that differ
+	const getName = () => (isGame ? (facility as Game).name : (facility as Facility).displayName);
+	const getRating = () => (isGame ? 0 : (facility as Facility).rating); // Game doesn't have rating in interface
+	const getPrice = () =>
+		isGame ? (facility as Game).pricePerHead : (facility as Facility).metadata?.price;
+	const getPriceUnit = () =>
+		isGame ? "head" : (facility as Facility).metadata?.priceUnit || "unit";
+	const getType = () =>
+		isGame ? (facility as Game).type : (facility as Facility).facilityType?.spaceType;
+	const getSubType = () => (isGame ? (facility as Game).subType : (facility as Facility).subtype);
 
 	console.log(JSON.stringify(facility, null, 2));
 
@@ -49,7 +69,7 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 				{images.length > 0 ? (
 					<img
 						src={images[currentImage]}
-						alt={facility.name}
+						alt={getName()}
 						className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
 					/>
 				) : (
@@ -122,11 +142,11 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 						: "mt-3",
 				)}>
 				<div className="flex items-start justify-between gap-2">
-					<h3 className="font-medium text-foreground line-clamp-1">{facility.name}</h3>
-					{!isGame && "rating" in facility && (
+					<h3 className="font-medium text-foreground line-clamp-1">{getName()}</h3>
+					{!isGame && (facility as Facility).rating && (
 						<div className="flex items-center gap-1 shrink-0">
 							<Star className="h-3.5 w-3.5 fill-foreground text-foreground" />
-							<span className="text-sm font-medium">{facility.rating}</span>
+							<span className="text-sm font-medium">{getRating()}</span>
 						</div>
 					)}
 					{isGame && (
@@ -139,31 +159,15 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 					)}
 				</div>
 				<p className="text-sm text-muted-foreground line-clamp-1">
-					{formatEnum(facility.subType)}
+					{formatEnum(getSubType() || "")}
 				</p>
 				<p className="text-sm text-muted-foreground line-clamp-1">
-					{formatEnum(facility.type)}
+					{formatEnum(getType() || "")}
 				</p>
 				<div className="mt-1 flex items-center justify-between">
 					<div>
-						{isGame ? (
-							<>
-								<span className="font-semibold">
-									₱{((facility as Game).pricePerHead || 0).toLocaleString()}
-								</span>
-								<span className="text-muted-foreground"> / head</span>
-							</>
-						) : (
-							<>
-								<span className="font-semibold">
-									₱{((facility as Facility).price || 0).toLocaleString()}
-								</span>
-								<span className="text-muted-foreground">
-									{" "}
-									/ {(facility as Facility).priceUnit || "unit"}
-								</span>
-							</>
-						)}
+						<span className="font-semibold">₱{(getPrice() || 0).toLocaleString()}</span>
+						<span className="text-muted-foreground"> / {getPriceUnit()}</span>
 					</div>
 					{isGame && "date" in facility && (
 						<div className="flex items-center gap-1 shrink-0">
