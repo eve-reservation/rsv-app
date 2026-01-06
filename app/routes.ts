@@ -4,6 +4,7 @@ const authRoutes: RouteConfig = [route("/admin/login", "routes/auth/login.tsx")]
 
 const userRoutes: RouteConfig = [
 	index("routes/user/landing.tsx"),
+	route("/facility/", "routes/user/filtered-facilities.tsx"),
 	route("/facility/:id", "routes/user/facility.tsx"),
 	route("/reservation/confirmation", "routes/user/booking-confirmation.tsx"),
 	route("/reservation/complete", "routes/user/booking-complete.tsx"),
