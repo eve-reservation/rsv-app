@@ -17,7 +17,7 @@ export default function EditFacility() {
 	const navigate = useNavigate();
 
 	const { data: facilityData, isLoading } = useGetFacilityById(id!, {
-		fields: "identifier, displayName, metadata, status, createdAt, updatedAt, location, images",
+		fields: "identifier, displayName, subtype, metadata, status, createdAt, updatedAt, location, images",
 	});
 
 	const { mutate: updateFacility, isPending: isUpdating } = useUpdateFacility();
@@ -137,7 +137,7 @@ export default function EditFacility() {
 		payload.append("metadata", JSON.stringify(metadata));
 
 		// Handle images
-		
+
 		// Existing images (strings)
 		// formData.images.forEach((img) => {
 		// 	if (typeof img === "string" && !img.startsWith("blob:")) {

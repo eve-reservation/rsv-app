@@ -45,10 +45,10 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 	// const facility = facilities.find((f) => f.id === id);
 
 	const { data: facilityData, isLoading } = useGetFacilityById(id!, {
-		fields: "identifier, displayName, metadata, status, createdAt, updatedAt, location, images",
+		fields: "identifier, displayName, subType, metadata, status, createdAt, updatedAt, location, images",
 	});
 
-	const [isLiked, setIsLiked] = useState(false);
+const [isLiked, setIsLiked] = useState(false)
 	const [date, setDate] = useState<Date | undefined>(new Date());
 	const [startTime, setStartTime] = useState<Date | undefined>(
 		setMinutes(setHours(new Date(), 9), 0),

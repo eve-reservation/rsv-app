@@ -4,7 +4,7 @@ import type { Facility, Game } from "@/lib/data";
 import { Star, Heart, ChevronLeft, ChevronRight, Users, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, formatEnum } from "@/lib/utils";
 
 interface FacilityCardProps {
 	facility: Facility | Game;
@@ -138,8 +138,12 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 						</div>
 					)}
 				</div>
-				<p className="text-sm text-muted-foreground line-clamp-1">{facility.subType}</p>
-				<p className="text-sm text-muted-foreground line-clamp-1">{facility.type}</p>
+				<p className="text-sm text-muted-foreground line-clamp-1">
+					{formatEnum(facility.subType)}
+				</p>
+				<p className="text-sm text-muted-foreground line-clamp-1">
+					{formatEnum(facility.type)}
+				</p>
 				<div className="mt-1 flex items-center justify-between">
 					<div>
 						{isGame ? (
