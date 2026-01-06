@@ -16,7 +16,7 @@ export default function LandingPage() {
 		<div className="min-h-screen flex flex-col bg-background relative isolate overflow-hidden">
 			<BackgroundPattern />
 			{/* Hero Section */}
-			<section className="pt-8 pb-6 px-4 sm:px-6 lg:px-8">
+			<section className="pt-8 pb-6 ">
 				<div className="mx-auto max-w-7xl">
 					<div className="text-center mb-8">
 						<h1 className="font-serif text-4xl md:text-5xl font-medium tracking-tight text-foreground text-balance">
@@ -31,7 +31,7 @@ export default function LandingPage() {
 			</section>
 			{/* Deals Section */}
 			{/* Facility Sections */}
-			<main className="pt-8 pb-6 px-4 sm:px-6 lg:px-8">
+			<main className="pt-8 pb-6">
 				<DealsSection />
 				{/* DYNAMIC FACILITY TYPES */}
 				<div className="mx-auto max-w-7xl">
