@@ -173,12 +173,12 @@ type RouteFiles = {
     id: "routes/admin/dashboard";
     page: "/admin/dashboard";
   };
-  "routes/admin/bookings.tsx": {
-    id: "routes/admin/bookings";
+  "routes/admin/reservations.tsx": {
+    id: "routes/admin/reservations";
     page: "/admin/reservation";
   };
-  "routes/admin/booking.tsx": {
-    id: "routes/admin/booking";
+  "routes/admin/reservation.tsx": {
+    id: "routes/admin/reservation";
     page: "/admin/reservation/:id";
   };
   "routes/admin/facilities.tsx": {
@@ -245,8 +245,8 @@ type RouteModules = {
   "layouts/admin-layout": typeof import("./app/layouts/admin-layout.tsx");
   "routes/admin/admin": typeof import("./app/routes/admin/admin.tsx");
   "routes/admin/dashboard": typeof import("./app/routes/admin/dashboard.tsx");
-  "routes/admin/bookings": typeof import("./app/routes/admin/bookings.tsx");
-  "routes/admin/booking": typeof import("./app/routes/admin/booking.tsx");
+  "routes/admin/reservations": typeof import("./app/routes/admin/reservations.tsx");
+  "routes/admin/reservation": typeof import("./app/routes/admin/reservation.tsx");
   "routes/admin/facilities": typeof import("./app/routes/admin/facilities.tsx");
   "routes/admin/facility": typeof import("./app/routes/admin/facility.tsx");
   "routes/admin/edit-facility": typeof import("./app/routes/admin/edit-facility.tsx");
