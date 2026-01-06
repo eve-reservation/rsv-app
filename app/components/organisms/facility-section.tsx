@@ -14,6 +14,7 @@ interface FacilitySectionProps {
 	cardVariant?: "vertical" | "horizontal";
 	action?: React.ReactNode;
 	facilityTypeId?: string;
+	spaceType?: string;
 }
 
 export function FacilitySection({
@@ -24,6 +25,7 @@ export function FacilitySection({
 	cardVariant = "vertical",
 	action,
 	facilityTypeId,
+	spaceType,
 }: FacilitySectionProps) {
 	// ... (existing code: scrollContainerRef, scroll function, getItemStyle)
 
@@ -110,6 +112,7 @@ export function FacilitySection({
 							style={getItemStyle()}>
 							<CreateFacilityModal
 								facilityTypeId={facilityTypeId}
+								spaceType={spaceType}
 								trigger={
 									<div className="group block cursor-pointer">
 										<div
@@ -149,6 +152,7 @@ export function FacilitySection({
 							style={getItemStyle()}>
 							<CreateFacilityModal
 								facilityTypeId={facilityTypeId}
+								spaceType={spaceType}
 								trigger={
 									<div className="group block cursor-pointer">
 										<div

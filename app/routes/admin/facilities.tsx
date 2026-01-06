@@ -86,6 +86,7 @@ export default function Facilities() {
 									</div>
 								}
 								facilityTypeId={type.id}
+								spaceType={type.spaceType}
 							/>
 						);
 					})

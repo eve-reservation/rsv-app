@@ -85,15 +85,6 @@ export function CreateFacilityTypeModal({ trigger }: CreateFacilityTypeModalProp
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
 					<div className="grid gap-2">
-						<Label htmlFor="name">Name</Label>
-						<Input
-							id="name"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							placeholder="e.g. Sports Court"
-						/>
-					</div>
-					<div className="grid gap-2">
 						<Label htmlFor="facilityType">Facility Type</Label>
 						<Select value={facilityType} onValueChange={setFacilityType}>
 							<SelectTrigger id="facilityType" className="w-full">
@@ -107,6 +98,15 @@ export function CreateFacilityTypeModal({ trigger }: CreateFacilityTypeModalProp
 								))}
 							</SelectContent>
 						</Select>
+					</div>
+					<div className="grid gap-2">
+						<Label htmlFor="name">Name</Label>
+						<Input
+							id="name"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							placeholder="e.g. Sports Court"
+						/>
 					</div>
 				</div>
 				<DialogFooter>
