@@ -19,6 +19,8 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 	const isGame = "pricePerHead" in facility;
 	const images = facility.images || [];
 
+	console.log(JSON.stringify(facility, null, 2));
+
 	const nextImage = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
@@ -136,7 +138,7 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 						</div>
 					)}
 				</div>
-				<p className="text-sm text-muted-foreground line-clamp-1">{facility.location}</p>
+				<p className="text-sm text-muted-foreground line-clamp-1">{facility.subType}</p>
 				<p className="text-sm text-muted-foreground line-clamp-1">{facility.type}</p>
 				<div className="mt-1 flex items-center justify-between">
 					<div>

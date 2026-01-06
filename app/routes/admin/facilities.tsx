@@ -51,7 +51,7 @@ export default function Facilities() {
 							id: facility.id,
 							name: facility.displayName,
 							type: type.spaceType,
-							location: type.subtype,
+							subType: facility.subtype || type.subtype,
 							price: type.rateType?.baseRate || 0,
 							priceUnit: type.rateType?.rateUnit || "hour",
 							capacity: facility.metadata?.maxOccupancy || 0,
