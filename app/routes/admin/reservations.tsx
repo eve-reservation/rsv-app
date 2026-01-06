@@ -22,13 +22,13 @@ import { Link, useNavigate } from "react-router";
 import { DataTable, type DataTableColumn } from "@/components/molecule/data-table";
 import { Input } from "~/components/ui/input";
 import { StatCard } from "~/components/molecule/stat-card";
+import { useGetReservations } from "~/hooks/use-reservations";
 
-const bookings = [
+const reservations = [
 	{
 		id: "BK001",
 		user: { name: "Juan Dela Cruz", email: "juan@email.com", avatar: "JD" },
 		facility: "BGC Full Court",
-		sport: "Basketball",
 		location: "Taguig, Metro Manila",
 		date: "Dec 10, 2025",
 		time: "3:00 PM - 5:00 PM",
@@ -41,7 +41,6 @@ const bookings = [
 		id: "BK002",
 		user: { name: "Maria Santos", email: "maria@email.com", avatar: "MS" },
 		facility: "Makati Tennis Club",
-		sport: "Tennis",
 		location: "Makati, Metro Manila",
 		date: "Dec 10, 2025",
 		time: "9:00 AM - 11:00 AM",
@@ -54,7 +53,6 @@ const bookings = [
 		id: "BK003",
 		user: { name: "Carlos Reyes", email: "carlos@email.com", avatar: "CR" },
 		facility: "Ayala Alabang Futsal Pitch",
-		sport: "Futsal",
 		location: "Muntinlupa, Metro Manila",
 		date: "Dec 11, 2025",
 		time: "6:00 PM - 8:00 PM",
@@ -67,7 +65,6 @@ const bookings = [
 		id: "BK004",
 		user: { name: "Ana Garcia", email: "ana@email.com", avatar: "AG" },
 		facility: "La Union Beach Volleyball",
-		sport: "Volleyball",
 		location: "San Juan, La Union",
 		date: "Dec 12, 2025",
 		time: "8:00 AM - 12:00 PM",
@@ -80,7 +77,6 @@ const bookings = [
 		id: "BK005",
 		user: { name: "Pedro Lim", email: "pedro@email.com", avatar: "PL" },
 		facility: "MOA Badminton Center",
-		sport: "Badminton",
 		location: "Pasay, Metro Manila",
 		date: "Dec 12, 2025",
 		time: "2:00 PM - 4:00 PM",
@@ -93,7 +89,6 @@ const bookings = [
 		id: "BK006",
 		user: { name: "Rosa Mendoza", email: "rosa@email.com", avatar: "RM" },
 		facility: "Quezon City Sports Complex",
-		sport: "Basketball",
 		location: "Quezon City, Metro Manila",
 		date: "Dec 13, 2025",
 		time: "5:00 PM - 7:00 PM",
@@ -106,7 +101,6 @@ const bookings = [
 		id: "BK007",
 		user: { name: "Miguel Torres", email: "miguel@email.com", avatar: "MT" },
 		facility: "Makati Tennis Club",
-		sport: "Tennis",
 		location: "Makati, Metro Manila",
 		date: "Dec 14, 2025",
 		time: "7:00 AM - 9:00 AM",
@@ -125,9 +119,10 @@ const statusStyles = {
 
 export default function BookingsPage() {
 	const navigate = useNavigate();
-	const [selectedBooking, setSelectedBooking] = useState<(typeof bookings)[0] | null>(null);
+	const [selectedBooking, setSelectedBooking] = useState<(typeof reservations)[0] | null>(null);
+	const { data, isLoading } = useGetReservations();
 
-	const tableData = bookings.map((booking) => ({
+	const tableData = reservations.map((booking) => ({
 		...booking,
 		userName: booking.user.name,
 		userEmail: booking.user.email,
@@ -180,19 +175,6 @@ export default function BookingsPage() {
 					<div className="text-muted-foreground">{row.time}</div>
 				</div>
 			),
-		},
-		{
-			key: "sport",
-			label: "Sport",
-			filterable: true,
-			filterOptions: [
-				{ label: "Basketball", value: "Basketball" },
-				{ label: "Tennis", value: "Tennis" },
-				{ label: "Futsal", value: "Futsal" },
-				{ label: "Volleyball", value: "Volleyball" },
-				{ label: "Badminton", value: "Badminton" },
-			],
-			render: (val) => <span className="text-sm">{val}</span>,
 		},
 		{
 			key: "status",

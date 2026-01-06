@@ -2,6 +2,7 @@ import { Link, useSearchParams } from "react-router";
 import { FacilityCard } from "~/components/molecule/facility-card";
 import { useGetFacilities } from "~/hooks/use-facilities";
 import type { Facility } from "~/lib/data";
+import { FacilitySkeletonGrid } from "~/components/skeletons/facility-skeleton-grid";
 
 export default function FilteredFacilities() {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -13,7 +14,14 @@ export default function FilteredFacilities() {
 	});
 
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return (
+			<div className="container mx-auto py-8">
+				<h2 className="text-2xl font-semibold tracking-tight mb-6 capitalize">
+					{title || "All Facilities"}
+				</h2>
+				<FacilitySkeletonGrid />
+			</div>
+		);
 	}
 
 	// Direct usage of data, assuming API returns structure matching Facility
