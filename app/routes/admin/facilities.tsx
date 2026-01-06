@@ -30,48 +30,66 @@ export default function Facilities() {
 				</div>
 			</div>
 			<div>
-				{facilityTypes.map((type: any) => {
-					const mappedFacilities = (type.facilities || []).map((facility: any) => ({
-						id: facility.id,
-						name: facility.displayName,
-						type: type.spaceType,
-						location: type.subtype,
-						price: type.rateType?.baseRate || 0,
-						priceUnit: type.rateType?.rateUnit || "hour",
-						capacity: facility.metadata?.maxOccupancy || 0,
-						rating: 0,
-						reviewCount: 0,
-						images: (facility.images || [])
-							.filter((img: any) => img.type === "COVER")
-							.map((img: any) => img.url),
-						amenities: facility.metadata?.amenities || [],
-						description: type.description || "",
-						available: facility.status === "AVAILABLE",
-						category: "sports",
-					}));
+				{facilityTypes.length === 0 ? (
+					<div className="flex flex-col items-center justify-center p-8 bg-muted/10 rounded-lg border border-dashed text-center">
+						<div className="max-w-[420px] space-y-4">
+							<h3 className="text-lg font-semibold">No facility types found</h3>
+							<p className="text-sm text-muted-foreground">
+								You haven't created any facility types yet. Create one to start
+								managing your facilities.
+							</p>
+							<CreateFacilityTypeModal
+								trigger={
+									<Button className="cursor-pointer">Add facility type</Button>
+								}
+							/>
+						</div>
+					</div>
+				) : (
+					facilityTypes.map((type: any) => {
+						const mappedFacilities = (type.facilities || []).map((facility: any) => ({
+							id: facility.id,
+							name: facility.displayName,
+							type: type.spaceType,
+							location: type.subtype,
+							price: type.rateType?.baseRate || 0,
+							priceUnit: type.rateType?.rateUnit || "hour",
+							capacity: facility.metadata?.maxOccupancy || 0,
+							rating: 0,
+							reviewCount: 0,
+							images: (facility.images || [])
+								.filter((img: any) => img.type === "COVER")
+								.map((img: any) => img.url),
+							amenities: facility.metadata?.amenities || [],
+							description: type.description || "",
+							available: facility.status === "AVAILABLE",
+							category: "sports",
+						}));
 
-					return (
-						<FacilitySection
-							key={type.id}
-							title={type.name}
-							facilities={mappedFacilities}
-							basePath="/admin/facility"
-							action={
-								<div className="flex gap-2">
-									<DeleteFacilityTypeModal
-										facilityTypeId={type.id}
-										typeName={type.name}
-									/>
-									<CreateFacilityModal
-										facilityTypeId={type.id}
-										trigger={<Button size="sm">Add Facility</Button>}
-									/>
-								</div>
-							}
-							facilityTypeId={type.id}
-						/>
-					);
-				})}
+						return (
+							<FacilitySection
+								key={type.id}
+								title={type.name}
+								facilities={mappedFacilities}
+								basePath="/admin/facility"
+								action={
+									<div className="flex gap-2">
+										<DeleteFacilityTypeModal
+											facilityTypeId={type.id}
+											typeName={type.name}
+										/>
+										<CreateFacilityModal
+											facilityTypeId={type.id}
+											spaceType={type.spaceType}
+											trigger={<Button size="sm">Add Facility</Button>}
+										/>
+									</div>
+								}
+								facilityTypeId={type.id}
+							/>
+						);
+					})
+				)}
 			</div>
 		</div>
 	);
