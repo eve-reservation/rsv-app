@@ -151,11 +151,11 @@ export default function ConfirmPayment() {
 	};
 
 	return (
-		<div className="min-h-screen bg-background">
+		<div className="bg-background">
 			{/* Main Content */}
 			<main className="mx-auto max-w-6xl px-6">
 				{/* Page Title */}
-				<div className="mb-8 flex items-center gap-4">
+				<div className="mb-4 pt-4 flex items-center gap-4">
 					<button
 						onClick={() => navigate(-1)}
 						className="rounded-full p-2 hover:bg-muted transition-colors">
@@ -165,7 +165,7 @@ export default function ConfirmPayment() {
 				</div>
 
 				{/* Reversed Layout: Booking Details (Left) | Steps (Right) */}
-				<div className="grid gap-8 lg:grid-cols-2">
+				<div className="grid gap-6 lg:grid-cols-2">
 					<BookingSummary
 						bookingItem={bookingItem}
 						linkedFacility={linkedFacility}
@@ -212,8 +212,8 @@ export default function ConfirmPayment() {
 							};
 
 							createReservation(payload, {
-								onSuccess: () => {
-									navigate("/reservation/complete");
+								onSuccess: (responseData: any) => {
+									navigate(`/reservation/complete?newBooking=${responseData.id}`);
 								},
 								onError: (error) => {
 									console.error("Failed to create reservation:", error);
