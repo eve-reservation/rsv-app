@@ -89,8 +89,8 @@ export function Header() {
 								<Button
 									variant="outline"
 									className={cn(
-										"flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 h-auto border-border hover:shadow-md transition-shadow ",
-										user ? "bg-primary/30" : "text-muted-foreground",
+										"flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 h-auto border-border hover:shadow-md transition-all duration-150",
+										user ? "bg-primary/30 hover:bg-primary/20" : "text-muted-foreground",
 									)}>
 									<Menu className="h-4 w-4" />
 									<div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center">

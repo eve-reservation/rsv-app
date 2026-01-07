@@ -27,6 +27,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 import { BackButton } from "../molecule/back-button";
 import { useGetFacilityById } from "~/hooks/use-facilities";
+import { FacilitySkeleton } from "../skeletons/facility-skeleton";
 
 const amenityIcons: Record<string, React.ElementType> = {
 	WiFi: Wifi,
@@ -63,7 +64,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		setEndTime(end);
 	};
 
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading) return <FacilitySkeleton />;
 
 	if (!facilityData) {
 		return (
@@ -132,7 +133,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 						{/* Left Content */}
 						<div className="lg:col-span-2 space-y-8">
 							{/* Image Gallery */}
-							<div className="relative grid grid-cols-3 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-2xl overflow-hidden">
+							<div className="relative grid grid-cols-3 grid-rows-2 gap-2 h-[400px] md:h-[460px] rounded-2xl overflow-hidden">
 								{/* Main Large Image - Left Side (2x2) */}
 								<div
 									className={cn(
