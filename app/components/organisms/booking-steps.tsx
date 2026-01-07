@@ -241,7 +241,7 @@ export function BookingSteps({
 			</Card>
 
 			{/* Step 4: Review your reservation */}
-			<Card className="overflow-hidden p-0">
+			<Card className="overflow-hidden p-0 gap-0">
 				<button
 					onClick={() => setActiveStep(activeStep === 4 ? 0 : 4)}
 					className="flex w-full items-center justify-between p-6">
@@ -251,7 +251,7 @@ export function BookingSteps({
 				</button>
 				{activeStep === 4 && (
 					<div className="px-6 pb-6">
-						<p className="text-muted-foreground">
+						<p className="text-muted-foreground text-sm">
 							Review your booking details before confirming your payment.
 						</p>
 						<div className="flex justify-end">

@@ -7,6 +7,7 @@ import { useGetFacilityById } from "~/hooks/use-facilities";
 import { useCreateReservation } from "~/hooks/use-reservations";
 import { BookingSummary } from "~/components/organisms/booking-summary";
 import { BookingSteps } from "~/components/organisms/booking-steps";
+import { useAuth } from "~/hooks/use-auth";
 
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
@@ -19,6 +20,8 @@ export default function ConfirmPayment() {
 	const { data: facilityData, isLoading } = useGetFacilityById(facilityId!, {
 		fields: "identifier, subtype, displayName, metadata, status, createdAt, updatedAt, location, images",
 	});
+
+	const { user } = useAuth();
 
 	// Helper to normalize data
 	const getBookingItem = () => {
@@ -175,6 +178,9 @@ export default function ConfirmPayment() {
 						totalPrice={totalPrice}
 						serviceFee={serviceFee}
 						grandTotal={grandTotal}
+						selectedDate={selectedDate}
+						startTime={startTime}
+						endTime={endTime}
 					/>
 
 					<BookingSteps
@@ -203,6 +209,7 @@ export default function ConfirmPayment() {
 							const payload = {
 								facilityId: facilityId,
 								guestCount: players,
+								userId: user?.id,
 								bookingPeriod: {
 									startDateTime: startTime.toISOString(), // Ensure this date includes the date part correctly if selectedDate is different
 									endDateTime: endTime.toISOString(),

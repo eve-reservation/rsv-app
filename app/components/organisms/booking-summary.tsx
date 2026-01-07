@@ -3,6 +3,8 @@ import { Star } from "lucide-react";
 import type { Game } from "@/lib/data";
 import { formatEnum } from "~/lib/utils";
 
+import { format } from "date-fns";
+
 interface BookingSummaryProps {
 	bookingItem: any;
 	linkedFacility: any;
@@ -12,6 +14,9 @@ interface BookingSummaryProps {
 	totalPrice: number;
 	serviceFee: number;
 	grandTotal: number;
+	selectedDate?: Date;
+	startTime?: Date;
+	endTime?: Date;
 }
 
 export function BookingSummary({
@@ -23,6 +28,9 @@ export function BookingSummary({
 	totalPrice,
 	serviceFee,
 	grandTotal,
+	selectedDate,
+	startTime,
+	endTime,
 }: BookingSummaryProps) {
 	return (
 		<div className="order-2 lg:order-1">
@@ -69,9 +77,18 @@ export function BookingSummary({
 						{isGameJoin ? (
 							(bookingItem as Game).date // Use game string date
 						) : (
-							<p className="text-lg font-semibold mt-1">
-								{(bookingItem as Game).date}
-							</p>
+							<div className="space-y-1">
+								{selectedDate && (
+									<p className="font-medium text-foreground">
+										{format(selectedDate, "MMM d, yyyy")}
+									</p>
+								)}
+								{startTime && endTime && (
+									<p>
+										{format(startTime, "h:mm a")} - {format(endTime, "h:mm a")}
+									</p>
+								)}
+							</div>
 						)}
 					</div>
 				</div>
