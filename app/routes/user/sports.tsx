@@ -5,6 +5,8 @@ import { facilities, games } from "@/lib/data";
 import { Header } from "~/components/organisms/header";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
+import { Link } from "react-router";
+import { FacilityCard } from "~/components/molecule/facility-card";
 
 export function meta({}: Route.MetaArgs) {
 	return [{ title: PAGE_TITLES.sports || "Sports | Reserve" }];
@@ -15,10 +17,12 @@ export default function SportsPage() {
 	const popularCourts = sportsFacilities.filter((f) => f.rating >= 4.8);
 	const basketballFacilities = sportsFacilities.filter(
 		(f) =>
-			f.name.toLowerCase().includes("basketball") ||
-			f.description.toLowerCase().includes("basketball"),
+			f.displayName.toLowerCase().includes("basketball") ||
+			(f.metadata.description || "").toLowerCase().includes("basketball"),
 	);
-	const racquetFacilities = sportsFacilities.filter((f) => f.type === "Racquet Sports");
+	const racquetFacilities = sportsFacilities.filter(
+		(f) => f.facilityType?.spaceType === "Racquet Sports",
+	);
 
 	return (
 		<div className="min-h-screen flex flex-col bg-background relative isolate overflow-hidden">
@@ -46,45 +50,60 @@ export default function SportsPage() {
 			<main>
 				<div className="mx-auto max-w-7xl">
 					{/* Popular Courts */}
-					<FacilitySection
-						title="Most Popular Courts"
-						facilities={popularCourts}
-						columns={3}
-					/>
+					<FacilitySection title="Most Popular Courts" columns={3}>
+						{popularCourts.map((facility) => (
+							<Link key={facility.id} to={`/facility/${facility.id}`}>
+								<FacilityCard facility={facility} />
+							</Link>
+						))}
+					</FacilitySection>
 
 					{/* Open Games */}
-					<FacilitySection
-						title="Open Games Near You"
-						facilities={games}
-						columns={2}
-						cardVariant="horizontal"
-					/>
+					<FacilitySection title="Open Games Near You" columns={2}>
+						{games.map((game) => (
+							<Link key={game.id} to={`/facility/${game.id}`}>
+								<FacilityCard facility={game} variant="horizontal" />
+							</Link>
+						))}
+					</FacilitySection>
 
 					<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border mb-6" />
 
 					{/* Specific Sports Facilities */}
 					{basketballFacilities.length > 0 && (
-						<FacilitySection
-							title="Basketball Facilities"
-							facilities={basketballFacilities}
-						/>
+						<FacilitySection title="Basketball Facilities">
+							{basketballFacilities.map((facility) => (
+								<Link key={facility.id} to={`/facility/${facility.id}`}>
+									<FacilityCard facility={facility} />
+								</Link>
+							))}
+						</FacilitySection>
 					)}
 
 					{racquetFacilities.length > 0 && (
-						<FacilitySection
-							title="Racquet Sports Facilities"
-							facilities={racquetFacilities}
-						/>
+						<FacilitySection title="Racquet Sports Facilities">
+							{racquetFacilities.map((facility) => (
+								<Link key={facility.id} to={`/facility/${facility.id}`}>
+									<FacilityCard facility={facility} />
+								</Link>
+							))}
+						</FacilitySection>
 					)}
 
 					{/* Remaining Sports - if needed, or just general "Other Sports" */}
-					<FacilitySection
-						title="All Sports Facilities"
-						facilities={sportsFacilities.filter(
-							(f) =>
-								!basketballFacilities.includes(f) && !racquetFacilities.includes(f),
-						)}
-					/>
+					<FacilitySection title="All Sports Facilities">
+						{sportsFacilities
+							.filter(
+								(f) =>
+									!basketballFacilities.includes(f) &&
+									!racquetFacilities.includes(f),
+							)
+							.map((facility) => (
+								<Link key={facility.id} to={`/facility/${facility.id}`}>
+									<FacilityCard facility={facility} />
+								</Link>
+							))}
+					</FacilitySection>
 				</div>
 			</main>
 		</div>

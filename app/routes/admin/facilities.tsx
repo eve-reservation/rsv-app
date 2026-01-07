@@ -4,6 +4,9 @@ import { useGetFacilityTypes } from "~/hooks/use-facility-types";
 import { CreateFacilityTypeModal } from "~/components/molecule/create-facility-type-modal";
 import { CreateFacilityModal } from "~/components/molecule/create-facility-modal";
 import { DeleteFacilityTypeModal } from "~/components/molecule/delete-facility-type-modal";
+import { Link } from "react-router";
+import { FacilityCard } from "~/components/molecule/facility-card";
+import { Plus } from "lucide-react";
 
 export default function Facilities() {
 	const { data, isLoading } = useGetFacilityTypes({
@@ -74,8 +77,6 @@ export default function Facilities() {
 							<FacilitySection
 								key={type.id}
 								title={type.name}
-								facilities={mappedFacilities}
-								basePath="/admin/facility"
 								action={
 									<div className="flex gap-2">
 										<DeleteFacilityTypeModal
@@ -88,11 +89,32 @@ export default function Facilities() {
 											trigger={<Button size="sm">Add Facility</Button>}
 										/>
 									</div>
-								}
-								facilityTypeId={type.id}
-								spaceType={type.spaceType}
-								admin
-							/>
+								}>
+								{mappedFacilities.map((facility: any) => (
+									<Link key={facility.id} to={`/admin/facility/${facility.id}`}>
+										<FacilityCard facility={facility} admin />
+									</Link>
+								))}
+								<CreateFacilityModal
+									facilityTypeId={type.id}
+									spaceType={type.spaceType}
+									trigger={
+										<div className="group block cursor-pointer">
+											<div className="aspect-[4/3] rounded-2xl w-full relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors">
+												<Plus className="h-12 w-12 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
+											</div>
+											<div className="mt-3">
+												<h3 className="font-medium text-foreground text-center">
+													Create Facility
+												</h3>
+												<p className="text-sm text-muted-foreground text-center">
+													Add a new facility to this category
+												</p>
+											</div>
+										</div>
+									}
+								/>
+							</FacilitySection>
 						);
 					})
 				)}

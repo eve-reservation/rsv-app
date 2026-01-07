@@ -1,38 +1,15 @@
-import { useRef } from "react";
-import { Link } from "react-router";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { useRef, Children, cloneElement, type ReactElement } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FacilityCard } from "@/components/molecule/facility-card";
-import type { Facility, Game } from "@/lib/data";
-import { CreateFacilityModal } from "@/components/molecule/create-facility-modal";
 
 interface FacilitySectionProps {
 	title: string;
-	facilities: (Facility | Game)[];
-	basePath?: string;
+	children: React.ReactNode;
 	columns?: number;
-	cardVariant?: "vertical" | "horizontal";
 	action?: React.ReactNode;
-	facilityTypeId?: string;
-	spaceType?: string;
-	getLink?: (facility: Facility | Game) => string;
-	admin?: boolean;
 }
 
-export function FacilitySection({
-	title,
-	facilities,
-	basePath = "/facility",
-	columns,
-	cardVariant = "vertical",
-	action,
-	facilityTypeId,
-	spaceType,
-	getLink,
-	admin,
-}: FacilitySectionProps) {
-	// ... (existing code: scrollContainerRef, scroll function, getItemStyle)
-
+export function FacilitySection({ title, children, columns, action }: FacilitySectionProps) {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
 	const scroll = (direction: "left" | "right") => {
@@ -57,6 +34,8 @@ export function FacilitySection({
 			width: `calc((100% - ${(columns - 1) * 1.5}rem) / ${columns})`,
 		};
 	};
+
+	const hasChildren = Children.count(children) > 0;
 
 	return (
 		<section className="">
@@ -88,102 +67,31 @@ export function FacilitySection({
 				</div>
 			</div>
 
-			{facilities.length > 0 ? (
+			{hasChildren ? (
 				<div
 					ref={scrollContainerRef}
 					className="flex gap-6 overflow-x-auto md:overflow-hidden pb-4 scroll-smooth snap-x">
-					{facilities.map((facility) => (
-						<div
-							key={facility.id}
-							className={
-								columns
-									? "flex-none"
-									: `w-[75%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] ${admin ? "xl:w-[calc((100%-6rem)/5)]" : "xl:w-[calc((100%-4.5rem)/4)]"} flex-none snap-center`
-							}
-							style={getItemStyle()}>
-							<Link to={getLink ? getLink(facility) : `${basePath}/${facility.id}`}>
-								<FacilityCard facility={facility} variant={cardVariant} admin />
-							</Link>
-						</div>
-					))}
-					{/* Always show "Create Facility" card at the end if facilityTypeId is present */}
-					{facilityTypeId && (
-						<div
-							className={
-								columns
-									? "flex-none"
-									: `w-[75%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] ${admin ? "xl:w-[calc((100%-6rem)/5)]" : "xl:w-[calc((100%-4.5rem)/4)]"} flex-none snap-center`
-							}
-							style={getItemStyle()}>
-							<CreateFacilityModal
-								facilityTypeId={facilityTypeId}
-								spaceType={spaceType}
-								trigger={
-									<div className="group block cursor-pointer">
-										<div
-											className={
-												cardVariant === "horizontal"
-													? "w-80 shrink-0 rounded-xl aspect-[4/3] relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
-													: "aspect-[4/3] rounded-2xl w-full relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
-											}>
-											<Plus className="h-12 w-12 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
-										</div>
-										<div
-											className={
-												cardVariant === "horizontal" ? "mt-0" : "mt-3"
-											}>
-											<h3 className="font-medium text-foreground text-center">
-												Create Facility
-											</h3>
-											<p className="text-sm text-muted-foreground text-center">
-												Add a new facility to this category
-											</p>
-										</div>
-									</div>
+					{Children.map(children, (child, index) => {
+						if (!child) return null;
+						return (
+							<div
+								key={index}
+								className={
+									columns
+										? "flex-none"
+										: "w-[75%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none snap-center"
 								}
-							/>
-						</div>
-					)}
+								style={getItemStyle()}>
+								{child}
+							</div>
+						);
+					})}
 				</div>
 			) : (
 				<div className="flex gap-6 overflow-hidden pb-4">
-					{facilityTypeId && (
-						<div
-							className={
-								columns
-									? "flex-none"
-									: `w-[75%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] ${admin ? "xl:w-[calc((100%-6rem)/5)]" : "xl:w-[calc((100%-4.5rem)/4)]"} flex-none snap-center`
-							}
-							style={getItemStyle()}>
-							<CreateFacilityModal
-								facilityTypeId={facilityTypeId}
-								spaceType={spaceType}
-								trigger={
-									<div className="group block cursor-pointer">
-										<div
-											className={
-												cardVariant === "horizontal"
-													? "w-80 shrink-0 rounded-xl aspect-[4/3] relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
-													: "aspect-[4/3] rounded-2xl w-full relative overflow-hidden bg-muted/30 border-2 border-dashed border-muted-foreground/25 flex items-center justify-center hover:bg-muted/50 transition-colors"
-											}>
-											<Plus className="h-12 w-12 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
-										</div>
-										<div
-											className={
-												cardVariant === "horizontal" ? "mt-0" : "mt-3"
-											}>
-											<h3 className="font-medium text-foreground text-center">
-												Create Facility
-											</h3>
-											<p className="text-sm text-muted-foreground text-center">
-												Add a new facility to this category
-											</p>
-										</div>
-									</div>
-								}
-							/>
-						</div>
-					)}
+					<div className="w-full text-center text-muted-foreground py-8">
+						No items available
+					</div>
 				</div>
 			)}
 		</section>

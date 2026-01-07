@@ -10,6 +10,8 @@ import { facilities, games, mockLandingData, type Facility } from "@/lib/data";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
 import { DealsSection } from "~/components/organisms/deals-section";
+import { Link } from "react-router";
+import { FacilityCard } from "~/components/molecule/facility-card";
 
 export default function LandingPage() {
 	return (
@@ -42,27 +44,29 @@ export default function LandingPage() {
 						if ((type.facilities || []).length === 0) return null;
 
 						return (
-							<FacilitySection
-								key={type.id}
-								title={type.name}
-								facilities={type.facilities}
-								getLink={(facility) =>
-									`/facility?title=${facility.id}&filter=${(facility as Facility).filter}`
-								}
-							/>
+							<FacilitySection key={type.id} title={type.name}>
+								{type.facilities.map((facility: Facility) => (
+									<Link
+										key={facility.id}
+										to={`/facility?title=${facility.id}&filter=${facility.filter}`}>
+										<FacilityCard facility={facility} />
+									</Link>
+								))}
+							</FacilitySection>
 						);
 					})}
 				</div>
 
 				<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border" />
 				{/* OPEN/PUBLIC GAMES */}
-				<div className="mx-auto max-w-7xl">
-					<FacilitySection
-						title="Browse public games near you"
-						facilities={games}
-						columns={2}
-						cardVariant="horizontal"
-					/>
+				<div className="mx-auto max-w-7xl py-6">
+					<FacilitySection title="Browse public games near you" columns={2}>
+						{games.map((game) => (
+							<Link key={game.id} to={`/facility/${game.id}`}>
+								<FacilityCard facility={game} variant="horizontal" />
+							</Link>
+						))}
+					</FacilitySection>
 				</div>
 			</main>
 		</div>

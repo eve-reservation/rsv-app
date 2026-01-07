@@ -4,6 +4,8 @@ import { BackgroundPattern } from "~/components/ui/background-pattern";
 import { facilities } from "@/lib/data";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
+import { Link } from "react-router";
+import { FacilityCard } from "~/components/molecule/facility-card";
 
 export function meta({}: Route.MetaArgs) {
 	return [{ title: PAGE_TITLES.lifestyle || "Lifestyle | Reserve" }];
@@ -16,15 +18,15 @@ export default function LifestylePage() {
 
 	const wellnessAndOthers = wellnessFacilities.filter(
 		(f) =>
-			f.type === "Wellness" ||
-			f.type === "Leisure" ||
-			f.type === "Function Room" ||
-			f.type === "Meeting Space",
+			f.facilityType?.spaceType === "Wellness" ||
+			f.facilityType?.spaceType === "Leisure" ||
+			f.facilityType?.spaceType === "Function Room" ||
+			f.facilityType?.spaceType === "Meeting Space",
 	);
 
 	// We can further segment if needed, for instance isolating strictly "Wellness" (Spa/Salon) vs "Social" (Function Rooms)
-	const spaAndSalon = wellnessFacilities.filter((f) => f.type === "Wellness");
-	const socialSpaces = wellnessFacilities.filter((f) => f.type !== "Wellness");
+	const spaAndSalon = wellnessFacilities.filter((f) => f.facilityType?.spaceType === "Wellness");
+	const socialSpaces = wellnessFacilities.filter((f) => f.facilityType?.spaceType !== "Wellness");
 
 	return (
 		<div className="min-h-screen flex flex-col bg-background relative isolate overflow-hidden">
@@ -42,28 +44,34 @@ export default function LifestylePage() {
 			<main>
 				<div className="mx-auto max-w-7xl">
 					{/* Dining Section */}
-					<FacilitySection
-						title="Dining & Gastronomy"
-						facilities={diningFacilities}
-						columns={4}
-					/>
+					<FacilitySection title="Dining & Gastronomy" columns={4}>
+						{diningFacilities.map((facility) => (
+							<Link key={facility.id} to={`/facility/${facility.id}`}>
+								<FacilityCard facility={facility} />
+							</Link>
+						))}
+					</FacilitySection>
 
 					{/* Wellness Section */}
 					{spaAndSalon.length > 0 && (
-						<FacilitySection
-							title="Wellness & Relaxation"
-							facilities={spaAndSalon}
-							columns={4}
-						/>
+						<FacilitySection title="Wellness & Relaxation" columns={4}>
+							{spaAndSalon.map((facility) => (
+								<Link key={facility.id} to={`/facility/${facility.id}`}>
+									<FacilityCard facility={facility} />
+								</Link>
+							))}
+						</FacilitySection>
 					)}
 
 					{/* Social/Leisure Section */}
 					{socialSpaces.length > 0 && (
-						<FacilitySection
-							title="Social & Leisure Spaces"
-							facilities={socialSpaces}
-							columns={4}
-						/>
+						<FacilitySection title="Social & Leisure Spaces" columns={4}>
+							{socialSpaces.map((facility) => (
+								<Link key={facility.id} to={`/facility/${facility.id}`}>
+									<FacilityCard facility={facility} />
+								</Link>
+							))}
+						</FacilitySection>
 					)}
 
 					{/* Fallback or specific logical grouping if needed */}
