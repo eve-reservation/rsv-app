@@ -38,7 +38,9 @@ export function BookingSummary({
 					</div>
 					<div className="flex flex-col justify-center">
 						<h2 className="font-medium text-foreground">{bookingItem.name}</h2>
-						<p className="text-sm text-muted-foreground">{formatEnum(bookingItem.type)}</p>
+						<p className="text-sm text-muted-foreground">
+							{formatEnum(bookingItem.type)}
+						</p>
 						{linkedFacility && (
 							<div className="mt-1 flex items-center gap-1 text-sm">
 								<Star className="h-3 w-3 fill-foreground" />

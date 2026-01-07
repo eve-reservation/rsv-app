@@ -70,7 +70,11 @@ export function DeleteFacilityTypeModal({
 					<Button variant="outline" onClick={() => setOpen(false)} disabled={isPending}>
 						Cancel
 					</Button>
-					<Button variant="destructive" onClick={handleDelete} disabled={isPending} className="cursor-pointer">
+					<Button
+						variant="destructive"
+						onClick={handleDelete}
+						disabled={isPending}
+						className="cursor-pointer">
 						{isPending ? "Deleting..." : "Delete"}
 					</Button>
 				</DialogFooter>

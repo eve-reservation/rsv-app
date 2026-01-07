@@ -10,23 +10,26 @@ import {
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.png";
-import { useState } from "react";
+
 import { SignupModal } from "./signup-modal";
 
 export function Header() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const location = useLocation();
-	const [isSignupOpen, setIsSignupOpen] = useState(searchParams.get("signUp") === "true");
 
-	const handleOpenChange = (open: boolean) => {
-		setIsSignupOpen(open);
-		const newParams = new URLSearchParams(searchParams);
-		if (open) {
-			newParams.set("signUp", "true");
-		} else {
-			newParams.delete("signUp");
-		}
-		setSearchParams(newParams);
+	// Derived state
+	const action = searchParams.get("action");
+	const isSignupOpen = action === "signup" || action === "signin";
+	const mode = action === "signin" ? "login" : "signup";
+
+	// Helper to update the 'action' query param
+	const setAction = (newAction: "signup" | "signin" | null) => {
+		setSearchParams((prev) => {
+			const params = new URLSearchParams(prev);
+			if (newAction) params.set("action", newAction);
+			else params.delete("action");
+			return params;
+		});
 	};
 
 	return (
@@ -48,7 +51,7 @@ export function Header() {
 						<Link
 							to="/"
 							className={cn(
-								"text-sm font-medium transition-colo	rs",
+								"text-sm font-medium transition-colors",
 								location.pathname === "/"
 									? "text-foreground"
 									: "text-muted-foreground hover:text-foreground",
@@ -90,10 +93,12 @@ export function Header() {
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end" className="w-56">
-								<DropdownMenuItem onClick={() => handleOpenChange(true)}>
+								<DropdownMenuItem onClick={() => setAction("signup")}>
 									Sign up
 								</DropdownMenuItem>
-								<DropdownMenuItem>Log in</DropdownMenuItem>
+								<DropdownMenuItem onClick={() => setAction("signin")}>
+									Log in
+								</DropdownMenuItem>
 								<DropdownMenuSeparator />
 								<DropdownMenuItem asChild>
 									<Link to="/profile">Profile</Link>
@@ -107,7 +112,12 @@ export function Header() {
 				</div>
 			</div>
 
-			<SignupModal open={isSignupOpen} onOpenChange={handleOpenChange} />
+			<SignupModal
+				open={isSignupOpen}
+				onOpenChange={(open) => !open && setAction(null)}
+				mode={mode}
+				onModeChange={(newMode) => setAction(newMode === "login" ? "signin" : "signup")}
+			/>
 		</header>
 	);
 }

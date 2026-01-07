@@ -39,7 +39,6 @@ interface CategoryNavProps {
 	// onSelectCategory: (category: string | null) => void; // Deprecated for now
 }
 
-// eslint-disable-next-line
 export function CategoryNav({}: CategoryNavProps) {
 	return (
 		<div className="w-full">

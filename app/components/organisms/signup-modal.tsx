@@ -12,10 +12,30 @@ import { useState } from "react";
 interface SignupModalProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
+	mode?: "signup" | "login";
+	onModeChange?: (mode: "signup" | "login") => void;
 }
 
-export function SignupModal({ open, onOpenChange }: SignupModalProps) {
-	const [mode, setMode] = useState<"signup" | "login">("signup");
+export function SignupModal({
+	open,
+	onOpenChange,
+	mode: externalMode = "signup",
+	onModeChange,
+}: SignupModalProps) {
+	// If onModeChange is provided, we assume controlled mode.
+	// If not, we could fall back to local state, but for this refactor
+	// we want to rely on the parent (Header) handling the logic via URL.
+	// However, for safety/hybrid use, we can use the prop directly if passed.
+
+	const mode = externalMode;
+
+	const handleModeSwitch = () => {
+		const newMode = mode === "signup" ? "login" : "signup";
+		if (onModeChange) {
+			onModeChange(newMode);
+		}
+	};
+
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
@@ -100,9 +120,7 @@ export function SignupModal({ open, onOpenChange }: SignupModalProps) {
 				<DialogFooter className="px-6 py-4">
 					<p className="text-xs text-muted-foreground text-center w-full">
 						{mode === "signup" ? "Already have an account?" : "Don't have an account?"}{" "}
-						<span
-							className="text-primary cursor-pointer"
-							onClick={() => setMode(mode === "signup" ? "login" : "signup")}>
+						<span className="text-primary cursor-pointer" onClick={handleModeSwitch}>
 							{mode === "signup" ? "Log in" : "Sign up"}
 						</span>
 					</p>
