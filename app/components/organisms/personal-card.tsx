@@ -45,7 +45,7 @@ export default function PersonalCard({ user }: PersonalCardProps) {
 				</h3>
 
 				<div className="space-y-6 w-full">
-					<div className="flex items-start gap-4">
+					<div className="flex items-center gap-4">
 						<Mail className="w-5 h-5 mt-1 flex-shrink-0" />
 						<div>
 							<p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
@@ -58,7 +58,7 @@ export default function PersonalCard({ user }: PersonalCardProps) {
 					</div>
 
 					{primaryContact && (
-						<div className="flex items-start gap-4">
+						<div className="flex items-center gap-4">
 							<Phone className="w-5 h-5 mt-1 flex-shrink-0" />
 							<div>
 								<p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
@@ -71,7 +71,7 @@ export default function PersonalCard({ user }: PersonalCardProps) {
 						</div>
 					)}
 
-					<div className="flex items-start gap-4">
+					<div className="flex items-center gap-4">
 						<MapPin className="w-5 h-5 mt-1 flex-shrink-0" />
 						<div>
 							<p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">

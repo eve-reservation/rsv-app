@@ -53,8 +53,8 @@ export default function ProfileTemplate({
 	const memberSince = user.createdAt;
 
 	return (
-		<div className="min-h-screen bg-muted/30">
-			<main className="container max-w-5xl mx-auto py-8 px-4 sm:px-6">
+		<div className="">
+			<main className="container max-w-5xl mx-auto">
 				{/* Profile Header Card */}
 				<Card className="overflow-hidden border-none shadow-lg mb-8 bg-card py-0">
 					{/* Cover Image Area */}
@@ -71,8 +71,8 @@ export default function ProfileTemplate({
 						</div>
 					</div>
 
-					<CardContent className="relative px-6 sm:px-10 pb-8">
-						<div className="flex flex-col md:flex-row gap-6 items-start -mt-16">
+					<CardContent className="relative px-6 sm:px-10 pb-6">
+						<div className="flex flex-col md:flex-row gap-6 items-center -mt-16 ">
 							{/* Avatar */}
 							<div className="relative group">
 								<div className="h-32 w-32 rounded-full ring-4 ring-background bg-background p-1 shadow-xl">
@@ -130,38 +130,38 @@ export default function ProfileTemplate({
 				</Card>
 
 				{/* Tabs Content */}
-				<Tabs defaultValue="personal" className="w-full space-y-6">
-					<TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent gap-6">
+				<Tabs defaultValue="personal" className="w-full">
+					<TabsList className="w-full justify-start border-b h-auto p-0 bg-transparent rounded-lg">
 						<TabsTrigger
 							value="personal"
-							className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all">
+							className="pt-3 rounded-lg border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all">
 							Personal Information
 						</TabsTrigger>
 						<TabsTrigger
 							value="reservations"
-							className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all">
+							className="pt-3 rounded-lg border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all">
 							My Reservations
 						</TabsTrigger>
 						<TabsTrigger
 							value="settings"
-							className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all">
+							className="pt-3 rounded-lg border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all">
 							Account Settings
 						</TabsTrigger>
 					</TabsList>
 
 					<TabsContent
 						value="personal"
-						className="animate-in fade-in-50 duration-300 mt-6">
+						className="animate-in fade-in-50 duration-300">
 						<PersonalCard user={user} />
 					</TabsContent>
 					<TabsContent
 						value="reservations"
-						className="animate-in fade-in-50 duration-300 mt-6">
+						className="animate-in fade-in-50 duration-300">
 						<UserReservations />
 					</TabsContent>
 					<TabsContent
 						value="settings"
-						className="animate-in fade-in-50 duration-300 mt-6">
+						className="animate-in fade-in-50 duration-300">
 						<Card>
 							<CardContent className="py-8 text-center text-muted-foreground">
 								Account settings coming soon...
