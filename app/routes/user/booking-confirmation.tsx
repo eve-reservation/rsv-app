@@ -225,7 +225,7 @@ export default function ConfirmPayment() {
 
 							createReservation(payload, {
 								onSuccess: (responseData: any) => {
-									navigate(`/reservation/complete?newBooking=${responseData.id}`);
+									navigate(`/reservation/complete?newReservation=${responseData.id}`);
 								},
 								onError: (error) => {
 									console.error("Failed to create reservation:", error);

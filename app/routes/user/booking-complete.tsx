@@ -1,8 +1,34 @@
 import { Check, Calendar, Users, MapPin, MessageSquare, ShieldCheck, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { lebronCourt } from "@/assets/images/index";
+import { useGetReservationById } from "~/hooks/use-reservations";
+import { useSearchParams } from "react-router";
+import { format } from "date-fns";
+import { Link } from "react-router";
 
 export default function BookingConfirmation() {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const reservationId = searchParams.get("newReservation");
+	const { data: reservation, isLoading } = useGetReservationById(reservationId!, {
+		fields: "id, status, confirmationCode, bookingPeriod, facility.id, facility.identifier, facility.displayName, facility.subtype, facility.metadata, facility.facilityType.name",
+	});
+
+	if (isLoading) {
+		return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+	}
+
+	if (!reservation) {
+		return (
+			<div className="min-h-screen flex items-center justify-center">
+				Reservation not found
+			</div>
+		);
+	}
+
+	const { confirmationCode, facility, bookingPeriod } = reservation;
+	const start = new Date(bookingPeriod.startDateTime);
+	const end = new Date(bookingPeriod.endDateTime);
+
 	return (
 		<main className="bg-background">
 			{/* Navbar placeholder if needed, but we assume it's in a layout */}
@@ -29,7 +55,7 @@ export default function BookingConfirmation() {
 								Confirmation code
 							</p>
 							<p className="text-xl font-mono font-semibold tracking-wide">
-								QCS123XYZ
+								{confirmationCode || "PENDING"}
 							</p>
 						</div>
 
@@ -80,12 +106,14 @@ export default function BookingConfirmation() {
 									<Button size="lg" className="rounded-lg text-base px-8">
 										View booking
 									</Button>
-									<Button
-										size="lg"
-										variant="outline"
-										className="rounded-lg text-base px-8 border-foreground text-foreground hover:bg-muted">
-										Explore activities
-									</Button>
+									<Link to="/user/landing">
+										<Button
+											size="lg"
+											variant="outline"
+											className="rounded-lg text-base px-8 border-foreground text-foreground hover:bg-muted w-full sm:w-auto">
+											Explore activities
+										</Button>
+									</Link>
 								</div>
 							</div>
 						</div>
@@ -97,14 +125,16 @@ export default function BookingConfirmation() {
 							<div className="flex gap-4 mb-6 pb-6 border-b border-border">
 								<img
 									src={lebronCourt}
-									alt="BGC Full Court"
+									alt={facility.displayName}
 									className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-lg bg-muted"
 								/>
 								<div className="flex flex-col justify-center">
 									<p className="text-sm text-muted-foreground mb-1">
-										Entire Court
+										{facility.subtype || facility.facilityType?.name}
 									</p>
-									<h2 className="text-lg font-semibold mb-1">BGC Full Court</h2>
+									<h2 className="text-lg font-semibold mb-1">
+										{facility.displayName}
+									</h2>
 									<div className="flex items-center text-sm text-muted-foreground">
 										<MapPin className="w-3 h-3 mr-1" />
 										Taguig
@@ -118,21 +148,27 @@ export default function BookingConfirmation() {
 										<Calendar className="w-4 h-4 text-muted-foreground" />
 										<span className="font-medium">Date</span>
 									</div>
-									<span className="text-muted-foreground">Dec 20, 2025</span>
+									<span className="text-muted-foreground">
+										{format(start, "MMM dd, yyyy")}
+									</span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border">
 									<div className="flex items-center gap-2">
 										<Clock className="w-4 h-4 text-muted-foreground" />
 										<span className="font-medium">Time</span>
 									</div>
-									<span className="text-muted-foreground">4:00 PM - 6:00 PM</span>
+									<span className="text-muted-foreground">
+										{format(start, "h:mm a")} - {format(end, "h:mm a")}
+									</span>
 								</div>
 								<div className="flex justify-between py-2 border-b border-border">
 									<div className="flex items-center gap-2">
 										<Users className="w-4 h-4 text-muted-foreground" />
 										<span className="font-medium">Players</span>
 									</div>
-									<span className="text-muted-foreground">10 players</span>
+									<span className="text-muted-foreground">
+										{reservation.guests?.length || 1} players
+									</span>
 								</div>
 							</div>
 
@@ -141,9 +177,16 @@ export default function BookingConfirmation() {
 								<div className="space-y-2 text-sm md:text-base">
 									<div className="flex justify-between mb-2">
 										<span className="text-muted-foreground">
-											₱4,500 x 2 hours
+											₱{(facility.metadata?.price || 0).toLocaleString()} x{" "}
+											{bookingPeriod.numberOfHours} hours
 										</span>
-										<span>₱9,000</span>
+										<span>
+											₱
+											{(
+												(facility.metadata?.price || 0) *
+												bookingPeriod.numberOfHours
+											).toLocaleString()}
+										</span>
 									</div>
 									<div className="flex justify-between mb-2">
 										<span className="text-muted-foreground">Service fee</span>
@@ -151,7 +194,14 @@ export default function BookingConfirmation() {
 									</div>
 									<div className="flex justify-between pt-4 mt-2 border-t border-border font-bold text-lg">
 										<span>Total (PHP)</span>
-										<span>₱9,500</span>
+										<span>
+											₱
+											{(
+												(facility.metadata?.price || 0) *
+													bookingPeriod.numberOfHours +
+												500
+											).toLocaleString()}
+										</span>
 									</div>
 								</div>
 							</div>
