@@ -12,6 +12,7 @@ import { FacilitySection } from "~/components/organisms/facility-section";
 import { DealsSection } from "~/components/organisms/deals-section";
 import { Link } from "react-router";
 import { FacilityCard } from "~/components/molecule/facility-card";
+import { EventCard } from "~/components/molecule/event-card";
 
 export default function LandingPage() {
 	return (
@@ -63,7 +64,7 @@ export default function LandingPage() {
 					<FacilitySection title="Browse public games near you" columns={2}>
 						{games.map((game) => (
 							<Link key={game.id} to={`/facility/${game.id}`}>
-								<FacilityCard facility={game} variant="horizontal" />
+								<EventCard game={game} />
 							</Link>
 						))}
 					</FacilitySection>
