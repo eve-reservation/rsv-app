@@ -3,8 +3,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "react-router build",
-		"dev": "react-router dev --mode develop",
+		"build": "react-router build --mode develop",
+		"dev": "react-router dev",
 		"start": "react-router-serve ./build/server/index.js",
 		"format": "eslint app/**/*.tsx --fix",
 		"lint": "eslint . --fix",
