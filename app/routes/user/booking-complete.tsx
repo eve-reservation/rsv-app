@@ -103,10 +103,12 @@ export default function BookingConfirmation() {
 
 							<div className="pt-8">
 								<div className="flex flex-col sm:flex-row gap-4">
-									<Button size="lg" className="rounded-lg text-base px-8">
-										View booking
-									</Button>
-									<Link to="/user/landing">
+									<Link to="/profile?tab=reservations">
+										<Button size="lg" className="rounded-lg text-base px-8">
+											View booking
+										</Button>
+									</Link>
+									<Link to="/">
 										<Button
 											size="lg"
 											variant="outline"

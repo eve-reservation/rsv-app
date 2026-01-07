@@ -8,6 +8,7 @@ import { Badge } from "~/components/ui/badge";
 import { Card, CardContent } from "~/components/ui/card";
 import { useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "~/hooks/use-auth";
+import { useGetReservations } from "~/hooks/use-reservations";
 
 export const defaultMockUser = {
 	firstName: "Alex",
@@ -49,6 +50,10 @@ export default function ProfileTemplate({
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const activeTab = searchParams.get("tab") || "personal";
+
+	const { data, isLoading } = useGetReservations({
+		fields: "id, status, totals, user, bookingPeriod, facility.displayName",
+	});
 
 	const handleTabChange = (value: string) => {
 		setSearchParams((prev) => {
