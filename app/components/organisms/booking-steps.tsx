@@ -6,6 +6,8 @@ import { PromoCodeModal } from "~/components/organisms/promo-code-modal";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
 import { Tag } from "lucide-react";
 import { gcash, maya } from "@/assets/images";
+import { useAuth } from "~/hooks/use-auth";
+import { useSearchParams } from "react-router-dom";
 
 interface BookingStepsProps {
 	isGameJoin: boolean;
@@ -50,6 +52,21 @@ export function BookingSteps({
 	onConfirm,
 	isPending = false,
 }: BookingStepsProps) {
+	const { user } = useAuth();
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const handleNextStep1 = () => {
+		if (!user) {
+			setSearchParams((prev) => {
+				const params = new URLSearchParams(prev);
+				params.set("action", "signin");
+				return params;
+			});
+		} else {
+			setActiveStep(2);
+		}
+	};
+
 	return (
 		<div className="order-1 lg:order-2 space-y-2">
 			{/* Step 1: Choose game type */}
@@ -109,7 +126,7 @@ export function BookingSteps({
 							<div className="flex items-center justify-end mt-6">
 								<Button
 									className="cursor-pointer rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
-									onClick={() => setActiveStep(2)}>
+									onClick={handleNextStep1}>
 									Next
 								</Button>
 							</div>
