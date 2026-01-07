@@ -16,6 +16,7 @@ import { StatCard } from "~/components/molecule/stat-card";
 import { useGetReservations } from "~/hooks/use-reservations";
 import { format } from "date-fns";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { useAuth } from "~/hooks/use-auth";
 
 const statusStyles = {
 	CONFIRMED: "bg-green-100 text-green-800",
@@ -26,8 +27,10 @@ const statusStyles = {
 
 export default function BookingsPage() {
 	const navigate = useNavigate();
+	const { user } = useAuth();
 	const { data, isLoading } = useGetReservations({
 		fields: "id, status, totals, user, bookingPeriod, facility.displayName",
+		filter: `user.userId:${user?.id}`,
 	});
 
 	const reservations = data?.reservations || [];
