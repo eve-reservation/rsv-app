@@ -32,9 +32,11 @@ export default function LandingPage() {
 			{/* Deals Section */}
 			{/* Facility Sections */}
 			<main className="pt-8 pb-6">
-				<DealsSection />
+				<div className="pb-4">
+					<DealsSection />
+				</div>
 				{/* DYNAMIC FACILITY TYPES */}
-				<div className="mx-auto max-w-7xl">
+				<div className="flex flex-col gap-6 py-4">
 					{mockLandingData.map((type: any) => {
 						// Only show sections that have facilities
 						if ((type.facilities || []).length === 0) return null;

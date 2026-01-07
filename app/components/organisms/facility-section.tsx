@@ -59,7 +59,7 @@ export function FacilitySection({
 	};
 
 	return (
-		<section className="py-6">
+		<section className="">
 			<div className="flex items-center justify-between mb-2 md:mb-4">
 				<div className="flex gap-1 items-center hover:gap-3 transition-all duration-300 cursor-pointer">
 					<h2 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold tracking-tight">
