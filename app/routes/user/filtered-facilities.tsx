@@ -3,6 +3,7 @@ import { FacilityCard } from "~/components/molecule/facility-card";
 import { useGetFacilities } from "~/hooks/use-facilities";
 import type { Facility } from "~/lib/data";
 import { FacilitySkeletonGrid } from "~/components/skeletons/facility-skeleton-grid";
+import { BackButton } from "~/components/molecule/back-button";
 
 export default function FilteredFacilities() {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -28,16 +29,21 @@ export default function FilteredFacilities() {
 	const facilities = (data?.facilities || []) as Facility[];
 
 	return (
-		<div className="container mx-auto py-8">
-			<h2 className="text-2xl font-semibold tracking-tight mb-6 capitalize">
-				{title || "All Facilities"}
-			</h2>
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-				{facilities.map((facility) => (
-					<Link to={`/facility/${facility.id}`} key={facility.id} className="block">
-						<FacilityCard facility={facility} />
-					</Link>
-				))}
+		<div className="container mx-auto">
+			<div className="flex items-center justify-between">
+				<BackButton showText />
+			</div>
+			<div className="py-4">
+				<h2 className="text-2xl font-semibold tracking-tight mb-6 capitalize">
+					{title || "All Facilities"}
+				</h2>
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+					{facilities.map((facility) => (
+						<Link to={`/facility/${facility.id}`} key={facility.id} className="block">
+							<FacilityCard facility={facility} />
+						</Link>
+					))}
+				</div>
 			</div>
 		</div>
 	);
