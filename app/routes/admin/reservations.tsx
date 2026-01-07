@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -10,122 +8,39 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
 import { MoreHorizontal, Eye, CheckCircle, XCircle, Calendar, Download, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { DataTable, type DataTableColumn } from "@/components/molecule/data-table";
 import { Input } from "~/components/ui/input";
 import { StatCard } from "~/components/molecule/stat-card";
 import { useGetReservations } from "~/hooks/use-reservations";
-
-const reservations = [
-	{
-		id: "BK001",
-		user: { name: "Juan Dela Cruz", email: "juan@email.com", avatar: "JD" },
-		facility: "BGC Full Court",
-		location: "Taguig, Metro Manila",
-		date: "Dec 10, 2025",
-		time: "3:00 PM - 5:00 PM",
-		players: 10,
-		status: "confirmed",
-		amount: "₱9,000",
-		createdAt: "Dec 8, 2025",
-	},
-	{
-		id: "BK002",
-		user: { name: "Maria Santos", email: "maria@email.com", avatar: "MS" },
-		facility: "Makati Tennis Club",
-		location: "Makati, Metro Manila",
-		date: "Dec 10, 2025",
-		time: "9:00 AM - 11:00 AM",
-		players: 4,
-		status: "pending",
-		amount: "₱5,000",
-		createdAt: "Dec 9, 2025",
-	},
-	{
-		id: "BK003",
-		user: { name: "Carlos Reyes", email: "carlos@email.com", avatar: "CR" },
-		facility: "Ayala Alabang Futsal Pitch",
-		location: "Muntinlupa, Metro Manila",
-		date: "Dec 11, 2025",
-		time: "6:00 PM - 8:00 PM",
-		players: 14,
-		status: "confirmed",
-		amount: "₱11,000",
-		createdAt: "Dec 9, 2025",
-	},
-	{
-		id: "BK004",
-		user: { name: "Ana Garcia", email: "ana@email.com", avatar: "AG" },
-		facility: "La Union Beach Volleyball",
-		location: "San Juan, La Union",
-		date: "Dec 12, 2025",
-		time: "8:00 AM - 12:00 PM",
-		players: 12,
-		status: "cancelled",
-		amount: "₱7,200",
-		createdAt: "Dec 7, 2025",
-	},
-	{
-		id: "BK005",
-		user: { name: "Pedro Lim", email: "pedro@email.com", avatar: "PL" },
-		facility: "MOA Badminton Center",
-		location: "Pasay, Metro Manila",
-		date: "Dec 12, 2025",
-		time: "2:00 PM - 4:00 PM",
-		players: 4,
-		status: "confirmed",
-		amount: "₱3,600",
-		createdAt: "Dec 10, 2025",
-	},
-	{
-		id: "BK006",
-		user: { name: "Rosa Mendoza", email: "rosa@email.com", avatar: "RM" },
-		facility: "Quezon City Sports Complex",
-		location: "Quezon City, Metro Manila",
-		date: "Dec 13, 2025",
-		time: "5:00 PM - 7:00 PM",
-		players: 10,
-		status: "pending",
-		amount: "₱4,500",
-		createdAt: "Dec 10, 2025",
-	},
-	{
-		id: "BK007",
-		user: { name: "Miguel Torres", email: "miguel@email.com", avatar: "MT" },
-		facility: "Makati Tennis Club",
-		location: "Makati, Metro Manila",
-		date: "Dec 14, 2025",
-		time: "7:00 AM - 9:00 AM",
-		players: 2,
-		status: "confirmed",
-		amount: "₱5,000",
-		createdAt: "Dec 10, 2025",
-	},
-];
+import { format } from "date-fns";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 const statusStyles = {
-	confirmed: "bg-green-100 text-green-800",
-	pending: "bg-yellow-100 text-yellow-800",
-	cancelled: "bg-red-100 text-red-800",
+	CONFIRMED: "bg-green-100 text-green-800",
+	PENDING: "bg-yellow-100 text-yellow-800",
+	CANCELLED: "bg-red-100 text-red-800",
+	COMPLETED: "bg-blue-100 text-blue-800",
 };
 
 export default function BookingsPage() {
 	const navigate = useNavigate();
-	const [selectedBooking, setSelectedBooking] = useState<(typeof reservations)[0] | null>(null);
-	const { data, isLoading } = useGetReservations({fields: "id, status, totals, user, bookingPeriod, facility.displayName"});
+	const { data, isLoading } = useGetReservations({
+		fields: "id, status, totals, user, bookingPeriod, facility.displayName",
+	});
 
-	const tableData = reservations.map((booking) => ({
+	const reservations = data?.reservations || [];
+
+	const tableData = reservations.map((booking: any) => ({
 		...booking,
-		userName: booking.user.name,
-		userEmail: booking.user.email,
+		userName: booking.user
+			? `${booking.user.firstName} ${booking.user.lastName}`
+			: "Unknown User",
+		userEmail: booking.user?.email || "",
+		facilityName: booking.facility?.displayName || "Unknown Facility",
+		startDate: booking.bookingPeriod?.startDateTime,
+		endDate: booking.bookingPeriod?.endDateTime,
 	}));
 
 	const columns: DataTableColumn<(typeof tableData)[0]>[] = [
@@ -134,7 +49,13 @@ export default function BookingsPage() {
 			label: "Booking ID",
 			sortable: true,
 			searchable: true,
-			render: (val) => <span className="font-medium text-sm">{val}</span>,
+			render: (val) => (
+				<span
+					className="font-medium text-sm text-ellipsis overflow-hidden max-w-[100px] inline-block"
+					title={val as string}>
+					{(val as string).substring(0, 8)}...
+				</span>
+			),
 		},
 		{
 			key: "userName",
@@ -144,60 +65,97 @@ export default function BookingsPage() {
 			render: (_, row) => (
 				<div className="flex items-center gap-2">
 					<Avatar className="h-8 w-8">
-						<AvatarFallback>{row.user.avatar}</AvatarFallback>
+						<AvatarFallback>
+							{row.user?.firstName?.charAt(0) || "U"}
+							{row.user?.lastName?.charAt(0) || "U"}
+						</AvatarFallback>
 					</Avatar>
 					<div className="text-sm">
-						<div className="font-medium">{row.user.name}</div>
-						<div className="text-muted-foreground">{row.user.email}</div>
+						<div className="font-medium">{row.userName}</div>
+						<div className="text-muted-foreground text-xs">{row.userEmail}</div>
 					</div>
 				</div>
 			),
 		},
 		{
-			key: "facility",
+			key: "facilityName",
 			label: "Facility",
 			sortable: true,
 			searchable: true,
-			render: (val, row) => (
+			render: (val) => (
 				<div className="text-sm">
-					<div className="font-medium">{val}</div>
-					<div className="text-muted-foreground">{row.sport}</div>
+					<div className="font-medium">{val as string}</div>
 				</div>
 			),
 		},
 		{
-			key: "date",
+			key: "startDate", // Using startDate as key for sorting, but rendering formatted date/time
 			label: "Date & Time",
 			sortable: true,
-			render: (val, row) => (
-				<div className="text-sm">
-					<div>{val}</div>
-					<div className="text-muted-foreground">{row.time}</div>
-				</div>
-			),
+			render: (_, row) => {
+				if (!row.startDate || !row.endDate)
+					return <span className="text-muted-foreground text-sm">N/A</span>;
+				try {
+					const date = format(new Date(row.startDate), "MMM d, yyyy");
+					const startTime = format(new Date(row.startDate), "h:mm a");
+					const endTime = format(new Date(row.endDate), "h:mm a");
+					return (
+						<div className="text-sm">
+							<div>{date}</div>
+							<div className="text-muted-foreground text-xs">
+								{startTime} - {endTime}
+							</div>
+						</div>
+					);
+				} catch (e) {
+					return <span className="text-red-400 text-xs">Invalid Date</span>;
+				}
+			},
 		},
 		{
 			key: "status",
 			label: "Status",
 			filterable: true,
 			filterOptions: [
-				{ label: "Confirmed", value: "confirmed" },
-				{ label: "Pending", value: "pending" },
-				{ label: "Cancelled", value: "cancelled" },
+				{ label: "Confirmed", value: "CONFIRMED" },
+				{ label: "Pending", value: "PENDING" },
+				{ label: "Cancelled", value: "CANCELLED" },
+				{ label: "Completed", value: "COMPLETED" },
 			],
 			render: (val) => (
 				<Badge
 					variant="secondary"
-					className={statusStyles[val as keyof typeof statusStyles]}>
-					{val}
+					className={
+						statusStyles[val as keyof typeof statusStyles] ||
+						"bg-gray-100 text-gray-800"
+					}>
+					{val as string}
 				</Badge>
 			),
 		},
 		{
-			key: "amount",
+			key: "totals",
 			label: "Amount",
 			sortable: true,
-			render: (val) => <span className="text-sm font-medium">{val}</span>,
+			render: (val) => {
+				// Assuming totals might be null or have an amount property, or be the amount itself.
+				// Based on "totals": null in example, we handle null.
+				// If totals has structure, we might need to adjust. For now assuming it might be numeric or object with total.
+				const amount = val
+					? typeof val === "object" && "amount" in val
+						? val.amount
+						: val
+					: 0;
+				// Format currency
+				return (
+					<span className="text-sm font-medium">
+						{new Intl.NumberFormat("en-PH", {
+							style: "currency",
+							currency: "PHP",
+						}).format(Number(amount) || 0)}
+					</span>
+				);
+			},
 		},
 		{
 			key: "id", // Key reused for actions
@@ -211,11 +169,11 @@ export default function BookingsPage() {
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							<DropdownMenuItem onClick={() => setSelectedBooking(booking)}>
+							<DropdownMenuItem onClick={() => navigate(booking.id)}>
 								<Eye className="mr-2 h-4 w-4" />
 								View Details
 							</DropdownMenuItem>
-							{booking.status === "pending" && (
+							{booking.status === "PENDING" && (
 								<>
 									<DropdownMenuItem className="text-green-600">
 										<CheckCircle className="mr-2 h-4 w-4" />
@@ -239,8 +197,8 @@ export default function BookingsPage() {
 		},
 	];
 
-	const onRowClick = () => {
-		navigate("123");
+	const onRowClick = (row: any) => {
+		navigate(row.id);
 	};
 
 	return (
@@ -252,10 +210,11 @@ export default function BookingsPage() {
 				</div>
 			</div>
 
+			{/* StatCards can be updated later with real aggregation data if available, keeping static for now or could derive from list but that's pagination dependent */}
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
 				<StatCard
 					title="Total Bookings"
-					value="156"
+					value={String(data?.pagination?.total || 0)}
 					change="+12%"
 					changeType="positive"
 					icon={Calendar}
@@ -263,7 +222,7 @@ export default function BookingsPage() {
 				/>
 				<StatCard
 					title="Pending Approval"
-					value="8"
+					value="8" // TODO: Fetch real stats
 					change="-2"
 					changeType="positive"
 					icon={CheckCircle}
@@ -271,7 +230,7 @@ export default function BookingsPage() {
 				/>
 				<StatCard
 					title="Confirmed Today"
-					value="24"
+					value="24" // TODO: Fetch real stats
 					change="+5"
 					changeType="positive"
 					icon={CheckCircle}
@@ -279,10 +238,10 @@ export default function BookingsPage() {
 				/>
 				<StatCard
 					title="Revenue (Dec)"
-					value="₱45,200"
+					value="₱45,200" // TODO: Fetch real stats
 					change="+15.3%"
 					changeType="positive"
-					icon={Download} // Using Download icon for money/revenue as proxy or import DollarSign
+					icon={Download}
 					className="bg-gradient-to-br from-primary/30 via-white to-white"
 				/>
 			</div>
@@ -308,94 +267,15 @@ export default function BookingsPage() {
 					</div>
 				</CardHeader>
 				<CardContent>
-					<DataTable columns={columns} data={tableData} onRowClick={onRowClick} />
+					{isLoading ? (
+						<div className="py-10 text-center text-muted-foreground">
+							Loading reservations...
+						</div>
+					) : (
+						<DataTable columns={columns} data={tableData} onRowClick={onRowClick} />
+					)}
 				</CardContent>
 			</Card>
-
-			<Dialog open={!!selectedBooking} onOpenChange={() => setSelectedBooking(null)}>
-				<DialogContent className="max-w-lg">
-					<DialogHeader>
-						<DialogTitle>Booking Details</DialogTitle>
-						<DialogDescription>
-							Full details for booking {selectedBooking?.id}
-						</DialogDescription>
-					</DialogHeader>
-					{selectedBooking && (
-						<div className="space-y-4">
-							<div className="flex items-center gap-4">
-								<Avatar className="h-12 w-12">
-									<AvatarFallback>{selectedBooking.user.avatar}</AvatarFallback>
-								</Avatar>
-								<div>
-									<div className="font-semibold">{selectedBooking.user.name}</div>
-									<div className="text-sm text-muted-foreground">
-										{selectedBooking.user.email}
-									</div>
-								</div>
-								<Badge
-									variant="secondary"
-									className={`ml-auto ${statusStyles[selectedBooking.status as keyof typeof statusStyles]}`}>
-									{selectedBooking.status}
-								</Badge>
-							</div>
-
-							<div className="grid gap-3 rounded-lg border border-border p-4">
-								<div className="flex justify-between">
-									<span className="text-muted-foreground">Facility</span>
-									<span className="font-medium">{selectedBooking.facility}</span>
-								</div>
-								<div className="flex justify-between">
-									<span className="text-muted-foreground">Sport</span>
-									<span>{selectedBooking.sport}</span>
-								</div>
-								<div className="flex justify-between">
-									<span className="text-muted-foreground">Location</span>
-									<span>{selectedBooking.location}</span>
-								</div>
-								<div className="flex justify-between">
-									<span className="text-muted-foreground">Date</span>
-									<span>{selectedBooking.date}</span>
-								</div>
-								<div className="flex justify-between">
-									<span className="text-muted-foreground">Time</span>
-									<span>{selectedBooking.time}</span>
-								</div>
-								<div className="flex justify-between">
-									<span className="text-muted-foreground">Players</span>
-									<span>{selectedBooking.players}</span>
-								</div>
-								<div className="flex justify-between border-t border-border pt-3">
-									<span className="font-medium">Total Amount</span>
-									<span className="font-bold text-lg">
-										{selectedBooking.amount}
-									</span>
-								</div>
-							</div>
-
-							<div className="flex gap-2">
-								{selectedBooking.status === "pending" && (
-									<>
-										<Button className="flex-1 bg-green-600 hover:bg-green-700">
-											<CheckCircle className="mr-2 h-4 w-4" />
-											Confirm Booking
-										</Button>
-										<Button variant="destructive" className="flex-1">
-											<XCircle className="mr-2 h-4 w-4" />
-											Cancel Booking
-										</Button>
-									</>
-								)}
-								{selectedBooking.status === "confirmed" && (
-									<Button variant="outline" className="flex-1 bg-transparent">
-										<Calendar className="mr-2 h-4 w-4" />
-										Reschedule
-									</Button>
-								)}
-							</div>
-						</div>
-					)}
-				</DialogContent>
-			</Dialog>
 		</div>
 	);
 }
