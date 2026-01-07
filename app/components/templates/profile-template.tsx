@@ -1,4 +1,4 @@
-import { Crown, LogOut, Camera, Mail, Phone, MapPin } from "lucide-react";
+import { Crown, LogOut, Camera, Mail, Phone, MapPin, SquarePen } from "lucide-react";
 import UserReservations from "~/components/organisms/user-reservations";
 import PersonalCard from "~/components/organisms/personal-card";
 import { Button } from "~/components/ui/button";
@@ -56,7 +56,7 @@ export default function ProfileTemplate({
 		<div className="">
 			<main className="container max-w-5xl mx-auto">
 				{/* Profile Header Card */}
-				<Card className="overflow-hidden border-none shadow-lg mb-8 bg-card py-0">
+				<Card className="overflow-hidden border-none shadow-lg mb-8 bg-card py-0 group">
 					{/* Cover Image Area */}
 					<div className="h-48 bg-gradient-to-r from-primary/10 via-primary/5 to-background relative">
 						<div className="absolute top-4 right-4">
@@ -92,7 +92,7 @@ export default function ProfileTemplate({
 							</div>
 
 							{/* Profile Info */}
-							<div className="flex-1 pt-4 md:pt-16 space-y-2 text-center md:text-left">
+							<div className="flex-1 pt-4 md:pt-16 space-y-2 text-center md:text-left relative">
 								<div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
 									<h1 className="text-3xl font-bold tracking-tight text-foreground">
 										{fullName}
@@ -124,6 +124,10 @@ export default function ProfileTemplate({
 								<p className="text-xs text-muted-foreground pt-1">
 									Member since {memberSince}
 								</p>
+
+								<button className="absolute right-0 top-16 hidden group-hover:block cursor-pointer hover:text-primary">
+									<SquarePen className="size-4"/>
+								</button>
 							</div>
 						</div>
 					</CardContent>
