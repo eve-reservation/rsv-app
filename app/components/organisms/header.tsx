@@ -18,8 +18,7 @@ export function Header() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const location = useLocation();
 
-	const { user } = useAuth();
-	console.log(user);
+	const { user, logout } = useAuth();
 
 	// Derived state
 	const action = searchParams.get("action");
@@ -89,7 +88,10 @@ export function Header() {
 							<DropdownMenuTrigger asChild>
 								<Button
 									variant="outline"
-									className="flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 h-auto border-border hover:shadow-md transition-shadow bg-transparent">
+									className={cn(
+										"flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 h-auto border-border hover:shadow-md transition-shadow ",
+										user ? "bg-primary/30" : "text-muted-foreground",
+									)}>
 									<Menu className="h-4 w-4" />
 									<div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center">
 										<User className="h-4 w-4 text-muted-foreground" />
@@ -97,12 +99,20 @@ export function Header() {
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end" className="w-56">
-								<DropdownMenuItem onClick={() => setAction("signup")}>
-									Sign up
-								</DropdownMenuItem>
-								<DropdownMenuItem onClick={() => setAction("signin")}>
-									Log in
-								</DropdownMenuItem>
+								{!user ? (
+									<>
+										<DropdownMenuItem onClick={() => setAction("signup")}>
+											Sign up
+										</DropdownMenuItem>
+										<DropdownMenuItem onClick={() => setAction("signin")}>
+											Log in
+										</DropdownMenuItem>
+									</>
+								) : (
+									<DropdownMenuItem onClick={() => logout()}>
+										Log out
+									</DropdownMenuItem>
+								)}
 								<DropdownMenuSeparator />
 								<DropdownMenuItem asChild>
 									<Link to="/profile">Profile</Link>
