@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import FloatingInput from "../ui/floating-input";
 import { useState } from "react";
+import { useAuth } from "~/hooks/use-auth";
 
 interface SignupModalProps {
 	open: boolean;
@@ -42,6 +43,29 @@ export function SignupModal({
 	const [password, setPassword] = useState("");
 	const [birthday, setBirthday] = useState("");
 
+	const { login } = useAuth();
+	const [error, setError] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setError(null);
+		setIsLoading(true);
+
+		try {
+			if (mode === "login") {
+				await login(email, password);
+				onOpenChange(false);
+			} else {
+				// Handle signup logic here later
+			}
+		} catch (err: any) {
+			setError(err.message || "Authentication failed");
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="sm:max-w-md rounded-2xl p-0 overflow-hidden">
@@ -51,7 +75,7 @@ export function SignupModal({
 					</DialogTitle>
 				</DialogHeader>
 				<div className="px-6 space-y-4">
-					<form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+					<form className="space-y-4" onSubmit={handleSubmit}>
 						{mode === "signup" && (
 							<div className="grid grid-cols-2 gap-4">
 								<div>
@@ -112,8 +136,11 @@ export function SignupModal({
 								shared with other people who use QC Sports.
 							</p>
 						)}
-						<Button type="submit" className="w-full">
-							{mode === "signup" ? "Continue" : "Log in"}
+						{error && (
+							<div className="text-sm text-destructive text-center">{error}</div>
+						)}
+						<Button type="submit" className="w-full" disabled={isLoading}>
+							{isLoading ? "Loading..." : mode === "signup" ? "Continue" : "Log in"}
 						</Button>
 					</form>
 				</div>

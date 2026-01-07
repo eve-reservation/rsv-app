@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Menu, User, Globe, Mail, Lock, User as UserIcon, Calendar } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,10 +12,14 @@ import { cn } from "@/lib/utils";
 import qcSportsLogo from "@/assets/images/logo/qcSportsLogo.png";
 
 import { SignupModal } from "./signup-modal";
+import { useAuth } from "~/hooks/use-auth";
 
 export function Header() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const location = useLocation();
+
+	const { user } = useAuth();
+	console.log(user);
 
 	// Derived state
 	const action = searchParams.get("action");
@@ -35,7 +39,7 @@ export function Header() {
 	return (
 		<header className="sticky top-0 z-50 w-full bg-card/80 backdrop-blur-md border-b border-border">
 			<div className="mx-auto max-w-7xl px-4 sm:px-0">
-				<div className="flex h-16 items-center justify-between">
+				<div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
 					<Link to="/" className="flex items-center gap-3">
 						<img
 							src={qcSportsLogo}

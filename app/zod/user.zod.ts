@@ -1,7 +1,5 @@
 import { z } from "zod";
 import type { Person } from "./person.zod";
-import type { Transaction } from "./transaction.zod";
-import type { Department } from "./department.zod";
 import type { Pagination } from "~/types/pagination";
 import { de } from "zod/v4/locales";
 
@@ -55,8 +53,6 @@ export type User = z.infer<typeof userSchema>;
 
 export type UserWithRelation = User & {
 	person: Person;
-	transactions: Transaction[];
-	department: Department;
 };
 
 export type GetAllUsers = {

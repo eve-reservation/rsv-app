@@ -23,7 +23,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 			setError(null);
 			const response = await authService.getCurrentUser();
 
-			setUser(response.user as UserWithRelation);
+			setUser(response as any);
 		} catch (error: any) {
 			// console.error("Error fetching current user:", error);
 			setUser(null);
@@ -40,7 +40,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
 			const response = await authService.login({ identifier, password });
 
-			setUser(response.user);
+			setUser(response as any);
 
 			return response;
 		} catch (error: any) {
