@@ -52,7 +52,7 @@ export const userSchema = createUserSchema
 export type User = z.infer<typeof userSchema>;
 
 export type UserWithRelation = User & {
-	person: Person;
+	metadata: { person: Person };
 };
 
 export type GetAllUsers = {

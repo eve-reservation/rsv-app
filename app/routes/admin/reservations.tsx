@@ -120,7 +120,7 @@ const statusStyles = {
 export default function BookingsPage() {
 	const navigate = useNavigate();
 	const [selectedBooking, setSelectedBooking] = useState<(typeof reservations)[0] | null>(null);
-	const { data, isLoading } = useGetReservations();
+	const { data, isLoading } = useGetReservations({fields: "id, status, totals, user, bookingPeriod, facility.displayName"});
 
 	const tableData = reservations.map((booking) => ({
 		...booking,

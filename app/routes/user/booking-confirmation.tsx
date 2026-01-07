@@ -209,7 +209,12 @@ export default function ConfirmPayment() {
 							const payload = {
 								facilityId: facilityId,
 								guestCount: players,
-								userId: user?.id,
+								user: {
+									userId: user?.id,
+									firstName: user?.metadata.person.personalInfo?.firstName,
+									lastName: user?.metadata.person.personalInfo?.lastName,
+									email: user?.email,
+								},
 								bookingPeriod: {
 									startDateTime: startTime.toISOString(), // Ensure this date includes the date part correctly if selectedDate is different
 									endDateTime: endTime.toISOString(),

@@ -113,9 +113,9 @@ export function AppSidebar() {
 							</div>
 							<div className="flex flex-col">
 								<span className="font-semibold text-sm">QC Sports</span>
-								<span className="text-xs text-muted-foreground">
+								{/* <span className="text-xs text-muted-foreground">
 									{user?.department.name}
-								</span>
+								</span> */}
 							</div>
 						</div>
 					)}
