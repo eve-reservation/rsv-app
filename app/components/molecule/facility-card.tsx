@@ -10,9 +10,15 @@ interface FacilityCardProps {
 	facility: Facility | Game;
 	variant?: "vertical" | "horizontal";
 	className?: string;
+	admin?: boolean;
 }
 
-export function FacilityCard({ facility, variant = "vertical", className }: FacilityCardProps) {
+export function FacilityCard({
+	facility,
+	variant = "vertical",
+	className,
+	admin,
+}: FacilityCardProps) {
 	const [currentImage, setCurrentImage] = useState(0);
 	const [isLiked, setIsLiked] = useState(false);
 
@@ -72,7 +78,12 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 					/>
 				) : (
 					<div className="flex h-full w-full items-center justify-center bg-secondary/50">
-						<ImageIcon className="h-12 w-12 text-muted-foreground/40" />
+						<ImageIcon
+							className={cn(
+								"text-muted-foreground/40",
+								admin ? "h-8 w-8" : "h-12 w-12",
+							)}
+						/>
 					</div>
 				)}
 
@@ -97,24 +108,26 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 				)}
 
 				{/* Like button */}
-				<Button
-					variant="ghost"
-					size="icon"
-					className="absolute top-3 right-3 h-8 w-8 rounded-full hover:bg-transparent"
-					onClick={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						setIsLiked(!isLiked);
-					}}>
-					<Heart
-						className={cn(
-							"h-5 w-5 transition-colors",
-							isLiked
-								? "fill-accent text-accent"
-								: "text-card fill-card/30 stroke-[2.5]",
-						)}
-					/>
-				</Button>
+				{!admin && (
+					<Button
+						variant="ghost"
+						size="icon"
+						className="absolute top-3 right-3 h-8 w-8 rounded-full hover:bg-transparent"
+						onClick={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
+							setIsLiked(!isLiked);
+						}}>
+						<Heart
+							className={cn(
+								"h-5 w-5 transition-colors",
+								isLiked
+									? "fill-accent text-accent"
+									: "text-card fill-card/30 stroke-[2.5]",
+							)}
+						/>
+					</Button>
+				)}
 
 				{/* Image indicators */}
 				{images.length > 1 && (
@@ -140,8 +153,14 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 						: "mt-3",
 				)}>
 				<div className="flex items-start justify-between gap-2">
-					<h3 className="font-medium text-foreground line-clamp-1">{getName()}</h3>
-					{!isGame && (facility as Facility).rating && (
+					<h3
+						className={cn(
+							"font-medium text-foreground line-clamp-1",
+							admin ? "text-sm" : "",
+						)}>
+						{getName()}
+					</h3>
+					{!isGame && (facility as Facility).rating && !admin && (
 						<div className="flex items-center gap-1 shrink-0">
 							<Star className="h-3.5 w-3.5 fill-foreground text-foreground" />
 							<span className="text-sm font-medium">{getRating()}</span>
@@ -156,16 +175,29 @@ export function FacilityCard({ facility, variant = "vertical", className }: Faci
 						</div>
 					)}
 				</div>
-				<p className="text-sm text-muted-foreground line-clamp-1">
+				<p
+					className={cn(
+						"text-muted-foreground line-clamp-1",
+						admin ? "text-xs" : "text-sm",
+					)}>
 					{formatEnum(getSubType() || "")}
 				</p>
-				<p className="text-sm text-muted-foreground line-clamp-1">
+				<p
+					className={cn(
+						"text-muted-foreground line-clamp-1",
+						admin ? "text-xs" : "text-sm",
+					)}>
 					{formatEnum(getType() || "")}
 				</p>
 				<div className="mt-1 flex items-center justify-between">
 					<div>
-						<span className="font-semibold">₱{(getPrice() || 0).toLocaleString()}</span>
-						<span className="text-muted-foreground"> / {getPriceUnit()}</span>
+						<span className={cn("font-semibold", admin ? "text-sm" : "")}>
+							₱{(getPrice() || 0).toLocaleString()}
+						</span>
+						<span className={cn("text-muted-foreground", admin ? "text-xs" : "")}>
+							{" "}
+							/ {getPriceUnit()}
+						</span>
 					</div>
 					{isGame && "date" in facility && (
 						<div className="flex items-center gap-1 shrink-0">

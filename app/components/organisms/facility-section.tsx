@@ -16,6 +16,7 @@ interface FacilitySectionProps {
 	facilityTypeId?: string;
 	spaceType?: string;
 	getLink?: (facility: Facility | Game) => string;
+	admin?: boolean;
 }
 
 export function FacilitySection({
@@ -28,6 +29,7 @@ export function FacilitySection({
 	facilityTypeId,
 	spaceType,
 	getLink,
+	admin,
 }: FacilitySectionProps) {
 	// ... (existing code: scrollContainerRef, scroll function, getItemStyle)
 
@@ -57,8 +59,7 @@ export function FacilitySection({
 	};
 
 	return (
-		<section className="py-8">
-			{/* ... (existing header code) */}
+		<section className="py-4">
 			<div className="flex items-center justify-between mb-4">
 				<div className="flex gap-1 items-center hover:gap-3 transition-all duration-300 cursor-pointer">
 					<h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
@@ -95,11 +96,11 @@ export function FacilitySection({
 							className={
 								columns
 									? "flex-none"
-									: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
+									: `w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] ${admin ? "xl:w-[calc((100%-6rem)/5)]" : "xl:w-[calc((100%-4.5rem)/4)]"} flex-none`
 							}
 							style={getItemStyle()}>
 							<Link to={getLink ? getLink(facility) : `${basePath}/${facility.id}`}>
-								<FacilityCard facility={facility} variant={cardVariant} />
+								<FacilityCard facility={facility} variant={cardVariant} admin />
 							</Link>
 						</div>
 					))}
@@ -109,7 +110,7 @@ export function FacilitySection({
 							className={
 								columns
 									? "flex-none"
-									: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
+									: `w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] ${admin ? "xl:w-[calc((100%-6rem)/5)]" : "xl:w-[calc((100%-4.5rem)/4)]"} flex-none`
 							}
 							style={getItemStyle()}>
 							<CreateFacilityModal
@@ -149,7 +150,7 @@ export function FacilitySection({
 							className={
 								columns
 									? "flex-none"
-									: "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none"
+									: `w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] ${admin ? "xl:w-[calc((100%-6rem)/5)]" : "xl:w-[calc((100%-4.5rem)/4)]"} flex-none`
 							}
 							style={getItemStyle()}>
 							<CreateFacilityModal

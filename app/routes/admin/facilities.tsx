@@ -15,7 +15,7 @@ export default function Facilities() {
 	const facilityTypes = data?.facilityTypes || [];
 
 	return (
-		<div className="space-y-6">
+		<div className="space-y-4">
 			<div className="flex justify-between items-center">
 				<div>
 					<h1 className="text-2xl font-bold text-foreground">Facility Management</h1>
@@ -91,6 +91,7 @@ export default function Facilities() {
 								}
 								facilityTypeId={type.id}
 								spaceType={type.spaceType}
+								admin
 							/>
 						);
 					})

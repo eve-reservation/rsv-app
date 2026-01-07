@@ -1,4 +1,13 @@
-import { LayoutDashboard, User, Layers, Percent, Users, Building, Building2 } from "lucide-react";
+import {
+	LayoutDashboard,
+	User,
+	Percent,
+	Users,
+	Building,
+	Building2,
+	Calendar,
+	Trophy,
+} from "lucide-react";
 
 import {
 	Sidebar,
@@ -44,7 +53,12 @@ export function AppSidebar() {
 				{
 					title: "Reservation",
 					href: `/admin/reservation`,
-					icon: Layers,
+					icon: Calendar,
+				},
+				{
+					title: "Events",
+					href: `/admin/events`,
+					icon: Trophy,
 				},
 				{
 					title: "Facility",
