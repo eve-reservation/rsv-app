@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent } from "~/components/ui/card";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "~/hooks/use-auth";
 
 export const defaultMockUser = {
@@ -47,6 +47,16 @@ export default function ProfileTemplate({
 	handleLogout,
 }: ProfileTemplateProps) {
 	const navigate = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const activeTab = searchParams.get("tab") || "personal";
+
+	const handleTabChange = (value: string) => {
+		setSearchParams((prev) => {
+			prev.set("tab", value);
+			return prev;
+		});
+	};
+
 	const firstInitial = user.firstName.charAt(0);
 	const fullName = `${user.firstName} ${user.lastName}`;
 	const vipLevelDisplay = `${user.vipLevel} Member`;
@@ -57,6 +67,7 @@ export default function ProfileTemplate({
 			<main className="container max-w-5xl mx-auto">
 				{/* Profile Header Card */}
 				<Card className="overflow-hidden border-none shadow-lg mb-8 bg-card py-0 group">
+					{/* ... (keep existing header content) */}
 					{/* Cover Image Area */}
 					<div className="h-48 bg-gradient-to-r from-primary/10 via-primary/5 to-background relative">
 						<div className="absolute top-4 right-4">
@@ -126,7 +137,7 @@ export default function ProfileTemplate({
 								</p>
 
 								<button className="absolute right-0 top-16 hidden group-hover:block cursor-pointer hover:text-primary">
-									<SquarePen className="size-4"/>
+									<SquarePen className="size-4" />
 								</button>
 							</div>
 						</div>
@@ -134,28 +145,30 @@ export default function ProfileTemplate({
 				</Card>
 
 				{/* Tabs Content */}
-				<Tabs defaultValue="personal" className="w-full">
+				<Tabs
+					defaultValue="personal"
+					value={activeTab}
+					onValueChange={handleTabChange}
+					className="w-full">
 					<TabsList className="w-full justify-start border-b h-auto p-0 bg-transparent rounded-lg">
 						<TabsTrigger
 							value="personal"
-							className="pt-3 rounded-lg border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all">
+							className="pt-3 rounded-lg border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all cursor-pointer">
 							Personal Information
 						</TabsTrigger>
 						<TabsTrigger
 							value="reservations"
-							className="pt-3 rounded-lg border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all">
+							className="pt-3 rounded-lg border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all cursor-pointer">
 							My Reservations
 						</TabsTrigger>
 						<TabsTrigger
 							value="settings"
-							className="pt-3 rounded-lg border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all">
+							className="pt-3 rounded-lg border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-3 font-medium text-muted-foreground hover:text-foreground transition-all cursor-pointer">
 							Account Settings
 						</TabsTrigger>
 					</TabsList>
 
-					<TabsContent
-						value="personal"
-						className="animate-in fade-in-50 duration-300">
+					<TabsContent value="personal" className="animate-in fade-in-50 duration-300">
 						<PersonalCard user={user} />
 					</TabsContent>
 					<TabsContent
@@ -163,9 +176,7 @@ export default function ProfileTemplate({
 						className="animate-in fade-in-50 duration-300">
 						<UserReservations />
 					</TabsContent>
-					<TabsContent
-						value="settings"
-						className="animate-in fade-in-50 duration-300">
+					<TabsContent value="settings" className="animate-in fade-in-50 duration-300">
 						<Card>
 							<CardContent className="py-8 text-center text-muted-foreground">
 								Account settings coming soon...
