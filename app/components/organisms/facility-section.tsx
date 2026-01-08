@@ -70,7 +70,7 @@ export function FacilitySection({ title, children, columns, action }: FacilitySe
 			{hasChildren ? (
 				<div
 					ref={scrollContainerRef}
-					className="flex gap-6 overflow-x-auto md:overflow-hidden pb-4 scroll-smooth snap-x">
+					className="flex gap-4 overflow-x-auto md:overflow-hidden pb-4 scroll-smooth snap-x">
 					{Children.map(children, (child, index) => {
 						if (!child) return null;
 						return (
