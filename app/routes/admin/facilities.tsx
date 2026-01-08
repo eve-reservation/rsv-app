@@ -11,6 +11,9 @@ import { Plus } from "lucide-react";
 export default function Facilities() {
 	const { data, isLoading } = useGetFacilityTypes({
 		limit: 100,
+		sort: "createdAt",
+		order: "asc",
+		fields: "id, name, spaceType, facilities.id, facilities.identifier, facilities.displayName, facilities.subtype, facilities.metadata, facilities.status, facilities.createdAt, facilities.updatedAt, facilities.rateType.baseRate, facilities.rateType.rateUnit",
 	});
 
 	if (isLoading) return <div>Loading...</div>;
@@ -52,27 +55,6 @@ export default function Facilities() {
 					</div>
 				) : (
 					facilityTypes.map((type: any) => {
-						const mappedFacilities = (type.facilities || []).map((facility: any) => ({
-							id: facility.id,
-							displayName: facility.displayName || facility.name,
-							facilityType: { spaceType: type.spaceType },
-							subtype: facility.subtype || type.subtype,
-							metadata: {
-								price: type.rateType?.baseRate || 0,
-								priceUnit: type.rateType?.rateUnit || "hour",
-								maxOccupancy: facility.metadata?.maxOccupancy || 0,
-								amenities: facility.metadata?.amenities || [],
-								description: type.description || "",
-							},
-							rating: 0,
-							reviewCount: 0,
-							images: (facility.images || [])
-								.filter((img: any) => img.type === "COVER")
-								.map((img: any) => ({ url: img.url, type: "COVER" })),
-							status: facility.status === "AVAILABLE" ? "AVAILABLE" : "MAINTENANCE",
-							category: "sports",
-						}));
-
 						return (
 							<FacilitySection
 								key={type.id}
@@ -90,9 +72,15 @@ export default function Facilities() {
 										/>
 									</div>
 								}>
-								{mappedFacilities.map((facility: any) => (
+								{(type.facilities || []).map((facility: any) => (
 									<Link key={facility.id} to={`/admin/facility/${facility.id}`}>
-										<FacilityCard facility={facility} admin />
+										<FacilityCard
+											facility={{
+												...facility,
+												facilityType: { spaceType: type.spaceType },
+											}}
+											admin
+										/>
 									</Link>
 								))}
 								<CreateFacilityModal

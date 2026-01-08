@@ -148,11 +148,16 @@ export function FacilityCard({
 				<p className={cn("text-muted-foreground line-clamp-1", "text-xs")}>
 					{formatEnum(facility.facilityType?.spaceType || "")}
 				</p>
-				{facility.metadata?.price && (
+				{facility.rateType?.baseRate || facility.metadata?.price ? (
 					<div className="mt-1 flex items-center justify-between">
 						<div>
 							<span className={cn("font-semibold", "text-sm")}>
-								₱{(facility.metadata?.price || 0).toLocaleString()}
+								₱
+								{(
+									facility.rateType?.baseRate ||
+									facility.metadata?.price ||
+									0
+								).toLocaleString()}
 							</span>
 							<span className={cn("text-muted-foreground", "text-xs")}>
 								{" "}
@@ -160,6 +165,8 @@ export function FacilityCard({
 							</span>
 						</div>
 					</div>
+				) : (
+					<p className={cn("text-muted-foreground", "text-xs")}>No price available</p>
 				)}
 			</div>
 		</div>

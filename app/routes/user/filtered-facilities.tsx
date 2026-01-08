@@ -12,6 +12,8 @@ export default function FilteredFacilities() {
 	const { data, isLoading } = useGetFacilities({
 		limit: 1000,
 		filter: filter || undefined,
+		sort: "createdAt",
+		order: "asc",
 	});
 
 	if (isLoading) {

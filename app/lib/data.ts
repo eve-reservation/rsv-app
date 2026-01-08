@@ -17,6 +17,7 @@ export interface Facility {
 	rateTypeId?: string | null;
 	attributes?: any;
 	spaceType?: string | null;
+	rateType?: any;
 	metadata: {
 		description?: string;
 		price: number;
