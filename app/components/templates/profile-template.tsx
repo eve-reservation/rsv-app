@@ -38,21 +38,23 @@ export const defaultMockUser = {
 };
 
 interface ProfileTemplateProps {
-	user?: typeof defaultMockUser;
+	mockUser?: typeof defaultMockUser;
 	isReadOnly?: boolean;
 	handleLogout?: () => void;
 }
 
 export default function ProfileTemplate({
-	user = defaultMockUser,
+	mockUser = defaultMockUser,
 	handleLogout,
 }: ProfileTemplateProps) {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const activeTab = searchParams.get("tab") || "personal";
+	const { user } = useAuth();
 
 	const { data, isLoading } = useGetReservations({
-		fields: "id, status, totals, user, bookingPeriod, facility.displayName",
+		fields: "id, status, totals, user, bookingPeriod, facility.id, facility.displayName, facility.images",
+		filter: `user.userId:${user?.id}`,
 	});
 
 	const handleTabChange = (value: string) => {
@@ -62,10 +64,10 @@ export default function ProfileTemplate({
 		});
 	};
 
-	const firstInitial = user.firstName.charAt(0);
-	const fullName = `${user.firstName} ${user.lastName}`;
-	const vipLevelDisplay = `${user.vipLevel} Member`;
-	const memberSince = user.createdAt;
+	const firstInitial = mockUser.firstName.charAt(0);
+	const fullName = `${mockUser.firstName} ${mockUser.lastName}`;
+	const vipLevelDisplay = `${mockUser.vipLevel} Member`;
+	const memberSince = mockUser.createdAt;
 
 	return (
 		<div className="">
@@ -124,16 +126,16 @@ export default function ProfileTemplate({
 								<div className="flex flex-wrap items-center justify-center md:justify-start gap-y-1 gap-x-4 text-sm text-muted-foreground">
 									<div className="flex items-center gap-1.5">
 										<Mail className="h-3.5 w-3.5" />
-										{user.email}
+										{mockUser.email}
 									</div>
 									<div className="flex items-center gap-1.5">
 										<Phone className="h-3.5 w-3.5" />
-										{user.person.contacts[0].phoneNumber}
+										{mockUser.person.contacts[0].phoneNumber}
 									</div>
 									<div className="flex items-center gap-1.5">
 										<MapPin className="h-3.5 w-3.5" />
-										{user.person.addresses[0].city},{" "}
-										{user.person.addresses[0].region}
+										{mockUser.person.addresses[0].city},{" "}
+										{mockUser.person.addresses[0].region}
 									</div>
 								</div>
 
@@ -174,12 +176,12 @@ export default function ProfileTemplate({
 					</TabsList>
 
 					<TabsContent value="personal" className="animate-in fade-in-50 duration-300">
-						<PersonalCard user={user} />
+						<PersonalCard user={mockUser} />
 					</TabsContent>
 					<TabsContent
 						value="reservations"
 						className="animate-in fade-in-50 duration-300">
-						<UserReservations />
+						<UserReservations reservations={data?.reservations} />
 					</TabsContent>
 					<TabsContent value="settings" className="animate-in fade-in-50 duration-300">
 						<Card>
