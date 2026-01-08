@@ -86,8 +86,8 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		description: facilityData.metadata?.description || "No description available.",
 		location: facilityData.location || "Location not specified",
 		type: facilityData.facilityType?.name || "Facility",
-		price: facilityData.rateType?.baseRate || facilityData.metadata?.price || 0,
-		priceUnit: facilityData.rateType?.rateUnit || facilityData.metadata?.priceUnit || "hour",
+		price: facilityData.rateType?.baseRate || 0,
+		priceUnit: facilityData.rateType?.rateUnit || "hour",
 		rating: 0, // Not available in API response yet
 		reviewCount: 0, // Not available in API response yet
 		capacity: facilityData.metadata?.maxOccupancy || 0,

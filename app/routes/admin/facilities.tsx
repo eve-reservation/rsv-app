@@ -13,7 +13,7 @@ export default function Facilities() {
 		limit: 100,
 		sort: "createdAt",
 		order: "asc",
-		fields: "id, name, spaceType, facilities.id, facilities.identifier, facilities.displayName, facilities.subtype, facilities.metadata, facilities.status, facilities.createdAt, facilities.updatedAt, facilities.rateType.baseRate, facilities.rateType.rateUnit",
+		fields: "id, name, spaceType, facilities.id, facilities.identifier, facilities.displayName, facilities.subtype, facilities.metadata, facilities.status, facilities.images, facilities.createdAt, facilities.updatedAt, facilities.rateType.baseRate, facilities.rateType.rateUnit",
 	});
 
 	if (isLoading) return <div>Loading...</div>;
