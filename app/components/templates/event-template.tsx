@@ -19,7 +19,8 @@ import { cn } from "@/lib/utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BackButton } from "../molecule/back-button";
 
-export default function GameTemplate() {
+export default function EventTemplate
+() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const game = games.find((g) => g.id === id);

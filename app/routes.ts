@@ -14,6 +14,7 @@ const userRoutes: RouteConfig = [
 	route("/sports", "routes/user/sports.tsx"),
 	route("/lifestyle", "routes/user/lifestyle.tsx"),
 	route("/facility/:id/photos", "routes/user/facility-photos.tsx"),
+	route("/events/:id", "routes/user/event.tsx"),
 ];
 
 // Admin routes
