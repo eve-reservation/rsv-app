@@ -37,6 +37,9 @@ type Pages = {
   "/profile": {
     params: {};
   };
+  "/profile/edit": {
+    params: {};
+  };
   "/sports": {
     params: {};
   };
@@ -107,7 +110,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/admin/login" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/sports" | "/lifestyle" | "/facility/:id/photos" | "/admin" | "/admin/dashboard" | "/admin/reservation" | "/admin/reservation/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility/:id/edit" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/admin/facility/:id/photos" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
+    page: "/" | "/admin/login" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/profile/edit" | "/sports" | "/lifestyle" | "/facility/:id/photos" | "/admin" | "/admin/dashboard" | "/admin/reservation" | "/admin/reservation/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility/:id/edit" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/admin/facility/:id/photos" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
   };
   "layouts/auth-layout.tsx": {
     id: "layouts/auth-layout";
@@ -119,7 +122,7 @@ type RouteFiles = {
   };
   "layouts/user-layout.tsx": {
     id: "layouts/user-layout";
-    page: "/" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/sports" | "/lifestyle" | "/facility/:id/photos";
+    page: "/" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/profile/edit" | "/sports" | "/lifestyle" | "/facility/:id/photos";
   };
   "routes/user/landing.tsx": {
     id: "routes/user/landing";
@@ -148,6 +151,10 @@ type RouteFiles = {
   "routes/user/profile.tsx": {
     id: "routes/user/profile";
     page: "/profile";
+  };
+  "routes/user/edit-profile.tsx": {
+    id: "routes/user/edit-profile";
+    page: "/profile/edit";
   };
   "routes/user/sports.tsx": {
     id: "routes/user/sports";
@@ -239,6 +246,7 @@ type RouteModules = {
   "routes/user/booking-complete": typeof import("./app/routes/user/booking-complete.tsx");
   "routes/user/location-test": typeof import("./app/routes/user/location-test.tsx");
   "routes/user/profile": typeof import("./app/routes/user/profile.tsx");
+  "routes/user/edit-profile": typeof import("./app/routes/user/edit-profile.tsx");
   "routes/user/sports": typeof import("./app/routes/user/sports.tsx");
   "routes/user/lifestyle": typeof import("./app/routes/user/lifestyle.tsx");
   "routes/user/facility-photos": typeof import("./app/routes/user/facility-photos.tsx");

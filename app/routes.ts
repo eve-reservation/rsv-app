@@ -10,6 +10,7 @@ const userRoutes: RouteConfig = [
 	route("/reservation/complete", "routes/user/booking-complete.tsx"),
 	route("/location-test", "routes/user/location-test.tsx"),
 	route("/profile", "routes/user/profile.tsx"),
+	route("/profile/edit", "routes/user/edit-profile.tsx"),
 	route("/sports", "routes/user/sports.tsx"),
 	route("/lifestyle", "routes/user/lifestyle.tsx"),
 	route("/facility/:id/photos", "routes/user/facility-photos.tsx"),
