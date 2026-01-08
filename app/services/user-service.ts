@@ -1,15 +1,17 @@
 import { APIService } from "./api-service";
-import { apiClient, type ApiResponse } from "~/lib/api-client";
+import { ApiClient, type ApiResponse } from "~/lib/api-client";
 import { API_ENDPOINTS } from "~/configs/endpoints";
 import type { loginResponse } from "~/types/auth";
 import type { GetAllUsers } from "~/zod/user.zod";
 
-const { USER } = API_ENDPOINTS;
+const { USER, AUTH_URL } = API_ENDPOINTS;
+
+const userClient = new ApiClient(AUTH_URL);
 
 class UserService extends APIService {
 	getAllUsers = async () => {
 		try {
-			const response: ApiResponse<GetAllUsers> = await apiClient.get(
+			const response: ApiResponse<GetAllUsers> = await userClient.get(
 				`${USER.GET_ALL}${this.getQueryString()}`,
 			);
 			return response.data;
@@ -23,7 +25,7 @@ class UserService extends APIService {
 
 	getUserById = async (userId: string) => {
 		try {
-			const response = await apiClient.get(
+			const response = await userClient.get(
 				`${USER.GET_BY_ID.replace(":id", userId)}${this.getQueryString()}`,
 			);
 			return response.data;
@@ -37,7 +39,7 @@ class UserService extends APIService {
 
 	getCurrentUser = async () => {
 		try {
-			const response: ApiResponse<loginResponse> = await apiClient.get(USER.GET_CURRENT);
+			const response: ApiResponse<loginResponse> = await userClient.get(USER.GET_CURRENT);
 			return response.data;
 		} catch (error: any) {
 			throw new Error(
@@ -50,9 +52,9 @@ class UserService extends APIService {
 		try {
 			let response;
 			if (data instanceof FormData) {
-				response = await apiClient.postFormData(USER.CREATE, data);
+				response = await userClient.postFormData(USER.CREATE, data);
 			} else {
-				response = await apiClient.post(USER.CREATE, data);
+				response = await userClient.post(USER.CREATE, data);
 			}
 			return response.data;
 		} catch (error: any) {
@@ -66,9 +68,9 @@ class UserService extends APIService {
 		try {
 			let response;
 			if (data instanceof FormData) {
-				response = await apiClient.patchFormData(USER.UPDATE.replace(":id", userId), data);
+				response = await userClient.patchFormData(USER.UPDATE.replace(":id", userId), data);
 			} else {
-				response = await apiClient.patch(USER.UPDATE.replace(":id", userId), data);
+				response = await userClient.patch(USER.UPDATE.replace(":id", userId), data);
 			}
 			return response.data;
 		} catch (error: any) {
@@ -81,7 +83,7 @@ class UserService extends APIService {
 
 	deleteUser = async (userId: string) => {
 		try {
-			const response = await apiClient.put(USER.DELETE.replace(":id", userId));
+			const response = await userClient.put(USER.DELETE.replace(":id", userId));
 			return response.data;
 		} catch (error: any) {
 			console.error("Error deleting user:", error);
