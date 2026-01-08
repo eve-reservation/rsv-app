@@ -10,7 +10,7 @@ export default function BookingConfirmation() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const reservationId = searchParams.get("newReservation");
 	const { data: reservation, isLoading } = useGetReservationById(reservationId!, {
-		fields: "id, status, confirmationCode, bookingPeriod, facility.id, facility.identifier, facility.displayName, facility.subtype, facility.metadata, facility.facilityType.name",
+		fields: "id, status, confirmationCode, reservationNumber, bookingPeriod, facility.id, facility.identifier, facility.displayName, facility.subtype, facility.metadata, facility.facilityType.name",
 	});
 
 	if (isLoading) {
@@ -25,7 +25,7 @@ export default function BookingConfirmation() {
 		);
 	}
 
-	const { confirmationCode, facility, bookingPeriod } = reservation;
+	const { confirmationCode, facility, bookingPeriod, reservationNumber } = reservation;
 	const start = new Date(bookingPeriod.startDateTime);
 	const end = new Date(bookingPeriod.endDateTime);
 
@@ -50,13 +50,23 @@ export default function BookingConfirmation() {
 							</p>
 						</div>
 
-						<div className="py-6 border-t border-b border-border mb-8">
-							<p className="text-sm font-medium text-muted-foreground mb-1">
-								Confirmation code
-							</p>
-							<p className="text-xl font-mono font-semibold tracking-wide">
-								{confirmationCode || "PENDING"}
-							</p>
+						<div className="py-6 border-t border-b border-border mb-8 grid grid-cols-1 gap-4">
+							{/* <div>
+								<p className="text-sm font-medium text-muted-foreground mb-1">
+									Confirmation code
+								</p>
+								<p className="text-xl font-mono font-semibold tracking-wide">
+									{confirmationCode || "PENDING"}
+								</p>
+							</div> */}
+							<div>
+								<p className="text-sm font-medium text-muted-foreground mb-1">
+									Reservation No.
+								</p>
+								<p className="text-xl font-mono font-semibold tracking-wide">
+									{reservationNumber}
+								</p>
+							</div>
 						</div>
 
 						{/* What's Next / Guidance */}

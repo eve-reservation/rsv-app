@@ -27,7 +27,7 @@ const statusStyles = {
 export default function BookingsPage() {
 	const navigate = useNavigate();
 	const { data, isLoading } = useGetReservations({
-		fields: "id, status, totals, user, bookingPeriod, facility.displayName",
+		fields: "id, reservationNumber, status, totals, user, bookingPeriod, facility.displayName",
 	});
 
 	const reservations = data?.reservations || [];
@@ -45,15 +45,15 @@ export default function BookingsPage() {
 
 	const columns: DataTableColumn<(typeof tableData)[0]>[] = [
 		{
-			key: "id",
-			label: "Booking ID",
+			key: "reservationNumber",
+			label: "Reservation",
 			sortable: true,
 			searchable: true,
 			render: (val) => (
 				<span
-					className="font-medium text-sm text-ellipsis overflow-hidden max-w-[100px] inline-block"
+					className="font-medium text-sm overflow-hidden max-w-[100px] inline-block"
 					title={val as string}>
-					{(val as string).substring(0, 8)}...
+					{(val as string)}
 				</span>
 			),
 		},
