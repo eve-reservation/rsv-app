@@ -56,4 +56,12 @@ export const API_ENDPOINTS = {
 		DELETE: "/reservation/:id", // Soft delete
 	},
 	
+	// Rate Type API endpoints
+	RATE_TYPE: {
+		GET_ALL: "/rateType",
+		GET_BY_ID: "/rateType/:id",
+		CREATE: "/rateType",
+		UPDATE: "/rateType/:id",
+		DELETE: "/rateType/:id", // Soft delete
+	},
 };

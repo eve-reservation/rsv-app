@@ -91,7 +91,8 @@ export function DealModal({ deal, open, onOpenChange }: DealModalProps) {
 
 					<div className="pt-2 mt-auto">
 						<Button
-							className="w-full font-semibold"
+						variant="outline"
+							className="w-full font-semibold cursor-pointer"
 							size="lg"
 							onClick={() => onOpenChange(false)}>
 							Close
