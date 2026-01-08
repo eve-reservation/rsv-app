@@ -7,6 +7,7 @@ import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
 import { Link } from "react-router";
 import { FacilityCard } from "~/components/molecule/facility-card";
+import { EventCard } from "~/components/molecule/event-card";
 
 export function meta({}: Route.MetaArgs) {
 	return [{ title: PAGE_TITLES.sports || "Sports | Reserve" }];
@@ -59,13 +60,18 @@ export default function SportsPage() {
 					</FacilitySection>
 
 					{/* Open Games */}
-					<FacilitySection title="Open Games Near You" columns={2}>
-						{games.map((game) => (
-							<Link key={game.id} to={`/facility/${game.id}`}>
-								<FacilityCard facility={game} variant="horizontal" />
-							</Link>
-						))}
-					</FacilitySection>
+					<div className="">
+						<h2 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold tracking-tight mb-4">
+							Open Games Near You
+						</h2>
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+							{games.map((game) => (
+								<Link key={game.id} to={`/facility/${game.id}`}>
+									<EventCard game={game} />
+								</Link>
+							))}
+						</div>
+					</div>
 
 					<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border mb-6" />
 

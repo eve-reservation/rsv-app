@@ -61,11 +61,11 @@ export default function LandingPage() {
 				<div className="py-6 px-4 sm:px-6 lg:px-8 border-b border-border" />
 				{/* OPEN/PUBLIC GAMES */}
 				<div className="mx-auto max-w-7xl py-6">
-					<div className="px-4 sm:px-6 lg:px-8">
+					<div className="">
 						<h2 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold tracking-tight mb-4">
 							Browse public games near you
 						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 							{games.map((game) => (
 								<Link key={game.id} to={`/facility/${game.id}`}>
 									<EventCard game={game} />

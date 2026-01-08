@@ -46,11 +46,11 @@ export function EventCard({ game, className }: EventCardProps) {
 	return (
 		<div
 			className={cn(
-				"group flex gap-4 bg-card rounded-xl border border-border/50 overflow-hidden hover:border-border transition-colors",
+				"group flex flex-col sm:flex-row gap-0 sm:gap-4 bg-card rounded-xl border border-border/50 overflow-hidden hover:border-border transition-colors",
 				className,
 			)}>
 			{/* Image Section - Smaller width */}
-			<div className="relative w-48 shrink-0 bg-muted">
+			<div className="relative w-full h-48 sm:w-48 sm:h-auto shrink-0 bg-muted">
 				<div className="absolute inset-0">
 					{images.length > 0 ? (
 						<img
@@ -94,7 +94,7 @@ export function EventCard({ game, className }: EventCardProps) {
 			</div>
 
 			{/* Content Section */}
-			<div className="flex-1 py-3 pr-4 flex flex-col justify-between min-w-0">
+			<div className="flex-1 p-4 md:p-0 md:py-3 md:pr-4 flex flex-col justify-between min-w-0">
 				<div>
 					<div className="flex items-start justify-between gap-2 mb-1">
 						<div className="flex items-center gap-1.5 text-xs font-medium text-primary">

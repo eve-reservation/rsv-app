@@ -64,7 +64,7 @@ export function DealsSection() {
 											{deal.discount}
 										</Badge>
 										<div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6 text-white bg-opacity-80">
-											<h3 className="text-2xl font-bold font-serif mb-2 leading-tight text-white">
+											<h3 className="text-xl font-bold font-serif mb-2 leading-tight text-white">
 												{deal.title}
 											</h3>
 											{/* <p className="text-white/80 text-sm line-clamp-2 mb-4">
