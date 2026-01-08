@@ -1,3 +1,8 @@
+import { useParams } from "react-router";
+import EventTemplate from "~/components/templates/event-template";
+
 export default function event() {
-	return <div>event</div>;
+	const { id } = useParams();
+
+	return <EventTemplate />;
 }

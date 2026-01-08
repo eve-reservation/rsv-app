@@ -67,7 +67,7 @@ export default function LandingPage() {
 						</h2>
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 							{games.map((game) => (
-								<Link key={game.id} to={`/facility/${game.id}`}>
+								<Link key={game.id} to={`/event/${game.id}`}>
 									<EventCard game={game} />
 								</Link>
 							))}

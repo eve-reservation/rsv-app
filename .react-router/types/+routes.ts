@@ -51,7 +51,7 @@ type Pages = {
       "id": string;
     };
   };
-  "/events/:id": {
+  "/event/:id": {
     params: {
       "id": string;
     };
@@ -115,7 +115,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/admin/login" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/profile/edit" | "/sports" | "/lifestyle" | "/facility/:id/photos" | "/events/:id" | "/admin" | "/admin/dashboard" | "/admin/reservation" | "/admin/reservation/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility/:id/edit" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/admin/facility/:id/photos" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
+    page: "/" | "/admin/login" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/profile/edit" | "/sports" | "/lifestyle" | "/facility/:id/photos" | "/event/:id" | "/admin" | "/admin/dashboard" | "/admin/reservation" | "/admin/reservation/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility/:id/edit" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/admin/facility/:id/photos" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
   };
   "layouts/auth-layout.tsx": {
     id: "layouts/auth-layout";
@@ -127,7 +127,7 @@ type RouteFiles = {
   };
   "layouts/user-layout.tsx": {
     id: "layouts/user-layout";
-    page: "/" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/profile/edit" | "/sports" | "/lifestyle" | "/facility/:id/photos" | "/events/:id";
+    page: "/" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/profile/edit" | "/sports" | "/lifestyle" | "/facility/:id/photos" | "/event/:id";
   };
   "routes/user/landing.tsx": {
     id: "routes/user/landing";
@@ -175,7 +175,7 @@ type RouteFiles = {
   };
   "routes/user/event.tsx": {
     id: "routes/user/event";
-    page: "/events/:id";
+    page: "/event/:id";
   };
   "layouts/admin-layout.tsx": {
     id: "layouts/admin-layout";
