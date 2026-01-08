@@ -10,43 +10,12 @@ import { useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "~/hooks/use-auth";
 import { useGetReservations } from "~/hooks/use-reservations";
 
-export const defaultMockUser = {
-	firstName: "Alex",
-	lastName: "Morgan",
-	email: "alex.morgan@example.com",
-	vipLevel: "Gold",
-	createdAt: "December 2023",
-	person: {
-		contacts: [
-			{
-				type: "mobile",
-				phoneNumber: "+1 (555) 123-4567",
-				email: "alex.morgan@example.com",
-				isPrimary: true,
-			},
-		],
-		addresses: [
-			{
-				type: "home",
-				city: "San Francisco",
-				country: "USA",
-				region: "CA",
-				isPrimary: true,
-			},
-		],
-	},
-};
-
 interface ProfileTemplateProps {
-	mockUser?: typeof defaultMockUser;
 	isReadOnly?: boolean;
 	handleLogout?: () => void;
 }
 
-export default function ProfileTemplate({
-	mockUser = defaultMockUser,
-	handleLogout,
-}: ProfileTemplateProps) {
+export default function ProfileTemplate({ handleLogout }: ProfileTemplateProps) {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const activeTab = searchParams.get("tab") || "personal";
@@ -64,10 +33,34 @@ export default function ProfileTemplate({
 		});
 	};
 
-	const firstInitial = mockUser.firstName.charAt(0);
-	const fullName = `${mockUser.firstName} ${mockUser.lastName}`;
-	const vipLevelDisplay = `${mockUser.vipLevel} Member`;
-	const memberSince = mockUser.createdAt;
+	if (!user) {
+		return <div>Loading profile...</div>;
+	}
+
+	const firstName = user.metadata?.person?.personalInfo?.firstName || "User";
+	const lastName = user.metadata?.person?.personalInfo?.lastName || "";
+	const fullName = `${firstName} ${lastName}`.trim();
+	const firstInitial = firstName.charAt(0);
+
+	const contactInfo = user.metadata?.person?.contactInfo;
+	const phoneObj = contactInfo?.phones?.[0];
+	const phone = phoneObj ? `${phoneObj.countryCode} ${phoneObj.number}` : "No phone";
+
+	const addressObj = contactInfo?.address?.[0];
+	const addressString = addressObj ? `${addressObj.city}, ${addressObj.country}` : "No address";
+
+	const vipLevelDisplay = "Member";
+	const memberSince = "2024";
+
+	const displayUser = {
+		fullName,
+		email: user.email,
+		phone,
+		location: addressString,
+		memberSince,
+		vipLevelDisplay,
+		firstInitial,
+	};
 
 	return (
 		<div className="">
@@ -95,9 +88,9 @@ export default function ProfileTemplate({
 							<div className="relative group">
 								<div className="h-32 w-32 rounded-full ring-4 ring-background bg-background p-1 shadow-xl">
 									<Avatar className="h-full w-full">
-										<AvatarImage src="" alt={fullName} />
+										<AvatarImage src="" alt={displayUser.fullName} />
 										<AvatarFallback className="text-4xl bg-primary/10 text-primary font-light">
-											{firstInitial}
+											{displayUser.firstInitial}
 										</AvatarFallback>
 									</Avatar>
 								</div>
@@ -113,39 +106,42 @@ export default function ProfileTemplate({
 							<div className="flex-1 pt-4 md:pt-16 space-y-2 text-center md:text-left relative">
 								<div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
 									<h1 className="text-3xl font-bold tracking-tight text-foreground">
-										{fullName}
+										{displayUser.fullName}
 									</h1>
 									<Badge
 										variant="secondary"
 										className="w-fit mx-auto md:mx-0 bg-primary/10 text-primary border-primary/20 gap-1 px-3 py-1">
 										<Crown className="w-3.5 h-3.5" />
-										{vipLevelDisplay}
+										{displayUser.vipLevelDisplay}
 									</Badge>
 								</div>
 
 								<div className="flex flex-wrap items-center justify-center md:justify-start gap-y-1 gap-x-4 text-sm text-muted-foreground">
 									<div className="flex items-center gap-1.5">
 										<Mail className="h-3.5 w-3.5" />
-										{mockUser.email}
+										{displayUser.email}
 									</div>
 									<div className="flex items-center gap-1.5">
 										<Phone className="h-3.5 w-3.5" />
-										{mockUser.person.contacts[0].phoneNumber}
+										{displayUser.phone}
 									</div>
 									<div className="flex items-center gap-1.5">
 										<MapPin className="h-3.5 w-3.5" />
-										{mockUser.person.addresses[0].city},{" "}
-										{mockUser.person.addresses[0].region}
+										{displayUser.location}
 									</div>
 								</div>
 
-								<p className="text-xs text-muted-foreground pt-1">
+								{/* <p className="text-xs text-muted-foreground pt-1">
 									Member since {memberSince}
-								</p>
+								</p> */}
 
-								<button className="absolute right-0 top-16 hidden group-hover:block cursor-pointer hover:text-primary">
+								<Button
+									variant="ghost"
+									size="icon"
+									onClick={() => navigate("/profile/edit")}
+									className="absolute right-0 top-16 hidden group-hover:block cursor-pointer hover:text-primary">
 									<SquarePen className="size-4" />
-								</button>
+								</Button>
 							</div>
 						</div>
 					</CardContent>
@@ -176,7 +172,7 @@ export default function ProfileTemplate({
 					</TabsList>
 
 					<TabsContent value="personal" className="animate-in fade-in-50 duration-300">
-						<PersonalCard user={mockUser} />
+						<PersonalCard user={displayUser} />
 					</TabsContent>
 					<TabsContent
 						value="reservations"

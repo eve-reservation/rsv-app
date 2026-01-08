@@ -2,41 +2,15 @@ import { Mail, MapPin, Phone } from "lucide-react";
 
 interface PersonalCardProps {
 	user: {
-		email?: string;
-		person?: {
-			contacts?: Array<{
-				type: string;
-				phoneNumber: string;
-				email: string;
-				isPrimary: boolean;
-			}>;
-			addresses?: Array<{
-				type: string;
-				city: string | null;
-				country: string | null;
-				region: string | null;
-				isPrimary: boolean;
-			}>;
-		};
+		fullName: string;
+		email: string;
+		phone: string;
+		location: string;
+		// Add other fields if needed for future extensions, but these are what's used
 	};
 }
 
 export default function PersonalCard({ user }: PersonalCardProps) {
-	// Get primary contact or first contact
-	const primaryContact =
-		user.person?.contacts?.find((c) => c.isPrimary) || user.person?.contacts?.[0];
-
-	// Get primary address or first address
-	const primaryAddress =
-		user.person?.addresses?.find((a) => a.isPrimary) || user.person?.addresses?.[0];
-
-	// Format location
-	const location = primaryAddress
-		? [primaryAddress.city, primaryAddress.region, primaryAddress.country]
-				.filter(Boolean)
-				.join(", ")
-		: "Not specified";
-
 	return (
 		<div className="space-y-8 w-full flex-1">
 			<div className="bg-card border border-border rounded-lg p-8 shadow-sm">
@@ -57,19 +31,15 @@ export default function PersonalCard({ user }: PersonalCardProps) {
 						</div>
 					</div>
 
-					{primaryContact && (
-						<div className="flex items-center gap-4">
-							<Phone className="w-5 h-5 mt-1 flex-shrink-0" />
-							<div>
-								<p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
-									Phone
-								</p>
-								<p className="text-foreground font-light">
-									{primaryContact.phoneNumber}
-								</p>
-							</div>
+					<div className="flex items-center gap-4">
+						<Phone className="w-5 h-5 mt-1 flex-shrink-0" />
+						<div>
+							<p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+								Phone
+							</p>
+							<p className="text-foreground font-light">{user.phone}</p>
 						</div>
-					)}
+					</div>
 
 					<div className="flex items-center gap-4">
 						<MapPin className="w-5 h-5 mt-1 flex-shrink-0" />
@@ -77,7 +47,7 @@ export default function PersonalCard({ user }: PersonalCardProps) {
 							<p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
 								Location
 							</p>
-							<p className="text-foreground font-light">{location}</p>
+							<p className="text-foreground font-light">{user.location}</p>
 						</div>
 					</div>
 				</div>

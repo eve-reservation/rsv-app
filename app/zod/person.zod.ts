@@ -56,7 +56,7 @@ export const contactInfoSchema = z.object({
 	email: z.string().email().optional(),
 	phones: z.array(phoneSchema).optional(),
 	fax: z.string().optional(),
-	address: contactAddressSchema.optional(),
+	address: z.array(contactAddressSchema).optional(),
 });
 
 export const identificationSchema = z.object({
