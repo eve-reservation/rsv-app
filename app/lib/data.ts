@@ -819,8 +819,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Sports & Recreational Facilities" },
 				subtype: "Tennis Complex",
 				metadata: {
-					price: 600,
-					priceUnit: "hour",
 					description:
 						"8 courts in total, consisting of 5 covered and 3 open-air courts.",
 					amenities: ["5 Covered Courts", "3 Open Courts", "Night Lighting"],
@@ -843,8 +841,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Sports & Recreational Facilities" },
 				subtype: "Sports Complex",
 				metadata: {
-					price: 400,
-					priceUnit: "hour",
 					description: "7 covered badminton courts.",
 					amenities: ["7 Covered Courts", "Non-slip Flooring"],
 				},
@@ -866,8 +862,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Sports & Recreational Facilities" },
 				subtype: "Aquatics Center",
 				metadata: {
-					price: 200,
-					priceUnit: "visit",
 					description: "A 25-meter adult competition swimming pool and 2 kiddie pools.",
 					amenities: ["25m Lap Pool", "Kiddie Pool", "Lifeguard"],
 				},
@@ -889,8 +883,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Sports & Recreational Facilities" },
 				subtype: "Recreation Center",
 				metadata: {
-					price: 1500,
-					priceUnit: "hour",
 					description: "A 10-lane ten-pin bowling alley and concourse.",
 					amenities: ["10 Lanes", "Shoe Rental", "Pro Shop"],
 				},
@@ -912,8 +904,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Sports & Recreational Facilities" },
 				subtype: "Outdoor Courts",
 				metadata: {
-					price: 300,
-					priceUnit: "hour",
 					description: "4 outdoor courts available on a pay-to-play basis.",
 					amenities: ["4 Outdoor Courts", "Equipment Rental"],
 				},
@@ -935,8 +925,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Sports & Recreational Facilities" },
 				subtype: "Fitness Annex",
 				metadata: {
-					price: 500,
-					priceUnit: "session",
 					description: "Dedicated space for Elorde Muay Thai and boxing.",
 					amenities: ["Boxing Ring", "Punching Bags", "Trainer"],
 				},
@@ -958,8 +946,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Sports & Recreational Facilities" },
 				subtype: "Main Gym",
 				metadata: {
-					price: 2500,
-					priceUnit: "hour",
 					description: "Covered basketball courts and 2 dedicated squash courts.",
 					amenities: ["Basketball Court", "Squash Courts", "Air Conditioning"],
 				},
@@ -981,8 +967,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Sports & Recreational Facilities" },
 				subtype: "Recreation Center",
 				metadata: {
-					price: 250,
-					priceUnit: "hour",
 					description: "Billiard hall, table tennis, and a dance studio.",
 					amenities: ["Billiards", "Ping Pong", "Studio Mirrors"],
 				},
@@ -1010,8 +994,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Wellness & Personal Care" },
 				subtype: "Wellness Wing",
 				metadata: {
-					price: 500,
-					priceUnit: "day pass",
 					description: "A fully equipped gym and sauna.",
 					amenities: ["Cardio", "Weights", "Sauna"],
 				},
@@ -1033,8 +1015,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Wellness & Personal Care" },
 				subtype: "Spa Center",
 				metadata: {
-					price: 1200,
-					priceUnit: "hour",
 					description: "Includes a massage room and a reflexology clinic.",
 					amenities: ["Massage Beds", "Reflexology", "Aromatherapy"],
 				},
@@ -1056,8 +1036,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Wellness & Personal Care" },
 				subtype: "Arcade",
 				metadata: {
-					price: 400,
-					priceUnit: "service",
 					description: "An on-site barber shop and beauty salon.",
 					amenities: ["Haircuts", "Manicure/Pedicure"],
 				},
@@ -1085,8 +1063,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Dining & Events" },
 				subtype: "Events Complex",
 				metadata: {
-					price: 15000,
-					priceUnit: "event",
 					description:
 						"Major halls include the Quezon Hall (up to 500 pax), Pugad Lawin Hall, and Bagumbayan Hall.",
 					amenities: ["Large Hall", "Audio System", "Stage"],
@@ -1109,8 +1085,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Dining & Events" },
 				subtype: "Clubhouse",
 				metadata: {
-					price: 800,
-					priceUnit: "meal",
 					description:
 						"Includes a main banquet hall, a daily dining room, a coffee shop, and a bar and lounge.",
 					amenities: ["Full Service", "Bar", "Coffee Shop"],
@@ -1133,8 +1107,6 @@ export const mockLandingData = [
 				facilityType: { spaceType: "Dining & Events" },
 				subtype: "Kitchen",
 				metadata: {
-					price: 1200,
-					priceUnit: "order",
 					description:
 						'Offers "Family Meals" for pickup, takeout, or delivery, which are open to non-members.',
 					amenities: ["Takeout", "Delivery", "Family Platters"],

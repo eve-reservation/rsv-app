@@ -79,7 +79,7 @@ export function FacilitySection({ title, children, columns, action }: FacilitySe
 								className={
 									columns
 										? "flex-none"
-										: "w-[75%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] flex-none snap-center"
+										: "w-[75%] sm:w-[calc((100%-1.5rem)/3)] lg:w-[calc((100%-3rem)/4)] xl:w-[calc((100%-4.5rem)/5)] flex-none snap-center"
 								}
 								style={getItemStyle()}>
 								{child}

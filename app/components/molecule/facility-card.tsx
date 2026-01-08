@@ -1,13 +1,12 @@
 import type React from "react";
-
-import type { Facility, Game } from "@/lib/data";
-import { Star, Heart, ChevronLeft, ChevronRight, Users, Image as ImageIcon } from "lucide-react";
+import type { Facility } from "@/lib/data";
+import { Star, Heart, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn, formatEnum } from "@/lib/utils";
 
 interface FacilityCardProps {
-	facility: Facility | Game;
+	facility: Facility;
 	variant?: "vertical" | "horizontal";
 	className?: string;
 	admin?: boolean;
@@ -22,28 +21,8 @@ export function FacilityCard({
 	const [currentImage, setCurrentImage] = useState(0);
 	const [isLiked, setIsLiked] = useState(false);
 
-	const isGame = "pricePerHead" in facility;
-
-	// Helper to normalize images
-	const getImages = () => {
-		if (!facility.images) return [];
-		if (isGame) return (facility as Game).images;
-		// Facility images are objects
-		return (facility as Facility).images.map((img) => img.url);
-	};
-
-	const images = getImages();
-
-	// Helpers for properties that differ
-	const getName = () => (isGame ? (facility as Game).name : (facility as Facility).displayName);
-	const getRating = () => (isGame ? 0 : (facility as Facility).rating); // Game doesn't have rating in interface
-	const getPrice = () =>
-		isGame ? (facility as Game).pricePerHead : (facility as Facility).metadata?.price;
-	const getPriceUnit = () =>
-		isGame ? "head" : (facility as Facility).metadata?.priceUnit || "unit";
-	const getType = () =>
-		isGame ? (facility as Game).type : (facility as Facility).facilityType?.spaceType;
-	const getSubType = () => (isGame ? (facility as Game).subType : (facility as Facility).subtype);
+	// Facility images are objects
+	const images = facility.images ? facility.images.map((img) => img.url) : [];
 
 	const nextImage = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -73,7 +52,7 @@ export function FacilityCard({
 				{images.length > 0 ? (
 					<img
 						src={images[currentImage]}
-						alt={getName()}
+						alt={facility.displayName}
 						className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
 					/>
 				) : (
@@ -147,66 +126,41 @@ export function FacilityCard({
 
 			<div
 				className={cn(
-					"space-y-1",
+					"space-y-",
 					variant === "horizontal"
 						? "flex-1 min-w-0 flex flex-col justify-center space-y-2"
 						: "mt-3",
 				)}>
 				<div className="flex items-start justify-between gap-2">
-					<h3
-						className={cn(
-							"font-medium text-foreground line-clamp-1",
-							admin ? "text-sm" : "",
-						)}>
-						{getName()}
+					<h3 className={cn("font-medium text-foreground line-clamp-1", "text-sm")}>
+						{facility.displayName}
 					</h3>
-					{!isGame && (facility as Facility).rating && !admin && (
-						<div className="flex items-center gap-1 shrink-0">
-							<Star className="h-3.5 w-3.5 fill-foreground text-foreground" />
-							<span className="text-sm font-medium">{getRating()}</span>
-						</div>
-					)}
-					{isGame && (
-						<div className="flex items-center gap-1 text-sm text-muted-foreground">
-							<Users className="h-3.5 w-3.5" />
-							<span>
-								{(facility as Game).playersJoined}/{(facility as Game).maxPlayers}
-							</span>
+					{facility.rating && !admin && (
+						<div className="flex items-center gap-1 shrink-0 text-xs">
+							<Star className="h-2.5 w-2.5 fill-foreground text-foreground" />
+							<span className="text-xs font-medium pt-0.25">{facility.rating}</span>
 						</div>
 					)}
 				</div>
-				<p
-					className={cn(
-						"text-muted-foreground line-clamp-1",
-						admin ? "text-xs" : "text-sm",
-					)}>
-					{formatEnum(getSubType() || "")}
+				<p className={cn("text-muted-foreground line-clamp-1", "text-xs")}>
+					{formatEnum(facility.subtype || "")}
 				</p>
-				<p
-					className={cn(
-						"text-muted-foreground line-clamp-1",
-						admin ? "text-xs" : "text-sm",
-					)}>
-					{formatEnum(getType() || "")}
+				<p className={cn("text-muted-foreground line-clamp-1", "text-xs")}>
+					{formatEnum(facility.facilityType?.spaceType || "")}
 				</p>
-				<div className="mt-1 flex items-center justify-between">
-					<div>
-						<span className={cn("font-semibold", admin ? "text-sm" : "")}>
-							₱{(getPrice() || 0).toLocaleString()}
-						</span>
-						<span className={cn("text-muted-foreground", admin ? "text-xs" : "")}>
-							{" "}
-							/ {getPriceUnit()}
-						</span>
+				{facility.metadata?.price && (
+					<div className="mt-1 flex items-center justify-between">
+						<div>
+							<span className={cn("font-semibold", "text-sm")}>
+								₱{(facility.metadata?.price || 0).toLocaleString()}
+							</span>
+							<span className={cn("text-muted-foreground", "text-xs")}>
+								{" "}
+								/ {facility.metadata?.priceUnit || "unit"}
+							</span>
+						</div>
 					</div>
-					{isGame && "date" in facility && (
-						<div className="flex items-center gap-1 shrink-0">
-							<span className="text-xs font-medium text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">
-								{(facility as Game).date}
-							</span>
-						</div>
-					)}
-				</div>
+				)}
 			</div>
 		</div>
 	);
