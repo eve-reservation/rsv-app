@@ -34,7 +34,7 @@ export default function LandingPage() {
 			</section>
 			{/* Deals Section */}
 			{/* Facility Sections */}
-			<main className="pt-8 pb-6">
+			<main className="py-6">
 				<div className="pb-4">
 					<DealsSection />
 				</div>
@@ -65,7 +65,7 @@ export default function LandingPage() {
 						<h2 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold tracking-tight mb-4">
 							Browse public games near you
 						</h2>
-						<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 							{games.map((game) => (
 								<Link key={game.id} to={`/event/${game.id}`}>
 									<EventCard game={game} />

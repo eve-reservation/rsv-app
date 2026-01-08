@@ -309,15 +309,21 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 								)}>
 								<CardContent className="p-6 space-y-6">
 									<div className="flex items-baseline justify-between">
-										<div>
-											<span className="text-2xl font-semibold text-foreground">
-												₱{facility.price.toLocaleString()}
-											</span>
-											<span className="text-muted-foreground">
-												{" "}
-												/ {formatEnum(facility.priceUnit)}
-											</span>
-										</div>
+										{facility.price ? (
+											<div>
+												<span className="text-2xl font-semibold text-foreground">
+													₱{facility.price.toLocaleString()}
+												</span>
+												<span className="text-muted-foreground">
+													{" "}
+													/ {formatEnum(facility.priceUnit)}
+												</span>
+											</div>
+										) : (
+											<p className="text-muted-foreground text-lg font-medium">
+												No price available
+											</p>
+										)}
 										<div className="flex items-center gap-1 text-sm">
 											<Star className="h-4 w-4 fill-foreground text-foreground" />
 											<span className="font-medium">{facility.rating}</span>
