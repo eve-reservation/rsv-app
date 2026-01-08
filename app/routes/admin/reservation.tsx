@@ -26,44 +26,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { BackButton } from "~/components/molecule/back-button";
-
-// Mock Data for a single booking
-const booking = {
-	id: "BK-2024-001",
-	status: "confirmed",
-	createdAt: "Dec 8, 2025, 9:00 AM",
-	amount: "₱9,000.00",
-	paymentStatus: "paid",
-	paymentMethod: "Credit Card ending in 4242",
-	transactionId: "TXN-123456789",
-	user: {
-		name: "Juan Dela Cruz",
-		email: "juan.delacruz@example.com",
-		phone: "+63 917 123 4567",
-		avatar: "JD",
-		type: "Member",
-		memberSince: "Jan 2024",
-	},
-	facility: {
-		name: "BGC Active Court 1",
-		sport: "Basketball",
-		location: "32nd St., BGC, Taguig City",
-		capacity: "20-30 pax",
-		image: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=1000",
-	},
-	schedule: {
-		date: "December 10, 2025",
-		day: "Wednesday",
-		startTime: "3:00 PM",
-		endTime: "5:00 PM",
-		duration: "2 hours",
-	},
-	addons: [
-		{ name: "Scoreboard Operator", price: "₱500.00" },
-		{ name: "Water Cooler (5 Gallons)", price: "₱250.00" },
-	],
-	notes: "Client requested early access for warm-up (15 mins prior) if possible.",
-};
+import { useGetReservationById } from "~/hooks/use-reservations";
+import { useParams } from "react-router";
+import { format } from "date-fns";
 
 const statusStyles = {
 	confirmed: "bg-green-100 text-green-800 hover:bg-green-100",
@@ -73,6 +38,34 @@ const statusStyles = {
 };
 
 export default function BookingDetails() {
+	const { id } = useParams();
+	const { data, isLoading } = useGetReservationById(id!, {
+		fields: "id, status, guestCount, specialRequests, reservationNumber, confirmationCode, createdAt, updatedAt, guests, user, bookingPeriod, facility",
+	});
+
+	if (isLoading) {
+		return <div className="p-8 text-center">Loading reservation details...</div>;
+	}
+
+	if (!data) {
+		return <div className="p-8 text-center">Reservation not found</div>;
+	}
+
+	// Derived data for display
+	const booking = data;
+	const facility = booking.facility;
+	const bookingPeriod = booking.bookingPeriod;
+	const user = booking.user;
+
+	// Calculate dates
+	const date = new Date(bookingPeriod.startDateTime);
+	const endDate = new Date(bookingPeriod.endDateTime);
+
+	// Calculate Price (Mock calculation based on facility price since totals aren't in example JSON)
+	const pricePerHour = facility.metadata?.price || 0;
+	const hours = bookingPeriod.numberOfHours;
+	const totalAmount = pricePerHour * hours;
+
 	return (
 		<div className="space-y-6 animate-in fade-in duration-500">
 			{/* Breadcrumb / Back Navigation */}
@@ -80,16 +73,23 @@ export default function BookingDetails() {
 
 			{/* Header Section */}
 			<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-				<div className="space-y-1">
+				<div className="">
 					<div className="flex items-center gap-3">
-						<h1 className="text-2xl font-bold tracking-tight">Booking #{booking.id}</h1>
+						<h1 className="text-2xl font-bold tracking-tight">
+							Booking #{booking.reservationNumber || booking.id.substring(0, 8)}
+						</h1>
 						<Badge
-							variant="secondary"
-							className={statusStyles[booking.status as keyof typeof statusStyles]}>
-							{booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+							variant="outline"
+							className={
+								statusStyles[booking.status as keyof typeof statusStyles] || ""
+							}>
+							{booking.status.charAt(0).toUpperCase() +
+								booking.status.slice(1).toLowerCase()}
 						</Badge>
 					</div>
-					<p className="text-muted-foreground">Created on {booking.createdAt}</p>
+					<p className="text-muted-foreground text-sm">
+						Created on {format(new Date(booking.createdAt), "MMM d, yyyy, h:mm a")}
+					</p>
 				</div>
 				<div className="flex flex-wrap gap-2">
 					<Button variant="outline">
@@ -134,23 +134,30 @@ export default function BookingDetails() {
 							{/* Facility Info */}
 							<div className="flex gap-4">
 								<div className="relative h-24 w-32 flex-shrink-0 overflow-hidden rounded-lg bg-muted">
-									<img
-										src={booking.facility.image}
-										alt={booking.facility.name}
-										className="h-full w-full object-cover"
-									/>
+									{facility.images && facility.images[0] ? (
+										<img
+											src={facility.images[0].url}
+											alt={booking.facility.name}
+											className="h-full w-full object-cover"
+										/>
+									) : (
+										<div className="h-full w-full flex items-center justify-center bg-gray-200 text-gray-400">
+											No Image
+										</div>
+									)}
 								</div>
 								<div>
 									<h3 className="font-semibold text-lg">
-										{booking.facility.name}
+										{facility.displayName}
 									</h3>
 									<div className="flex items-center text-muted-foreground text-sm mt-1">
 										<MapPin className="mr-1 h-3.5 w-3.5" />
-										{booking.facility.location}
+										Taguig City
 									</div>
 									<div className="mt-2 flex gap-2">
-										<Badge variant="outline">{booking.facility.sport}</Badge>
-										<Badge variant="outline">{booking.facility.capacity}</Badge>
+										{facility.subtype && (
+											<Badge variant="outline">{facility.subtype}</Badge>
+										)}
 									</div>
 								</div>
 							</div>
@@ -166,7 +173,7 @@ export default function BookingDetails() {
 									<div>
 										<p className="text-sm font-medium">Date</p>
 										<p className="text-sm text-muted-foreground">
-											{booking.schedule.date}
+											{format(date, "MMMM d, yyyy")}
 										</p>
 									</div>
 								</div>
@@ -177,8 +184,7 @@ export default function BookingDetails() {
 									<div>
 										<p className="text-sm font-medium">Time</p>
 										<p className="text-sm text-muted-foreground">
-											{booking.schedule.startTime} -{" "}
-											{booking.schedule.endTime}
+											{format(date, "h:mm a")} - {format(endDate, "h:mm a")}
 										</p>
 									</div>
 								</div>
@@ -189,7 +195,7 @@ export default function BookingDetails() {
 									<div>
 										<p className="text-sm font-medium">Duration</p>
 										<p className="text-sm text-muted-foreground">
-											{booking.schedule.duration}
+											{bookingPeriod.numberOfHours} hours
 										</p>
 									</div>
 								</div>
@@ -210,33 +216,25 @@ export default function BookingDetails() {
 									</div>
 									<div>
 										<p className="font-medium text-sm">Total Amount</p>
-										<p className="text-2xl font-bold">{booking.amount}</p>
+										<p className="text-2xl font-bold">
+											₱{totalAmount.toLocaleString()}
+										</p>
 									</div>
 								</div>
-								<Badge
-									variant={
-										booking.paymentStatus === "paid"
-											? "secondary"
-											: "destructive"
-									}
-									className={
-										booking.paymentStatus === "paid"
-											? "bg-green-100 text-green-800"
-											: ""
-									}>
-									{booking.paymentStatus.toUpperCase()}
+								<Badge variant="outline" className="text-xs">
+									UNPAID
 								</Badge>
 							</div>
 
 							<div className="grid gap-3 text-sm">
-								<div className="flex justify-between py-1">
+								{/* <div className="flex justify-between py-1">
 									<span className="text-muted-foreground">Payment Method</span>
-									<span className="font-medium">{booking.paymentMethod}</span>
-								</div>
+									<span className="font-medium">N/A</span>
+								</div> */}
 								<div className="flex justify-between py-1">
-									<span className="text-muted-foreground">Transaction ID</span>
+									<span className="text-muted-foreground">Confirmation Code</span>
 									<span className="font-mono text-muted-foreground">
-										{booking.transactionId}
+										{booking.confirmationCode}
 									</span>
 								</div>
 								<Separator className="my-2" />
@@ -246,16 +244,14 @@ export default function BookingDetails() {
 									</p>
 									<div className="flex justify-between">
 										<span>Facility Fee</span>
-										<span>₱8,250.00</span>
+										<span>
+											₱{pricePerHour.toLocaleString()} x {hours} hrs
+										</span>
 									</div>
-									{booking.addons.map((addon, index) => (
-										<div
-											key={index}
-											className="flex justify-between text-muted-foreground">
-											<span>{addon.name}</span>
-											<span>{addon.price}</span>
-										</div>
-									))}
+									<div className="flex justify-between font-medium">
+										<span>Total</span>
+										<span>₱{totalAmount.toLocaleString()}</span>
+									</div>
 								</div>
 							</div>
 						</CardContent>
@@ -265,15 +261,17 @@ export default function BookingDetails() {
 				{/* Sidebar - Right Column (1/3) */}
 				<div className="space-y-6">
 					{/* Note Card */}
-					{booking.notes && (
+					{booking.specialRequests && (
 						<Card className="bg-amber-50/50 border-amber-200">
 							<CardHeader className="pb-2">
 								<CardTitle className="text-sm font-medium text-amber-900">
-									Notes from User
+									Special Requests
 								</CardTitle>
 							</CardHeader>
 							<CardContent>
-								<p className="text-sm text-amber-800 italic">"{booking.notes}"</p>
+								<p className="text-sm text-amber-800 italic">
+									"{booking.specialRequests}"
+								</p>
 							</CardContent>
 						</Card>
 					)}
@@ -287,20 +285,17 @@ export default function BookingDetails() {
 							<div className="flex items-center gap-4">
 								<Avatar className="h-14 w-14 border-2 border-primary/10">
 									<AvatarImage
-										src={booking.user.avatar}
-										alt={booking.user.name}
+										src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.firstName} ${user.lastName}`}
+										alt={user.firstName}
 									/>
 									<AvatarFallback className="text-lg">
-										{booking.user.avatar}
+										{user.firstName?.charAt(0)}
 									</AvatarFallback>
 								</Avatar>
 								<div>
 									<h3 className="font-medium text-lg leading-none">
-										{booking.user.name}
+										{user.firstName} {user.lastName}
 									</h3>
-									<p className="text-sm text-muted-foreground mt-1">
-										{booking.user.type}
-									</p>
 								</div>
 							</div>
 
@@ -310,23 +305,15 @@ export default function BookingDetails() {
 								<div className="flex items-center gap-3 text-sm">
 									<Mail className="h-4 w-4 text-muted-foreground" />
 									<a
-										href={`mailto:${booking.user.email}`}
+										href={`mailto:${user.email}`}
 										className="hover:underline text-foreground">
-										{booking.user.email}
-									</a>
-								</div>
-								<div className="flex items-center gap-3 text-sm">
-									<Phone className="h-4 w-4 text-muted-foreground" />
-									<a
-										href={`tel:${booking.user.phone}`}
-										className="hover:underline text-foreground">
-										{booking.user.phone}
+										{user.email}
 									</a>
 								</div>
 								<div className="flex items-center gap-3 text-sm">
 									<User className="h-4 w-4 text-muted-foreground" />
 									<span className="text-muted-foreground">
-										Member since {booking.user.memberSince}
+										{booking.guestCount} guests
 									</span>
 								</div>
 							</div>
