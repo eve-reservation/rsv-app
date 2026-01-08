@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { Star, Share, Heart, MapPin, Users, Upload, Trash2, Plus, Save } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, formatEnum } from "@/lib/utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BackButton } from "~/components/molecule/back-button";
 import { useGetFacilityById, useUpdateFacility, useDeleteFacility } from "~/hooks/use-facilities";
@@ -20,17 +20,20 @@ import {
 } from "@/components/ui/select";
 import { SUBTYPE_OPTIONS } from "~/components/molecule/create-facility-modal";
 import { Label } from "@/components/ui/label";
+import { useCreateRateType, useUpdateRateType } from "~/hooks/use-rate-types";
 
 export default function EditFacility() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 
 	const { data: facilityData, isLoading } = useGetFacilityById(id!, {
-		fields: "identifier, displayName, subtype, metadata, status, createdAt, updatedAt, location, images, facilityType.spaceType",
+		fields: "identifier, displayName, subtype, metadata, status, createdAt, updatedAt, location, images, rateType, facilityType.spaceType",
 	});
 
 	const { mutate: updateFacility, isPending: isUpdating } = useUpdateFacility();
 	const { mutate: deleteFacility, isPending: isDeleting } = useDeleteFacility();
+	const { mutateAsync: createRateType, isPending: isCreatingRate } = useCreateRateType();
+	const { mutateAsync: updateRateType, isPending: isUpdatingRate } = useUpdateRateType();
 
 	// Form State
 	const [formData, setFormData] = useState({
@@ -59,12 +62,13 @@ export default function EditFacility() {
 	useEffect(() => {
 		if (facilityData) {
 			const metadata = facilityData.metadata || {};
+			const rateType = facilityData.rateType || {};
 			setFormData({
 				name: facilityData.displayName || facilityData.identifier,
 				location: facilityData.location || "",
 				description: metadata.description || "",
-				price: metadata.price || 0,
-				priceUnit: metadata.priceUnit || "hour",
+				price: rateType.baseRate || metadata.price || 0,
+				priceUnit: rateType.rateUnit || metadata.priceUnit || "hour",
 				capacity: metadata.maxOccupancy || 0,
 				subtype: facilityData.subtype || "",
 				amenities: metadata.amenities || [],
@@ -130,57 +134,73 @@ export default function EditFacility() {
 		}
 	};
 
-	const handleSave = () => {
-		const payload = new FormData();
+	const handleSave = async () => {
+		try {
+			const payload = new FormData();
 
-		payload.append("displayName", formData.name);
-		payload.append("location", formData.location);
+			payload.append("displayName", formData.name);
+			payload.append("location", formData.location);
 
-		// Append metadata as JSON string
-		const metadata = {
-			description: formData.description,
-			price: Number(formData.price),
-			priceUnit: formData.priceUnit,
-			maxOccupancy: Number(formData.capacity),
-			amenities: formData.amenities,
-		};
-		payload.append("metadata", JSON.stringify(metadata));
-		if (formData.subtype) {
-			payload.append("subtype", formData.subtype);
-		}
-
-		// Handle images
-
-		// Existing images (strings)
-		// formData.images.forEach((img) => {
-		// 	if (typeof img === "string" && !img.startsWith("blob:")) {
-		// 		payload.append("images", img);
-		// 	}
-		// });
-
-		// New image files
-		imageFiles.forEach((file) => {
-			if (file) {
-				payload.append("coverImages", file);
+			// Append metadata as JSON string
+			const metadata = {
+				description: formData.description,
+				// price: Number(formData.price), // Moved to RateType
+				// priceUnit: formData.priceUnit, // Moved to RateType
+				maxOccupancy: Number(formData.capacity),
+				amenities: formData.amenities,
+			};
+			payload.append("metadata", JSON.stringify(metadata));
+			if (formData.subtype) {
+				payload.append("subtype", formData.subtype);
 			}
-		});
 
-		updateFacility(
-			{
-				facilityId: id!,
-				data: payload,
-			},
-			{
-				onSuccess: () => {
-					toast.success("Facility updated successfully");
-					navigate(`/admin/facility/${id}`);
+			// Handle images
+			// New image files
+			imageFiles.forEach((file) => {
+				if (file) {
+					payload.append("coverImages", file);
+				}
+			});
+
+			// Handle RateType
+			let rateTypeId = facilityData.rateType?.id;
+			const ratePayload = {
+				name: facilityData?.identifier,
+				baseRate: Number(formData.price),
+				rateUnit: formData.priceUnit,
+			};
+
+			if (rateTypeId) {
+				await updateRateType({ rateTypeId, data: ratePayload });
+			} else {
+				const newRate = (await createRateType(ratePayload)) as any;
+				rateTypeId = newRate.id;
+			}
+
+			if (rateTypeId) {
+				payload.append("rateTypeId", rateTypeId);
+			}
+
+			updateFacility(
+				{
+					facilityId: id!,
+					data: payload,
 				},
-				onError: (error) => {
-					toast.error("Failed to update facility");
-					console.error(error);
+				{
+					onSuccess: () => {
+						toast.success("Facility updated successfully");
+						navigate(`/admin/facility/${id}`);
+					},
+					onError: (error) => {
+						toast.error("Failed to update facility");
+						console.error(error);
+					},
 				},
-			},
-		);
+			);
+		} catch (error) {
+			console.error("Error saving facility:", error);
+			toast.error("An error occurred while saving.");
+		}
 	};
 
 	const handleDelete = () => {
@@ -455,15 +475,35 @@ export default function EditFacility() {
 											<label
 												htmlFor="priceUnit"
 												className="text-sm font-medium leading-none">
-												Price Unit
+												Rate Unit
 											</label>
-											<Input
-												id="priceUnit"
-												name="priceUnit"
+											<Select
 												value={formData.priceUnit}
-												onChange={handleInputChange}
-												placeholder="e.g. night, hour"
-											/>
+												onValueChange={(value) =>
+													setFormData((prev) => ({
+														...prev,
+														priceUnit: value,
+													}))
+												}>
+												<SelectTrigger id="priceUnit" className="w-full">
+													<SelectValue placeholder="Select rate unit" />
+												</SelectTrigger>
+												<SelectContent>
+													{[
+														"HOURLY",
+														"DAILY",
+														"WEEKLY",
+														"MONTHLY",
+														"PER_SESSION",
+														"PER_PERSON",
+														"FLAT_RATE",
+													].map((option) => (
+														<SelectItem key={option} value={option}>
+															{formatEnum(option)}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
 										</div>
 									</div>
 

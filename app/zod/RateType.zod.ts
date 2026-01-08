@@ -1,0 +1,57 @@
+import { z } from "zod";
+
+// RateUnit enum aligned to Prisma enum
+export const RateUnitEnum = z.enum([
+	"HOURLY",
+	"DAILY",
+	"WEEKLY",
+	"MONTHLY",
+	"PER_SESSION",
+	"PER_PERSON",
+	"FLAT_RATE",
+]);
+
+export type RateUnit = z.infer<typeof RateUnitEnum>;
+
+// RateType schema aligned to Prisma Mongo model
+export const RateTypeSchema = z.object({
+	id: z.string(),
+	name: z.string().min(1).optional(),
+	description: z.string().optional(),
+	// Organization identifier (required in Prisma model)
+	organizationId: z.string().min(1).optional(),
+	baseRate: z.number(),
+	currency: z.string().min(1).default("PHP"),
+	rateUnit: RateUnitEnum.optional(),
+	serviceFee: z.number().optional(),
+	tax: z.number().optional(),
+	adjustments: z.any().optional(),
+	isActive: z.boolean().optional(),
+	createdAt: z.coerce.date(),
+	updatedAt: z.coerce.date(),
+});
+
+export type RateType = z.infer<typeof RateTypeSchema>;
+
+// Create RateType Schema (exclude id/createdAt/updatedAt)
+export const CreateRateTypeSchema = RateTypeSchema.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true,
+}).extend({
+	// allow overrides while keeping required fields
+	description: z.string().optional(),
+	adjustments: z.any().optional(),
+	isActive: z.boolean().optional(),
+});
+
+export type CreateTemplate = z.infer<typeof CreateRateTypeSchema>;
+
+// Update RateType Schema (partial mutable fields)
+export const UpdateRateTypeSchema = RateTypeSchema.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true,
+}).partial();
+
+export type UpdateTemplate = z.infer<typeof UpdateRateTypeSchema>;

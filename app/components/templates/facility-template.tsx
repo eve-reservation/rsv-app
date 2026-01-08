@@ -21,7 +21,7 @@ import {
 	Grid3x3,
 	Pencil,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, formatEnum } from "@/lib/utils";
 import { format, setHours, setMinutes } from "date-fns";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
@@ -46,7 +46,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 	// const facility = facilities.find((f) => f.id === id);
 
 	const { data: facilityData, isLoading } = useGetFacilityById(id!, {
-		fields: "identifier, displayName, subtype, metadata, status, createdAt, updatedAt, location, images",
+		fields: "identifier, displayName, subtype, metadata, rateType, status, createdAt, updatedAt, location, images",
 	});
 
 	const [isLiked, setIsLiked] = useState(false);
@@ -86,8 +86,8 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		description: facilityData.metadata?.description || "No description available.",
 		location: facilityData.location || "Location not specified",
 		type: facilityData.facilityType?.name || "Facility",
-		price: facilityData.price || 0,
-		priceUnit: facilityData.priceUnit || "hour",
+		price: facilityData.rateType?.baseRate || facilityData.metadata?.price || 0,
+		priceUnit: facilityData.rateType?.rateUnit || facilityData.metadata?.priceUnit || "hour",
 		rating: 0, // Not available in API response yet
 		reviewCount: 0, // Not available in API response yet
 		capacity: facilityData.metadata?.maxOccupancy || 0,
@@ -105,7 +105,10 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 	};
 
 	const duration = getDuration();
-	const totalPrice = facility.priceUnit === "hour" ? facility.price * duration : facility.price;
+	const totalPrice =
+		facility.priceUnit === "hour" || facility.priceUnit === "HOURLY"
+			? facility.price * duration
+			: facility.price;
 	const serviceFee = Math.round(totalPrice * 0.12);
 	const total = totalPrice + serviceFee;
 	const isReservationValid = date && duration > 0;
@@ -312,7 +315,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 											</span>
 											<span className="text-muted-foreground">
 												{" "}
-												/ {facility.priceUnit}
+												/ {formatEnum(facility.priceUnit)}
 											</span>
 										</div>
 										<div className="flex items-center gap-1 text-sm">
