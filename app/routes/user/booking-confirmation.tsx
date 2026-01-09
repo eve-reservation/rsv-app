@@ -251,6 +251,12 @@ export default function ConfirmPayment() {
 										const matchEventPayload = {
 											...matchEventData,
 											reservationId: responseData.id,
+											createdBy: {
+												userId: user?.id,
+												firstName: user?.metadata.person.personalInfo?.firstName,
+												lastName: user?.metadata.person.personalInfo?.lastName,
+												email: user?.email,
+											}
 										};
 										console.log("Match Event Payload:", matchEventPayload);
 
