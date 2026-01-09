@@ -1,12 +1,13 @@
 import type { Route } from "./+types/landing";
 import { PAGE_TITLES } from "~/config/page-titles";
 import { BackgroundPattern } from "~/components/ui/background-pattern";
+import { useGetMatchEvents } from "~/hooks/use-match-events";
 
 export function meta({}: Route.MetaArgs) {
 	return [{ title: PAGE_TITLES.landing }];
 }
 
-import { facilities, games, mockLandingData, type Facility } from "@/lib/data";
+import { mockLandingData, type Facility } from "@/lib/data";
 import { SearchBar } from "~/components/molecule/search-bar";
 import { FacilitySection } from "~/components/organisms/facility-section";
 import { DealsSection } from "~/components/organisms/deals-section";
@@ -15,6 +16,15 @@ import { FacilityCard } from "~/components/molecule/facility-card";
 import { EventCard } from "~/components/molecule/event-card";
 
 export default function LandingPage() {
+	const { data: matchEventsData } = useGetMatchEvents({
+		fields: "id, createdBy, title, status, reservation.bookingPeriod, reservation.facility.images,reservation.facility.metadata,reservation.facility.subtype,maxParticipants,_count",
+		sort: "createdAt",
+		order: "asc",
+		
+	});
+
+	const events = matchEventsData?.matchEvents || [];
+
 	return (
 		<div className="min-h-screen flex flex-col bg-background relative isolate overflow-hidden">
 			<BackgroundPattern />
@@ -65,13 +75,19 @@ export default function LandingPage() {
 						<h2 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold tracking-tight mb-4">
 							Browse public games near you
 						</h2>
-						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-							{games.map((game) => (
-								<Link key={game.id} to={`/event/${game.id}`}>
-									<EventCard game={game} />
-								</Link>
-							))}
-						</div>
+						{events.length > 0 ? (
+							<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+								{events.map((event: any) => (
+									<Link key={event.id} to={`/event/${event.id}`}>
+										<EventCard event={event} />
+									</Link>
+								))}
+							</div>
+						) : (
+							<div className="text-muted-foreground">
+								No upcoming public games found.
+							</div>
+						)}
 					</div>
 				</div>
 			</main>
