@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 import { setHours, setMinutes } from "date-fns";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { facilities, games, type Game } from "@/lib/data";
 import { useGetFacilityById } from "~/hooks/use-facilities";
 import { useCreateReservation } from "~/hooks/use-reservations";
+import { useCreateMatchEvent } from "~/hooks/use-match-events";
 import { BookingSummary } from "~/components/organisms/booking-summary";
 import { BookingSteps } from "~/components/organisms/booking-steps";
 import { useAuth } from "~/hooks/use-auth";
@@ -23,6 +25,52 @@ export default function ConfirmPayment() {
 
 	const { user } = useAuth();
 
+	// State Hooks (Must be before any early returns)
+	const [activeStep, setActiveStep] = useState(isGameJoin ? 2 : 1);
+	const [gameType, setGameType] = useState<"private" | "public">("private");
+	const [paymentMethod, setPaymentMethod] = useState("gcash");
+	const [isPromoModalOpen, setIsPromoModalOpen] = useState(false);
+	const { mutate: createMatchEvent, isPending: isCreatingMatchEvent } = useCreateMatchEvent();
+	const [matchEventData, setMatchEventData] = useState<any>(null);
+
+	// Safe initialization even if bookingItem isn't ready yet (it will re-render when facilityData loads)
+	const [players, setPlayers] = useState(() => {
+		const guestParam = searchParams.get("guests");
+		return guestParam ? parseInt(guestParam, 10) : 1;
+	});
+
+	const [selectedDate, setSelectedDate] = useState<Date | undefined>(() => {
+		// Logic handles temporary absence of bookingItem by falling back to date param or new Date()
+		if (isGameJoin) {
+			return new Date();
+		}
+		const dateParam = searchParams.get("date");
+		return dateParam ? new Date(dateParam) : new Date();
+	});
+
+	const [startTime, setStartTime] = useState<Date | undefined>(() => {
+		const timeParam = searchParams.get("startTime");
+		if (timeParam) {
+			const [hours, minutes] = timeParam.split(":").map(Number);
+			return setMinutes(setHours(new Date(), hours), minutes);
+		}
+		return setMinutes(setHours(new Date(), 16), 0);
+	});
+
+	const [endTime, setEndTime] = useState<Date | undefined>(() => {
+		const timeParam = searchParams.get("endTime");
+		if (timeParam) {
+			const [hours, minutes] = timeParam.split(":").map(Number);
+			return setMinutes(setHours(new Date(), hours), minutes);
+		}
+		return setMinutes(setHours(new Date(), 18), 0);
+	});
+
+	const handleTimeChange = (start: Date, end: Date) => {
+		setStartTime(start);
+		setEndTime(end);
+	};
+
 	// Helper to normalize data
 	const getBookingItem = () => {
 		if (isGameJoin) {
@@ -35,14 +83,14 @@ export default function ConfirmPayment() {
 			return {
 				id: facilityData.id,
 				name: facilityData.displayName || facilityData.identifier,
-				type: facilityData.subtype || "Facility", // Use optional chaining
+				type: facilityData.subtype || "Facility",
 				images: (facilityData.images || []).map((img: any) =>
 					typeof img === "string" ? img : img.url || "/placeholder.svg",
 				),
 				price: facilityData.price || 0,
 				priceUnit: facilityData.priceUnit || "hour",
 				capacity: facilityData.metadata?.maxOccupancy || 15,
-				date: "", // Not applicable for facility directly
+				date: "",
 			};
 		}
 
@@ -51,55 +99,19 @@ export default function ConfirmPayment() {
 
 	const bookingItem = getBookingItem();
 
-	// Get related facility for Game (to get rating/reviews if needed)
-	// For now, if it's a facility booking, we don't have a separate "linkedFacility" object from the hook unless we fetch it or it's self.
-	// But the UI uses linkedFacility for rating. Let's assume for facility booking, the item itself is the facility.
-	const linkedFacility = isGameJoin
-		? facilities.find((f) => f.id === (bookingItem as Game)?.facilityId)
-		: bookingItem
-			? { ...bookingItem, rating: 0, reviewCount: 0 }
-			: null; // Mock rating for now
-
-	const [activeStep, setActiveStep] = useState(isGameJoin ? 2 : 1);
-	const [gameType, setGameType] = useState<"private" | "public">("private");
-	// Determine max players based on item type
+	// Determine max players based on item type AFTER hooks
 	const maxPlayers = isGameJoin
 		? (bookingItem as Game)?.maxPlayers
 		: (bookingItem as any)?.capacity || 15;
 
-	const [players, setPlayers] = useState(() => {
-		const guestParam = searchParams.get("guests");
-		return guestParam ? parseInt(guestParam, 10) : 1;
-	});
-	const [paymentMethod, setPaymentMethod] = useState("gcash");
-	const [isPromoModalOpen, setIsPromoModalOpen] = useState(false);
-	const [selectedDate, setSelectedDate] = useState<Date | undefined>(() => {
-		if (isGameJoin && bookingItem) {
-			return new Date(); // Game date string logic handled separately in display
-		}
-		const dateParam = searchParams.get("date");
-		return dateParam ? new Date(dateParam) : new Date();
-	});
+	// ... rest of derived logic ...
 
-	// Default time: 4:00 PM - 6:00 PM or specific params
-	const [startTime, setStartTime] = useState<Date | undefined>(() => {
-		const timeParam = searchParams.get("startTime"); // HH:mm
-		if (timeParam) {
-			const [hours, minutes] = timeParam.split(":").map(Number);
-			return setMinutes(setHours(new Date(), hours), minutes);
-		}
-		return setMinutes(setHours(new Date(), 16), 0);
-	});
-
-	const [endTime, setEndTime] = useState<Date | undefined>(() => {
-		const timeParam = searchParams.get("endTime"); // HH:mm
-		if (timeParam) {
-			const [hours, minutes] = timeParam.split(":").map(Number);
-			return setMinutes(setHours(new Date(), hours), minutes);
-		}
-		return setMinutes(setHours(new Date(), 18), 0);
-	});
-
+	// Get related facility for Game
+	const linkedFacility = isGameJoin
+		? facilities.find((f) => f.id === (bookingItem as Game)?.facilityId)
+		: bookingItem
+			? { ...bookingItem, rating: 0, reviewCount: 0 }
+			: null;
 	if (isLoading && !isGameJoin) {
 		return (
 			<div className="flex h-screen items-center justify-center">
@@ -148,10 +160,7 @@ export default function ConfirmPayment() {
 	const serviceFee = 500;
 	const grandTotal = totalPrice + serviceFee;
 
-	const handleTimeChange = (start: Date, end: Date) => {
-		setStartTime(start);
-		setEndTime(end);
-	};
+	// ... existing code ...
 
 	return (
 		<div className="bg-background">
@@ -201,8 +210,15 @@ export default function ConfirmPayment() {
 						maxPlayers={maxPlayers}
 						paymentMethod={paymentMethod}
 						setPaymentMethod={setPaymentMethod}
-						isPending={isCreatingReservation}
+						isPending={isCreatingReservation || isCreatingMatchEvent}
+						matchEventData={matchEventData}
+						setMatchEventData={setMatchEventData}
 						onConfirm={() => {
+							if (gameType === "public" && !matchEventData) {
+								toast.error("Please create event details first for public games");
+								return;
+							}
+
 							if (!facilityId || !startTime || !endTime) return;
 
 							// Construct payload
@@ -225,11 +241,49 @@ export default function ConfirmPayment() {
 
 							createReservation(payload, {
 								onSuccess: (responseData: any) => {
-									navigate(`/reservation/complete?newReservation=${responseData.id}`);
+									console.log("Reservation created:", responseData);
+									console.log("Game Type:", gameType);
+									console.log("Match Event Data:", matchEventData);
+
+									if (gameType === "public" && matchEventData) {
+										console.log("Attempting to create match event...");
+										// Helper to create match event after reservation
+										const matchEventPayload = {
+											...matchEventData,
+											reservationId: responseData.id,
+										};
+										console.log("Match Event Payload:", matchEventPayload);
+
+										createMatchEvent(matchEventPayload, {
+											onSuccess: () => {
+												navigate(
+													`/reservation/complete?newReservation=${responseData.id}&type=public`,
+												);
+											},
+											onError: (error) => {
+												console.error(
+													"Failed to create match event:",
+													error,
+												);
+												toast.error(
+													"Reservation created but failed to create event details",
+												);
+												// Navigate anyway but maybe show a toast that event creation failed?
+												// For now, let's just navigate to complete page to avoid blocking the user
+												navigate(
+													`/reservation/complete?newReservation=${responseData.id}&eventCreationError=true`,
+												);
+											},
+										});
+									} else {
+										navigate(
+											`/reservation/complete?newReservation=${responseData.id}`,
+										);
+									}
 								},
 								onError: (error) => {
 									console.error("Failed to create reservation:", error);
-									// Could show a toast or alert here
+									toast.error("Failed to create reservation");
 								},
 							});
 						}}

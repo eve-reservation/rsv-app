@@ -32,6 +32,8 @@ interface BookingStepsProps {
 	setPaymentMethod: (method: string) => void;
 	onConfirm: () => void;
 	isPending?: boolean;
+	matchEventData: any;
+	setMatchEventData: (data: any) => void;
 }
 
 export function BookingSteps({
@@ -54,11 +56,12 @@ export function BookingSteps({
 	setPaymentMethod,
 	onConfirm,
 	isPending = false,
+	matchEventData,
+	setMatchEventData,
 }: BookingStepsProps) {
 	const { user } = useAuth();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [isCreateEventOpen, setIsCreateEventOpen] = useState(false);
-	const [matchEventData, setMatchEventData] = useState<any>(null);
 
 	const handleNextStep1 = () => {
 		if (!user) {
