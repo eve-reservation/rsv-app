@@ -64,4 +64,13 @@ export const API_ENDPOINTS = {
 		UPDATE: "/rateType/:id",
 		DELETE: "/rateType/:id", // Soft delete
 	},
+	
+	// Match Event API endpoints
+	MATCH_EVENT: {
+		GET_ALL: "/match-event",
+		GET_BY_ID: "/match-event/:id",
+		CREATE: "/match-event",
+		UPDATE: "/match-event/:id",
+		DELETE: "/match-event/:id", // Soft delete
+	},
 };
