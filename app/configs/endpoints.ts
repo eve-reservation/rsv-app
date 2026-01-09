@@ -72,5 +72,6 @@ export const API_ENDPOINTS = {
 		CREATE: "/match-event",
 		UPDATE: "/match-event/:id",
 		DELETE: "/match-event/:id", // Soft delete
+		JOIN: "/match-event/:id/join",
 	},
 };

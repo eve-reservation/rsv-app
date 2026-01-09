@@ -67,3 +67,15 @@ export const useDeleteMatchEvent = () => {
 		},
 	});
 };
+
+export const useJoinMatchEvent = () => {
+	return useMutation({
+		mutationFn: ({ matchEventId, data }: { matchEventId: string; data: object | FormData }) => {
+			return matchEventService.joinMatchEvent(matchEventId, data);
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["match-events"] });
+			queryClient.invalidateQueries({ queryKey: ["match-event-by-id"] });
+		},
+	});
+};

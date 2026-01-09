@@ -81,6 +81,28 @@ class MatchEventService extends APIService {
 			);
 		}
 	};
+
+	joinMatchEvent = async (matchEventId: string, data: object | FormData) => {
+		try {
+			let response;
+			if (data instanceof FormData) {
+				response = await apiClient.postFormData(
+					MATCH_EVENT.JOIN.replace(":id", matchEventId),
+					data,
+				);
+			} else {
+				response = await apiClient.post(
+					MATCH_EVENT.JOIN.replace(":id", matchEventId),
+					data,
+				);
+			}
+			return response.data;
+		} catch (error: any) {
+			throw new Error(
+				error.data?.errors?.[0]?.message || error.message || "An error has occurred",
+			);
+		}
+	};
 }
 
 export default new MatchEventService();
