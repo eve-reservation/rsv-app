@@ -3,13 +3,14 @@ import type { Facility } from "@/lib/data";
 import { Star, Heart, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { cn, formatEnum } from "@/lib/utils";
+import { cn, formatEnum, RATE_UNIT_MAP } from "@/lib/utils";
 
 interface FacilityCardProps {
 	facility: Facility;
 	variant?: "vertical" | "horizontal";
 	className?: string;
 	admin?: boolean;
+	noPrice?: boolean;
 }
 
 export function FacilityCard({
@@ -17,6 +18,7 @@ export function FacilityCard({
 	variant = "vertical",
 	className,
 	admin,
+	noPrice = false,
 }: FacilityCardProps) {
 	const [currentImage, setCurrentImage] = useState(0);
 	const [isLiked, setIsLiked] = useState(false);
@@ -156,12 +158,17 @@ export function FacilityCard({
 							</span>
 							<span className={cn("text-muted-foreground", "text-xs")}>
 								{" "}
-								/ {facility.rateType?.rateUnit || "unit"}
+								/{" "}
+								{RATE_UNIT_MAP[facility.rateType?.rateUnit ?? ""] ||
+									formatEnum(facility.rateType?.rateUnit) ||
+									"unit"}
 							</span>
 						</div>
 					</div>
 				) : (
-					<p className={cn("text-muted-foreground", "text-xs")}>No price available</p>
+					<p className={cn("text-muted-foreground", "text-xs", noPrice && "hidden")}>
+						No price available
+					</p>
 				)}
 			</div>
 		</div>

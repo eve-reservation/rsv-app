@@ -21,7 +21,7 @@ import {
 	Grid3x3,
 	Pencil,
 } from "lucide-react";
-import { cn, formatEnum } from "@/lib/utils";
+import { cn, formatEnum, RATE_UNIT_MAP } from "@/lib/utils";
 import { format, setHours, setMinutes } from "date-fns";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BookingDetailsSelector } from "~/components/organisms/booking-details-selector";
@@ -84,10 +84,14 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		id: facilityData.id,
 		name: facilityData.displayName || facilityData.identifier,
 		description: facilityData.metadata?.description || "No description available.",
-		location: facilityData.location || facilityData.metadata.location ||  "Location not specified",
+		location:
+			facilityData.location || facilityData.metadata.location || "Location not specified",
 		type: facilityData.facilityType?.name || "Facility",
 		price: facilityData.rateType?.baseRate || 0,
-		priceUnit: facilityData.rateType?.rateUnit || "hour",
+		priceUnit:
+			RATE_UNIT_MAP[facilityData.rateType?.rateUnit ?? ""] ||
+			facilityData.rateType?.rateUnit ||
+			"hour",
 		rating: 0, // Not available in API response yet
 		reviewCount: 0, // Not available in API response yet
 		capacity: facilityData.metadata?.maxOccupancy || 0,
@@ -316,7 +320,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 												</span>
 												<span className="text-muted-foreground">
 													{" "}
-													/ {formatEnum(facility.priceUnit)}
+													/ {facility.priceUnit}
 												</span>
 											</div>
 										) : (

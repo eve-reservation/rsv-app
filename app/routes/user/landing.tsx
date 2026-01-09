@@ -60,7 +60,7 @@ export default function LandingPage() {
 									<Link
 										key={facility.id}
 										to={`/facility?title=${facility.id}&filter=${facility.filter}`}>
-										<FacilityCard facility={facility} />
+										<FacilityCard facility={facility} noPrice/>
 									</Link>
 								))}
 							</FacilitySection>

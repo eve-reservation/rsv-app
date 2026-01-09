@@ -13,3 +13,10 @@ export function formatEnum(value: string | null | undefined): string {
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ");
 }
+
+export const RATE_UNIT_MAP: Record<string, string> = {
+	HOURLY: "hour",
+	DAILY: "day",
+	WEEKLY: "week",
+	MONTHLY: "month",
+};
