@@ -39,15 +39,18 @@ const AgeRangeSchema = z
 	})
 	.optional();
 
+const EventUserSchema = z.object({
+	userId: z.string(),
+	firstName: z.string().optional().nullable(),
+	lastName: z.string().optional().nullable(),
+	email: z.string().email().optional().nullable(),
+});
+
 // Base MatchEvent schema
 export const MatchEventSchema = z.object({
 	id: z.string(),
 	reservationId: z.string(),
-	createdBy: z
-		.string()
-
-		.optional()
-		.nullable(),
+	createdBy: EventUserSchema.optional().nullable(),
 	organizationId: z.string().min(1).optional().nullable(),
 	title: z.string().min(1),
 	description: z.string().optional().nullable(),

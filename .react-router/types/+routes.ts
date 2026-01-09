@@ -97,6 +97,9 @@ type Pages = {
       "id": string;
     };
   };
+  "/admin/events": {
+    params: {};
+  };
   "/scheduling/facility/:id": {
     params: {
       "id": string;
@@ -115,7 +118,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/admin/login" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/profile/edit" | "/sports" | "/lifestyle" | "/facility/:id/photos" | "/event/:id" | "/admin" | "/admin/dashboard" | "/admin/reservation" | "/admin/reservation/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility/:id/edit" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/admin/facility/:id/photos" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
+    page: "/" | "/admin/login" | "/facility" | "/facility/:id" | "/reservation/confirmation" | "/reservation/complete" | "/location-test" | "/profile" | "/profile/edit" | "/sports" | "/lifestyle" | "/facility/:id/photos" | "/event/:id" | "/admin" | "/admin/dashboard" | "/admin/reservation" | "/admin/reservation/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility/:id/edit" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/admin/facility/:id/photos" | "/admin/events" | "/scheduling/facility/:id" | "/scheduling/reservation/confirmation" | "/*";
   };
   "layouts/auth-layout.tsx": {
     id: "layouts/auth-layout";
@@ -179,7 +182,7 @@ type RouteFiles = {
   };
   "layouts/admin-layout.tsx": {
     id: "layouts/admin-layout";
-    page: "/admin" | "/admin/dashboard" | "/admin/reservation" | "/admin/reservation/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility/:id/edit" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/admin/facility/:id/photos";
+    page: "/admin" | "/admin/dashboard" | "/admin/reservation" | "/admin/reservation/:id" | "/admin/facility" | "/admin/facility/:id" | "/admin/facility/:id/edit" | "/admin/user" | "/admin/deal" | "/admin/profile" | "/admin/facility/:id/photos" | "/admin/events";
   };
   "routes/admin/admin.tsx": {
     id: "routes/admin/admin";
@@ -224,6 +227,10 @@ type RouteFiles = {
   "routes/admin/facility-photos.tsx": {
     id: "routes/admin/facility-photos";
     page: "/admin/facility/:id/photos";
+  };
+  "routes/admin/events.tsx": {
+    id: "routes/admin/events";
+    page: "/admin/events";
   };
   "layouts/scheduling-layout.tsx": {
     id: "layouts/scheduling-layout";
@@ -272,6 +279,7 @@ type RouteModules = {
   "routes/admin/deals": typeof import("./app/routes/admin/deals.tsx");
   "routes/admin/profile": typeof import("./app/routes/admin/profile.tsx");
   "routes/admin/facility-photos": typeof import("./app/routes/admin/facility-photos.tsx");
+  "routes/admin/events": typeof import("./app/routes/admin/events.tsx");
   "layouts/scheduling-layout": typeof import("./app/layouts/scheduling-layout.tsx");
   "routes/scheduling/facility": typeof import("./app/routes/scheduling/facility.tsx");
   "routes/scheduling/reservation-confirmation": typeof import("./app/routes/scheduling/reservation-confirmation.tsx");
