@@ -5,9 +5,12 @@ import { setHours, setMinutes } from "date-fns";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { formatEnum, RATE_UNIT_MAP } from "~/lib/utils";
 import { useGetFacilityById } from "~/hooks/use-facilities";
-import { useGetMatchEventById } from "~/hooks/use-match-events";
+import {
+	useCreateMatchEvent,
+	useGetMatchEventById,
+	useJoinMatchEvent,
+} from "~/hooks/use-match-events";
 import { useCreateReservation } from "~/hooks/use-reservations";
-import { useCreateMatchEvent } from "~/hooks/use-match-events";
 import { BookingSummary } from "~/components/organisms/booking-summary";
 import { BookingSteps } from "~/components/organisms/booking-steps";
 import { BookingJoinSteps } from "~/components/organisms/booking-join-steps";
@@ -48,6 +51,7 @@ export default function ConfirmPayment() {
 	const [paymentMethod, setPaymentMethod] = useState("gcash");
 	const [isPromoModalOpen, setIsPromoModalOpen] = useState(false);
 	const { mutate: createMatchEvent, isPending: isCreatingMatchEvent } = useCreateMatchEvent();
+	const { mutate: joinMatchEvent, isPending: isJoining } = useJoinMatchEvent();
 	const [matchEventData, setMatchEventData] = useState<any>(null);
 
 	// Safe initialization
@@ -265,10 +269,55 @@ export default function ConfirmPayment() {
 							maxPlayers={maxPlayers}
 							paymentMethod={paymentMethod}
 							setPaymentMethod={setPaymentMethod}
-							onConfirm={() => {
-								// Disabled for join flow as requested
+							onConfirm={(data) => {
+								if (!matchEventId || !user) {
+									toast.error("Missing event or user information");
+									return;
+								}
+
+								// Construct Join Payload
+								// Payload requirements: matchEventId, user, notes, groupMembers
+								const payload = {
+									matchEventId: matchEventId,
+									user: {
+										userId: user.id,
+										firstName:
+											user.metadata.person.personalInfo?.firstName || "",
+										lastName: user.metadata.person.personalInfo?.lastName || "",
+										email: user.email,
+									},
+									notes: data.notes || "",
+									groupMembers: data.groupMembers,
+								};
+
+								joinMatchEvent(
+									{ matchEventId, data: payload },
+									{
+										onSuccess: (responseData: any) => {
+											// Assuming responseData contains some confirmation ID or we just need to know it succeeded
+											// Navigate to completion page. Maybe pass type=public_join?
+											// Or maybe reuse creation success page but with different context?
+											// Let's pass 'newReservation' as the matchEventId just for display or a fake ID if not provided,
+											// because the completion page likely expects a reservation ID.
+											// If join returns a reservation object, use that ID.
+											// Assuming it returns the updated match event or a reservation.
+											// For now, let's use matchEventId as the reference ID if API doesn't return one clearly.
+											const refId =
+												responseData?.reservationId ||
+												responseData?.id ||
+												matchEventId;
+											navigate(
+												`/reservation/complete?newReservation=${refId}&type=public`,
+											);
+										},
+										onError: (error) => {
+											console.error("Failed to join match event:", error);
+											toast.error("Failed to join the match event");
+										},
+									},
+								);
 							}}
-							isPending={false}
+							isPending={isJoining}
 						/>
 					) : (
 						<BookingSteps
