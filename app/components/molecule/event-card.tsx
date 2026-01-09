@@ -1,18 +1,40 @@
 import type React from "react";
-import type { Game } from "@/lib/data";
 import { Users, Image as ImageIcon, CalendarClock, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn, formatEnum } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { format } from "date-fns";
 
 interface EventCardProps {
-	game: Game;
+	event: any;
 	className?: string;
 }
 
-export function EventCard({ game, className }: EventCardProps) {
-	const images = game.images || [];
-	const spotsLeft = game.maxPlayers - game.playersJoined;
+export function EventCard({ event, className }: EventCardProps) {
+	const facility = event.reservation?.facility;
+	const bookingPeriod = event.reservation?.bookingPeriod;
+
+	const images = facility?.images?.map((img: any) => img.url) || [];
+	// Use spotsLeft from API or calculate it
+	const spotsLeft = event.spotsLeft ?? event.maxParticipants - (event._count?.participants || 0);
+
+	const title = event.title;
+	const type = facility?.subtype || "Event";
+	// Fallback logic for location/subtype text similar to previous map function
+	const locationOrSubtype =
+		facility?.images?.[0]?.name || facility?.metadata?.location || "Sports";
+
+	const price = facility?.metadata?.price ? Number(facility.metadata.price) : 0;
+
+	const dateDisplay = bookingPeriod?.startDateTime
+		? format(new Date(bookingPeriod.startDateTime), "MMM d, h:mm a")
+		: "TBD";
+
+	const hostName =
+		`${event.createdBy?.firstName || ""} ${event.createdBy?.lastName || ""}`.trim() ||
+		event.createdBy?.email ||
+		"Unknown Host";
+	const hostAvatar: string = event.createdBy?.avatar || "";
 
 	return (
 		<div
@@ -25,7 +47,7 @@ export function EventCard({ game, className }: EventCardProps) {
 				{images.length > 0 ? (
 					<img
 						src={images[0]}
-						alt={game.name}
+						alt={title}
 						className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
 					/>
 				) : (
@@ -37,7 +59,7 @@ export function EventCard({ game, className }: EventCardProps) {
 				{/* Minimal Type Badge */}
 				<div className="absolute top-2 left-2">
 					<span className="px-1.5 py-0.5 rounded-sm bg-background/90 backdrop-blur-sm text-[9px] font-semibold uppercase tracking-wider border border-border/50">
-						{game.type}
+						{type}
 					</span>
 				</div>
 			</div>
@@ -49,34 +71,34 @@ export function EventCard({ game, className }: EventCardProps) {
 					<div className="flex items-center gap-2 mb-1.5 text-xs text-muted-foreground">
 						<div className="flex items-center gap-1">
 							<CalendarClock className="h-3 w-3" />
-							<span>{game.date}</span>
+							<span>{dateDisplay}</span>
 						</div>
 						<span className="text-border/60">|</span>
 						<div className="flex items-center gap-1">
 							<MapPin className="h-3 w-3" />
 							<span className="truncate max-w-[120px]">
-								{formatEnum(game.subType)}
+								{formatEnum(locationOrSubtype)}
 							</span>
 						</div>
 					</div>
 
 					<h3 className="font-semibold text-base leading-tight line-clamp-1 group-hover:text-primary transition-colors">
-						{game.name}
+						{title}
 					</h3>
 
 					{/* Host info - Minimal */}
-					{game.host && (
+					{event.createdBy && (
 						<div className="flex items-center gap-1.5 mt-1.5">
 							<Avatar className="h-4 w-4 border border-border">
-								{game.host.avatar && game.host.avatar.length > 2 ? (
-									<AvatarImage src={game.host.avatar} />
+								{hostAvatar && hostAvatar.length > 2 ? (
+									<AvatarImage src={hostAvatar} />
 								) : null}
 								<AvatarFallback className="text-[8px]">
-									{game.host.avatar || "H"}
+									{hostName.charAt(0).toUpperCase()}
 								</AvatarFallback>
 							</Avatar>
 							<span className="text-[10px] text-muted-foreground">
-								by <span className="text-foreground/80">{game.host.name}</span>
+								by <span className="text-foreground/80">{hostName}</span>
 							</span>
 						</div>
 					)}
@@ -96,9 +118,7 @@ export function EventCard({ game, className }: EventCardProps) {
 							</span>
 						</div>
 						<div className="flex items-baseline gap-1">
-							<span className="text-sm font-bold">
-								₱{(game.pricePerHead || 0).toLocaleString()}
-							</span>
+							<span className="text-sm font-bold">₱{price.toLocaleString()}</span>
 						</div>
 					</div>
 					<Button
