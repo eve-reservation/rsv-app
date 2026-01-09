@@ -52,10 +52,10 @@ export function Header() {
 
 					<nav className="hidden md:flex items-center gap-8">
 						<Link
-							to="/"
+							to="/facility"
 							className={cn(
 								"text-sm font-medium transition-colors",
-								location.pathname === "/"
+								location.pathname === "/facility"
 									? "text-foreground"
 									: "text-muted-foreground hover:text-foreground",
 							)}>

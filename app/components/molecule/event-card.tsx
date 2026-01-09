@@ -59,7 +59,7 @@ export function EventCard({ event, className }: EventCardProps) {
 				{/* Minimal Type Badge */}
 				<div className="absolute top-2 left-2">
 					<span className="px-1.5 py-0.5 rounded-sm bg-background/90 backdrop-blur-sm text-[9px] font-semibold uppercase tracking-wider border border-border/50">
-						{type}
+						{formatEnum(type)}
 					</span>
 				</div>
 			</div>
