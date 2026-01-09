@@ -68,17 +68,22 @@ export function EventCard({ event, className }: EventCardProps) {
 			<div className="flex-1 p-3 flex flex-col justify-between min-w-0">
 				<div>
 					{/* Meta Row */}
-					<div className="flex items-center gap-2 mb-1.5 text-xs text-muted-foreground">
-						<div className="flex items-center gap-1">
-							<CalendarClock className="h-3 w-3" />
-							<span>{dateDisplay}</span>
+					<div className="flex justify-between items-start mb-1.5">
+						<div className="flex items-center gap-2 text-xs text-muted-foreground">
+							<div className="flex items-center gap-1">
+								<CalendarClock className="h-3 w-3" />
+								<span>{dateDisplay}</span>
+							</div>
+							<span className="text-border/60">|</span>
+							<div className="flex items-center gap-1">
+								<MapPin className="h-3 w-3" />
+								<span className="truncate max-w-[120px]">
+									{formatEnum(locationOrSubtype)}
+								</span>
+							</div>
 						</div>
-						<span className="text-border/60">|</span>
-						<div className="flex items-center gap-1">
-							<MapPin className="h-3 w-3" />
-							<span className="truncate max-w-[120px]">
-								{formatEnum(locationOrSubtype)}
-							</span>
+						<div className="flex items-baseline gap-1">
+							<span className="text-sm font-bold">₱{price.toLocaleString()}</span>
 						</div>
 					</div>
 
@@ -116,9 +121,6 @@ export function EventCard({ event, className }: EventCardProps) {
 								)}>
 								{spotsLeft === 0 ? "Full" : `${spotsLeft} spots left`}
 							</span>
-						</div>
-						<div className="flex items-baseline gap-1">
-							<span className="text-sm font-bold">₱{price.toLocaleString()}</span>
 						</div>
 					</div>
 					<Button
