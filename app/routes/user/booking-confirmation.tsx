@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 import { setHours, setMinutes } from "date-fns";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { facilities, games, type Game } from "@/lib/data";
+import { formatEnum, RATE_UNIT_MAP } from "~/lib/utils";
 import { useGetFacilityById } from "~/hooks/use-facilities";
 import { useCreateReservation } from "~/hooks/use-reservations";
 import { useCreateMatchEvent } from "~/hooks/use-match-events";
@@ -18,9 +18,9 @@ export default function ConfirmPayment() {
 	const isGameJoin = searchParams.get("type") === "game";
 	const { mutate: createReservation, isPending: isCreatingReservation } = useCreateReservation();
 
-	// Fetch real facility data if not a game join
+	// Fetch real facility data
 	const { data: facilityData, isLoading } = useGetFacilityById(facilityId!, {
-		fields: "identifier, subtype, displayName, metadata, status, createdAt, updatedAt, location, images",
+		fields: "identifier, subtype, displayName, metadata, rateType, status, createdAt, updatedAt, location, images",
 	});
 
 	const { user } = useAuth();
@@ -40,10 +40,6 @@ export default function ConfirmPayment() {
 	});
 
 	const [selectedDate, setSelectedDate] = useState<Date | undefined>(() => {
-		// Logic handles temporary absence of bookingItem by falling back to date param or new Date()
-		if (isGameJoin) {
-			return new Date();
-		}
 		const dateParam = searchParams.get("date");
 		return dateParam ? new Date(dateParam) : new Date();
 	});
@@ -73,12 +69,6 @@ export default function ConfirmPayment() {
 
 	// Helper to normalize data
 	const getBookingItem = () => {
-		if (isGameJoin) {
-			const game = games.find((g) => g.id === facilityId);
-			if (!game) return null;
-			return game;
-		}
-
 		if (facilityData) {
 			return {
 				id: facilityData.id,
@@ -87,10 +77,12 @@ export default function ConfirmPayment() {
 				images: (facilityData.images || []).map((img: any) =>
 					typeof img === "string" ? img : img.url || "/placeholder.svg",
 				),
-				price: facilityData.price || 0,
-				priceUnit: facilityData.priceUnit || "hour",
-				capacity: facilityData.metadata?.maxOccupancy || 15,
-				date: "",
+				price: facilityData.rateType?.baseRate || 0,
+				priceUnit:
+					RATE_UNIT_MAP[facilityData.rateType?.rateUnit ?? ""] ||
+					formatEnum(facilityData.rateType?.rateUnit) ||
+					"hour",
+				capacity: facilityData.metadata?.maxOccupancy || 0,
 			};
 		}
 
@@ -100,19 +92,9 @@ export default function ConfirmPayment() {
 	const bookingItem = getBookingItem();
 
 	// Determine max players based on item type AFTER hooks
-	const maxPlayers = isGameJoin
-		? (bookingItem as Game)?.maxPlayers
-		: (bookingItem as any)?.capacity || 15;
+	const maxPlayers = (bookingItem as any)?.capacity || 0;
 
-	// ... rest of derived logic ...
-
-	// Get related facility for Game
-	const linkedFacility = isGameJoin
-		? facilities.find((f) => f.id === (bookingItem as Game)?.facilityId)
-		: bookingItem
-			? { ...bookingItem, rating: 0, reviewCount: 0 }
-			: null;
-	if (isLoading && !isGameJoin) {
+	if (isLoading) {
 		return (
 			<div className="flex h-screen items-center justify-center">
 				<p>Loading booking details...</p>
@@ -140,27 +122,17 @@ export default function ConfirmPayment() {
 	let totalPrice = 0;
 	let calculationText = "";
 
-	if (isGameJoin) {
-		const game = bookingItem as Game;
-		totalPrice = game.pricePerHead * players;
-		calculationText = `₱${game.pricePerHead.toLocaleString()}/head x ${players} ${
-			players === 1 ? "player" : "players"
-		}`;
-	} else {
-		// Facility
-		const facility = bookingItem as any;
-		// For now assume price is per hour if unit is hour
-		const price = facility.price;
-		totalPrice = price * duration;
-		calculationText = `₱${price.toLocaleString()}/${facility.priceUnit} x ${duration} ${
-			duration === 1 ? "hour" : "hours"
-		}`;
-	}
+	// Facility
+	const facility = bookingItem as any;
+	// For now assume price is per hour if unit is hour
+	const price = facility.price;
+	totalPrice = price * duration;
+	calculationText = `₱${price.toLocaleString()}/${facility.priceUnit} x ${duration} ${
+		duration === 1 ? "hour" : "hours"
+	}`;
 
 	const serviceFee = 500;
 	const grandTotal = totalPrice + serviceFee;
-
-	// ... existing code ...
 
 	return (
 		<div className="bg-background">
@@ -180,7 +152,7 @@ export default function ConfirmPayment() {
 				<div className="grid gap-6 lg:grid-cols-2">
 					<BookingSummary
 						bookingItem={bookingItem}
-						linkedFacility={linkedFacility}
+						linkedFacility={null}
 						isGameJoin={isGameJoin}
 						players={players}
 						calculationText={calculationText}

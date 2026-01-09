@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Star } from "lucide-react";
-import type { Game } from "@/lib/data";
+
 import { formatEnum } from "~/lib/utils";
 
 import { format } from "date-fns";
@@ -74,22 +74,18 @@ export function BookingSummary({
 				<div className="py-2 border-b border-border">
 					<h3 className="font-semibold">Date & Time</h3>
 					<div className="text-sm text-muted-foreground mt-1">
-						{isGameJoin ? (
-							(bookingItem as Game).date // Use game string date
-						) : (
-							<div className="space-y-1">
-								{selectedDate && (
-									<p className="font-medium text-foreground">
-										{format(selectedDate, "MMM d, yyyy")}
-									</p>
-								)}
-								{startTime && endTime && (
-									<p>
-										{format(startTime, "h:mm a")} - {format(endTime, "h:mm a")}
-									</p>
-								)}
-							</div>
-						)}
+						<div className="space-y-1">
+							{selectedDate && (
+								<p className="font-medium text-foreground">
+									{format(selectedDate, "MMM d, yyyy")}
+								</p>
+							)}
+							{startTime && endTime && (
+								<p>
+									{format(startTime, "h:mm a")} - {format(endTime, "h:mm a")}
+								</p>
+							)}
+						</div>
 					</div>
 				</div>
 
