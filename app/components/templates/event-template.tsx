@@ -18,14 +18,18 @@ import {
 import { cn } from "@/lib/utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BackButton } from "../molecule/back-button";
+import { useGetMatchEventById } from "~/hooks/use-match-events";
 
-export default function EventTemplate
-() {
+export default function EventTemplate() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const game = games.find((g) => g.id === id);
 	const facility = game ? facilities.find((f) => f.id === game.facilityId) : null;
 	const [isLiked, setIsLiked] = useState(false);
+
+	const { data, isLoading } = useGetMatchEventById(id!, {
+		fields: "id, title, description, createdBy, status, skillLevel, genderPreference, ageRange, rules, requirements, maxParticipants, createdAt, updatedAt, participants, reservation.bookingPeriod, reservation.facility.id, reservation.facility.images, reservation.facility.identifier, reservation.facility.displayName, reservation.facility.subtype, reservation.facility.metadata",
+	});
 
 	if (!game) {
 		return (
@@ -90,7 +94,7 @@ export default function EventTemplate
 			</div>
 
 			{/* Banner Image */}
-			<div className="relative h-[300px] md:h-[400px] w-full rounded-xl overflow-hidden mb-12">
+			<div className="relative h-[300px] md:h-[400px] w-full rounded-xl overflow-hidden mb-8">
 				<img
 					src={game.images[0]}
 					alt={game.name}
@@ -98,7 +102,7 @@ export default function EventTemplate
 				/>
 			</div>
 
-			<div className="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
+			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative">
 				{/* Left Content */}
 				<div className="lg:col-span-2 space-y-10">
 					{/* Host/Game Info Header */}
