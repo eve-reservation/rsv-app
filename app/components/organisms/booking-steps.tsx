@@ -8,6 +8,9 @@ import { Tag } from "lucide-react";
 import { gcash, maya } from "@/assets/images";
 import { useAuth } from "~/hooks/use-auth";
 import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { CreateEventModal } from "./create-event-modal";
+import { PublicEventCard } from "./public-event-card";
 
 interface BookingStepsProps {
 	isGameJoin: boolean;
@@ -54,6 +57,8 @@ export function BookingSteps({
 }: BookingStepsProps) {
 	const { user } = useAuth();
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [isCreateEventOpen, setIsCreateEventOpen] = useState(false);
+	const [matchEventData, setMatchEventData] = useState<any>(null);
 
 	const handleNextStep1 = () => {
 		if (!user) {
@@ -63,8 +68,21 @@ export function BookingSteps({
 				return params;
 			});
 		} else {
+			if (gameType === "public" && !matchEventData) {
+				// Prevent next step if public and no event data? Or just prompt?
+				// Assuming they must create an event if it's public.
+				setIsCreateEventOpen(true);
+				return;
+			}
 			setActiveStep(2);
 		}
+	};
+
+	const handleConfirm = () => {
+		if (gameType === "public" && matchEventData) {
+			console.log("MatchEvent Payload:", matchEventData);
+		}
+		onConfirm();
 	};
 
 	return (
@@ -123,10 +141,19 @@ export function BookingSteps({
 									<RadioGroupItem value="public" id="public" />
 								</div>
 							</RadioGroup>
+
+							{gameType === "public" && (
+								<PublicEventCard
+									matchEventData={matchEventData}
+									onEdit={() => setIsCreateEventOpen(true)}
+								/>
+							)}
+
 							<div className="flex items-center justify-end mt-6">
 								<Button
 									className="cursor-pointer rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
-									onClick={handleNextStep1}>
+									onClick={handleNextStep1}
+									disabled={gameType === "public" && !matchEventData}>
 									Next
 								</Button>
 							</div>
@@ -134,6 +161,13 @@ export function BookingSteps({
 					)}
 				</Card>
 			)}
+
+			<CreateEventModal
+				open={isCreateEventOpen}
+				onOpenChange={setIsCreateEventOpen}
+				onSave={setMatchEventData}
+				initialData={matchEventData}
+			/>
 
 			<PromoCodeModal
 				open={isPromoModalOpen}
@@ -256,7 +290,7 @@ export function BookingSteps({
 						</p>
 						<div className="flex justify-end">
 							<Button
-								onClick={onConfirm}
+								onClick={handleConfirm}
 								disabled={isPending}
 								className="cursor-pointer mt-6 w-full rounded-lg qcsc-gradient text-white py-6 px-8">
 								{isPending ? "Processing..." : "Confirm and pay"}
