@@ -5,23 +5,40 @@ import { setHours, setMinutes } from "date-fns";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { formatEnum, RATE_UNIT_MAP } from "~/lib/utils";
 import { useGetFacilityById } from "~/hooks/use-facilities";
+import { useGetMatchEventById } from "~/hooks/use-match-events";
 import { useCreateReservation } from "~/hooks/use-reservations";
 import { useCreateMatchEvent } from "~/hooks/use-match-events";
 import { BookingSummary } from "~/components/organisms/booking-summary";
 import { BookingSteps } from "~/components/organisms/booking-steps";
+import { BookingJoinSteps } from "~/components/organisms/booking-join-steps";
 import { useAuth } from "~/hooks/use-auth";
 
 export default function ConfirmPayment() {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const facilityId = searchParams.get("facilityId");
+	const matchEventId = searchParams.get("matchEventId");
 	const isGameJoin = searchParams.get("type") === "game";
 	const { mutate: createReservation, isPending: isCreatingReservation } = useCreateReservation();
 
-	// Fetch real facility data
-	const { data: facilityData, isLoading } = useGetFacilityById(facilityId!, {
-		fields: "identifier, subtype, displayName, metadata, rateType, status, createdAt, updatedAt, location, images",
-	});
+	// Fetch match event data if joining a game
+	const { data: matchEventResponse, isLoading: isLoadingMatchEvent } = useGetMatchEventById(
+		matchEventId!,
+		{
+			fields: "id, title, maxParticipants, description, participants, reservation.facility, reservation.bookingPeriod",
+		},
+		{ enabled: !!matchEventId },
+	);
+	const matchEvent = matchEventResponse?.matchEvent;
+
+	// Fetch real facility data if not joining via match event (or if we need standalone facility data)
+	const { data: facilityData, isLoading: isLoadingFacility } = useGetFacilityById(
+		facilityId!,
+		{
+			fields: "identifier, subtype, displayName, metadata, rateType, status, createdAt, updatedAt, location, images, price, priceUnit",
+		},
+		{ enabled: !matchEventId && !!facilityId },
+	);
 
 	const { user } = useAuth();
 
@@ -33,12 +50,14 @@ export default function ConfirmPayment() {
 	const { mutate: createMatchEvent, isPending: isCreatingMatchEvent } = useCreateMatchEvent();
 	const [matchEventData, setMatchEventData] = useState<any>(null);
 
-	// Safe initialization even if bookingItem isn't ready yet (it will re-render when facilityData loads)
+	// Safe initialization
 	const [players, setPlayers] = useState(() => {
 		const guestParam = searchParams.get("guests");
 		return guestParam ? parseInt(guestParam, 10) : 1;
 	});
 
+	// Date/Time State
+	// If joining game, derive from match event (handled in render/derived vars usually, but we need state for non-game flow)
 	const [selectedDate, setSelectedDate] = useState<Date | undefined>(() => {
 		const dateParam = searchParams.get("date");
 		return dateParam ? new Date(dateParam) : new Date();
@@ -67,8 +86,34 @@ export default function ConfirmPayment() {
 		setEndTime(end);
 	};
 
+	const isLoading = isLoadingMatchEvent || isLoadingFacility;
+
 	// Helper to normalize data
 	const getBookingItem = () => {
+		if (matchEventId && matchEvent) {
+			const facility = matchEvent.reservation.facility;
+			return {
+				id: matchEvent.id,
+				name: matchEvent.title,
+				type: "Public Game",
+				// Use facility image or placeholder
+				images: (facility.images || []).map((img: any) =>
+					typeof img === "string" ? img : img.url || "/placeholder.svg",
+				),
+				// Use facility price for now (per head calculation done later)
+				// Assuming facility.metadata has price, or we need rateType from facility
+				// The fetch above for matchEvent included reservation.facility.
+				// Need to ensure facility object has rateType or metadata.price
+				price: facility.rateType?.baseRate || facility.metadata?.price || 0,
+				priceUnit: facility.rateType?.rateUnit
+					? RATE_UNIT_MAP[facility.rateType.rateUnit] ||
+						formatEnum(facility.rateType.rateUnit)
+					: facility.metadata?.priceUnit || "head",
+				capacity: matchEvent.maxParticipants,
+				facilityId: facility.id, // Keep track of actual facility ID
+			};
+		}
+
 		if (facilityData) {
 			return {
 				id: facilityData.id,
@@ -82,7 +127,8 @@ export default function ConfirmPayment() {
 					RATE_UNIT_MAP[facilityData.rateType?.rateUnit ?? ""] ||
 					formatEnum(facilityData.rateType?.rateUnit) ||
 					"hour",
-				capacity: facilityData.metadata?.maxOccupancy || 0,
+				capacity: facilityData.metadata?.maxOccupancy || 15,
+				facilityId: facilityData.id,
 			};
 		}
 
@@ -91,8 +137,31 @@ export default function ConfirmPayment() {
 
 	const bookingItem = getBookingItem();
 
+	// Effect to update date/time from match event if loaded
+	if (matchEventId && matchEvent && bookingItem) {
+		const eventStart = new Date(matchEvent.reservation.bookingPeriod.startDateTime);
+		const eventEnd = new Date(matchEvent.reservation.bookingPeriod.endDateTime);
+
+		// Only update if different to avoid infinite render loops?
+		// Actually, better to just use derived values for display if isGameJoin
+	}
+
+	// Use derived values for display if Game Join to ensure we show Event time
+	const displayDate =
+		isGameJoin && matchEvent
+			? new Date(matchEvent.reservation.bookingPeriod.startDateTime)
+			: selectedDate;
+	const displayStartTime =
+		isGameJoin && matchEvent
+			? new Date(matchEvent.reservation.bookingPeriod.startDateTime)
+			: startTime;
+	const displayEndTime =
+		isGameJoin && matchEvent
+			? new Date(matchEvent.reservation.bookingPeriod.endDateTime)
+			: endTime;
+
 	// Determine max players based on item type AFTER hooks
-	const maxPlayers = (bookingItem as any)?.capacity || 0;
+	const maxPlayers = (bookingItem as any)?.capacity || 15;
 
 	if (isLoading) {
 		return (
@@ -111,8 +180,10 @@ export default function ConfirmPayment() {
 	}
 
 	const getDuration = () => {
-		if (!startTime || !endTime) return 0;
-		const diff = endTime.getTime() - startTime.getTime();
+		const start = displayStartTime;
+		const end = displayEndTime;
+		if (!start || !end) return 0;
+		const diff = end.getTime() - start.getTime();
 		return diff > 0 ? Number((diff / (1000 * 60 * 60)).toFixed(2)) : 0;
 	};
 
@@ -122,17 +193,34 @@ export default function ConfirmPayment() {
 	let totalPrice = 0;
 	let calculationText = "";
 
-	// Facility
-	const facility = bookingItem as any;
-	// For now assume price is per hour if unit is hour
-	const price = facility.price;
-	totalPrice = price * duration;
-	calculationText = `₱${price.toLocaleString()}/${facility.priceUnit} x ${duration} ${
-		duration === 1 ? "hour" : "hours"
-	}`;
+	if (isGameJoin) {
+		// Game Join: Price per head * players
+		// Assume price in bookingItem is per head or per session?
+		// Usually for Public Game, it's shared cost or fixed fee per head.
+		// Using price from bookingItem (derived from facility)
+		const price = bookingItem.price;
+		totalPrice = price * players; // Assuming price is per head for game join context
+		// Adjust text based on unit. If unit is 'hour', and it's a game, is it split?
+		// For simplicity/safety, let's assume the displayed price is the "Per Head" price for this event
+		// Or if it's hourly facility price, we need to know how it's split.
+		// Reverting to simple: Price * Players (as per previous mock logic)
+		calculationText = `₱${price.toLocaleString()}/head x ${players} ${
+			players === 1 ? "player" : "players"
+		}`;
+	} else {
+		// Facility
+		const price = bookingItem.price;
+		totalPrice = price * duration;
+		calculationText = `₱${price.toLocaleString()}/${bookingItem.priceUnit} x ${duration} ${
+			duration === 1 ? "hour" : "hours"
+		}`;
+	}
 
 	const serviceFee = 500;
 	const grandTotal = totalPrice + serviceFee;
+
+	// Target Facility ID for reservation
+	const targetFacilityId = bookingItem.facilityId;
 
 	return (
 		<div className="bg-background">
@@ -159,116 +247,138 @@ export default function ConfirmPayment() {
 						totalPrice={totalPrice}
 						serviceFee={serviceFee}
 						grandTotal={grandTotal}
-						selectedDate={selectedDate}
-						startTime={startTime}
-						endTime={endTime}
+						selectedDate={displayDate}
+						startTime={displayStartTime}
+						endTime={displayEndTime}
 					/>
 
-					<BookingSteps
-						isGameJoin={isGameJoin}
-						activeStep={activeStep}
-						setActiveStep={setActiveStep}
-						gameType={gameType}
-						setGameType={setGameType}
-						isPromoModalOpen={isPromoModalOpen}
-						setIsPromoModalOpen={setIsPromoModalOpen}
-						selectedDate={selectedDate}
-						setSelectedDate={setSelectedDate}
-						startTime={startTime}
-						endTime={endTime}
-						onTimeChange={handleTimeChange}
-						players={players}
-						setPlayers={setPlayers}
-						maxPlayers={maxPlayers}
-						paymentMethod={paymentMethod}
-						setPaymentMethod={setPaymentMethod}
-						isPending={isCreatingReservation || isCreatingMatchEvent}
-						matchEventData={matchEventData}
-						setMatchEventData={setMatchEventData}
-						onConfirm={() => {
-							if (gameType === "public" && !matchEventData) {
-								toast.error("Please create event details first for public games");
-								return;
-							}
+					{isGameJoin ? (
+						<BookingJoinSteps
+							activeStep={activeStep}
+							setActiveStep={setActiveStep}
+							isPromoModalOpen={isPromoModalOpen}
+							setIsPromoModalOpen={setIsPromoModalOpen}
+							selectedDate={displayDate}
+							startTime={displayStartTime}
+							endTime={displayEndTime}
+							players={players}
+							maxPlayers={maxPlayers}
+							paymentMethod={paymentMethod}
+							setPaymentMethod={setPaymentMethod}
+							onConfirm={() => {
+								// Disabled for join flow as requested
+							}}
+							isPending={false}
+						/>
+					) : (
+						<BookingSteps
+							activeStep={activeStep}
+							setActiveStep={setActiveStep}
+							gameType={gameType}
+							setGameType={setGameType}
+							isPromoModalOpen={isPromoModalOpen}
+							setIsPromoModalOpen={setIsPromoModalOpen}
+							selectedDate={selectedDate}
+							setSelectedDate={setSelectedDate}
+							startTime={startTime}
+							endTime={endTime}
+							onTimeChange={handleTimeChange}
+							players={players}
+							setPlayers={setPlayers}
+							maxPlayers={maxPlayers}
+							paymentMethod={paymentMethod}
+							setPaymentMethod={setPaymentMethod}
+							isPending={isCreatingReservation || isCreatingMatchEvent}
+							matchEventData={matchEventData}
+							setMatchEventData={setMatchEventData}
+							onConfirm={() => {
+								if (!isGameJoin && gameType === "public" && !matchEventData) {
+									toast.error(
+										"Please create event details first for public games",
+									);
+									return;
+								}
 
-							if (!facilityId || !startTime || !endTime) return;
+								if (!targetFacilityId || !displayStartTime || !displayEndTime)
+									return;
 
-							// Construct payload
-							const payload = {
-								facilityId: facilityId,
-								guestCount: players,
-								user: {
-									userId: user?.id,
-									firstName: user?.metadata.person.personalInfo?.firstName,
-									lastName: user?.metadata.person.personalInfo?.lastName,
-									email: user?.email,
-								},
-								bookingPeriod: {
-									startDateTime: startTime.toISOString(), // Ensure this date includes the date part correctly if selectedDate is different
-									endDateTime: endTime.toISOString(),
-									numberOfDays: 1, // Logic for multi-day can be added if needed, currently assumes single day/session
-									numberOfHours: duration,
-								},
-							};
+								// Construct payload
+								const payload = {
+									facilityId: targetFacilityId,
+									guestCount: players,
+									user: {
+										userId: user?.id,
+										firstName: user?.metadata.person.personalInfo?.firstName,
+										lastName: user?.metadata.person.personalInfo?.lastName,
+										email: user?.email,
+									},
+									bookingPeriod: {
+										startDateTime: displayStartTime.toISOString(),
+										endDateTime: displayEndTime.toISOString(),
+										numberOfDays: 1,
+										numberOfHours: duration,
+									},
+									// If joining, maybe pass matchEventId in metadata or something?
+									metadata: matchEventId ? { matchEventId } : {},
+								};
 
-							createReservation(payload, {
-								onSuccess: (responseData: any) => {
-									console.log("Reservation created:", responseData);
-									console.log("Game Type:", gameType);
-									console.log("Match Event Data:", matchEventData);
-
-									if (gameType === "public" && matchEventData) {
-										console.log("Attempting to create match event...");
-										// Helper to create match event after reservation
-										const matchEventPayload = {
-											...matchEventData,
-											status: "OPEN",
-											reservationId: responseData.id,
-											createdBy: {
-												userId: user?.id,
-												firstName:
-													user?.metadata.person.personalInfo?.firstName,
-												lastName:
-													user?.metadata.person.personalInfo?.lastName,
-												email: user?.email,
-											},
-										};
-										console.log("Match Event Payload:", matchEventPayload);
-
-										createMatchEvent(matchEventPayload, {
-											onSuccess: () => {
-												navigate(
-													`/reservation/complete?newReservation=${responseData.id}&type=public`,
-												);
-											},
-											onError: (error) => {
-												console.error(
-													"Failed to create match event:",
-													error,
-												);
-												toast.error(
-													"Reservation created but failed to create event details",
-												);
-												// Navigate anyway but maybe show a toast that event creation failed?
-												// For now, let's just navigate to complete page to avoid blocking the user
-												navigate(
-													`/reservation/complete?newReservation=${responseData.id}&eventCreationError=true`,
-												);
-											},
-										});
-									} else {
-										navigate(
-											`/reservation/complete?newReservation=${responseData.id}`,
-										);
-									}
-								},
-								onError: (error) => {
-									console.error("Failed to create reservation:", error);
-									toast.error("Failed to create reservation");
-								},
-							});
-						}}
-					/>
+								createReservation(payload, {
+									onSuccess: (responseData: any) => {
+										if (
+											!isGameJoin &&
+											gameType === "public" &&
+											matchEventData
+										) {
+											// ... Create Match Event Logic (Same as before)
+											const matchEventPayload = {
+												...matchEventData,
+												status: "OPEN",
+												reservationId: responseData.id,
+												createdBy: {
+													userId: user?.id,
+													firstName:
+														user?.metadata.person.personalInfo
+															?.firstName,
+													lastName:
+														user?.metadata.person.personalInfo
+															?.lastName,
+													email: user?.email,
+												},
+											};
+											createMatchEvent(matchEventPayload, {
+												onSuccess: () => {
+													navigate(
+														`/reservation/complete?newReservation=${responseData.id}&type=public`,
+													);
+												},
+												onError: (error) => {
+													console.error(
+														"Failed to create match event:",
+														error,
+													);
+													toast.error(
+														"Reservation created but failed to create event details",
+													);
+													navigate(
+														`/reservation/complete?newReservation=${responseData.id}&eventCreationError=true`,
+													);
+												},
+											});
+										} else {
+											// Normal booking or Game Join success
+											navigate(
+												`/reservation/complete?newReservation=${responseData.id}`,
+											);
+										}
+									},
+									onError: (error) => {
+										console.error("Failed to create reservation:", error);
+										toast.error("Failed to create reservation");
+									},
+								});
+							}}
+						/>
+					)}
 				</div>
 			</main>
 		</div>

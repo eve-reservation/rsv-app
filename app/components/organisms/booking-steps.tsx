@@ -13,7 +13,6 @@ import { CreateEventModal } from "./create-event-modal";
 import { PublicEventCard } from "./public-event-card";
 
 interface BookingStepsProps {
-	isGameJoin: boolean;
 	activeStep: number;
 	setActiveStep: (step: number) => void;
 	gameType: "private" | "public";
@@ -37,7 +36,6 @@ interface BookingStepsProps {
 }
 
 export function BookingSteps({
-	isGameJoin,
 	activeStep,
 	setActiveStep,
 	gameType,
@@ -72,8 +70,6 @@ export function BookingSteps({
 			});
 		} else {
 			if (gameType === "public" && !matchEventData) {
-				// Prevent next step if public and no event data? Or just prompt?
-				// Assuming they must create an event if it's public.
 				setIsCreateEventOpen(true);
 				return;
 			}
@@ -82,88 +78,73 @@ export function BookingSteps({
 	};
 
 	const handleConfirm = () => {
-		if (gameType === "public" && matchEventData) {
-			console.log("MatchEvent Payload:", matchEventData);
-		}
 		onConfirm();
 	};
 
 	return (
 		<div className="order-1 lg:order-2 space-y-2">
-			{/* Step 1: Choose game type */}
-			{!isGameJoin && (
-				<Card className="overflow-hidden gap-0 p-0">
-					<button
-						onClick={() => setActiveStep(activeStep === 1 ? 0 : 1)}
-						className="flex w-full items-center justify-between p-6">
-						<h2 className="text-lg font-semibold">1. Choose reservation type</h2>
-					</button>
-					{activeStep === 1 && (
-						<div className="px-6 pb-6">
-							<RadioGroup
-								value={gameType}
-								onValueChange={(value) =>
-									setGameType(value as "private" | "public")
-								}>
-								<div
-									className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
-										gameType === "private"
-											? "border-foreground"
-											: "border-border"
-									}`}
-									onClick={() => setGameType("private")}>
-									<div className="flex flex-col gap-1">
-										<Label
-											htmlFor="private"
-											className="cursor-pointer font-medium">
-											Private
-										</Label>
-										<p className="text-sm text-muted-foreground">
-											Book the entire facility for your group
-										</p>
-									</div>
-									<RadioGroupItem value="private" id="private" />
+			{/* Step 1: Choose reservation type */}
+			<Card className="overflow-hidden gap-0 p-0">
+				<button
+					onClick={() => setActiveStep(activeStep === 1 ? 0 : 1)}
+					className="flex w-full items-center justify-between p-6">
+					<h2 className="text-lg font-semibold">1. Choose reservation type</h2>
+				</button>
+				{activeStep === 1 && (
+					<div className="px-6 pb-6">
+						<RadioGroup
+							value={gameType}
+							onValueChange={(value) => setGameType(value as "private" | "public")}>
+							<div
+								className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
+									gameType === "private" ? "border-foreground" : "border-border"
+								}`}
+								onClick={() => setGameType("private")}>
+								<div className="flex flex-col gap-1">
+									<Label htmlFor="private" className="cursor-pointer font-medium">
+										Private
+									</Label>
+									<p className="text-sm text-muted-foreground">
+										Book the entire facility for your group
+									</p>
 								</div>
-								<div
-									className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
-										gameType === "public"
-											? "border-foreground"
-											: "border-border"
-									}`}
-									onClick={() => setGameType("public")}>
-									<div className="flex flex-col gap-1">
-										<Label
-											htmlFor="public"
-											className="cursor-pointer font-medium">
-											Public
-										</Label>
-										<p className="text-sm text-muted-foreground">
-											Host a facility and let others join you
-										</p>
-									</div>
-									<RadioGroupItem value="public" id="public" />
-								</div>
-							</RadioGroup>
-
-							{gameType === "public" && (
-								<PublicEventCard
-									matchEventData={matchEventData}
-									onEdit={() => setIsCreateEventOpen(true)}
-								/>
-							)}
-
-							<div className="flex items-center justify-end mt-6">
-								<Button
-									className="cursor-pointer rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
-									onClick={handleNextStep1}
-									disabled={gameType === "public" && !matchEventData}>
-									Next
-								</Button>
+								<RadioGroupItem value="private" id="private" />
 							</div>
+							<div
+								className={`flex items-center justify-between rounded-xl border p-4 cursor-pointer transition-colors ${
+									gameType === "public" ? "border-foreground" : "border-border"
+								}`}
+								onClick={() => setGameType("public")}>
+								<div className="flex flex-col gap-1">
+									<Label htmlFor="public" className="cursor-pointer font-medium">
+										Public
+									</Label>
+									<p className="text-sm text-muted-foreground">
+										Host a facility and let others join you
+									</p>
+								</div>
+								<RadioGroupItem value="public" id="public" />
+							</div>
+						</RadioGroup>
+
+						{gameType === "public" && (
+							<PublicEventCard
+								matchEventData={matchEventData}
+								onEdit={() => setIsCreateEventOpen(true)}
+							/>
+						)}
+
+						<div className="flex items-center justify-end mt-6">
+							<Button
+								className="cursor-pointer rounded-lg bg-foreground text-background hover:bg-foreground/90 py-4 px-8"
+								onClick={handleNextStep1}
+								disabled={gameType === "public" && !matchEventData}>
+								Next
+							</Button>
 						</div>
-					)}
-				</Card>
-			)}
+					</div>
+				)}
+			</Card>
 
 			<CreateEventModal
 				open={isCreateEventOpen}
@@ -177,7 +158,6 @@ export function BookingSteps({
 				onOpenChange={setIsPromoModalOpen}
 				onApply={(code) => {
 					console.log("Applied code:", code);
-					// Logic to apply discount would go here
 				}}
 			/>
 
@@ -186,9 +166,7 @@ export function BookingSteps({
 				<button
 					onClick={() => setActiveStep(activeStep === 2 ? 0 : 2)}
 					className="flex w-full items-center justify-between p-6">
-					<h2 className="text-lg font-semibold">
-						{isGameJoin ? "1" : "2"}. Review date & time
-					</h2>
+					<h2 className="text-lg font-semibold">2. Review date & time</h2>
 				</button>
 				{activeStep === 2 && (
 					<div className="px-6 pb-6">
@@ -203,7 +181,6 @@ export function BookingSteps({
 							setGuests={setPlayers}
 							maxGuests={maxPlayers}
 							guestLabel="Players"
-							readOnly={isGameJoin}
 						/>
 						<div className="flex justify-end">
 							<Button
@@ -221,9 +198,7 @@ export function BookingSteps({
 				<button
 					onClick={() => setActiveStep(activeStep === 3 ? 0 : 3)}
 					className="flex w-full items-center justify-between p-6">
-					<h2 className="text-lg font-semibold">
-						{isGameJoin ? "2" : "3"}. Select payment method
-					</h2>
+					<h2 className="text-lg font-semibold">3. Select payment method</h2>
 				</button>
 				{activeStep === 3 && (
 					<div className="px-6 pb-6">
@@ -282,9 +257,7 @@ export function BookingSteps({
 				<button
 					onClick={() => setActiveStep(activeStep === 4 ? 0 : 4)}
 					className="flex w-full items-center justify-between p-6">
-					<h2 className="text-lg font-semibold">
-						{isGameJoin ? "3" : "4"}. Review your reservation
-					</h2>
+					<h2 className="text-lg font-semibold">4. Review your reservation</h2>
 				</button>
 				{activeStep === 4 && (
 					<div className="px-6 pb-6">
