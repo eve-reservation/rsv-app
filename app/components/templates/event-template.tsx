@@ -267,7 +267,7 @@ export default function EventTemplate() {
 				<div className="lg:col-span-1">
 					<div className="sticky top-24">
 						<Card className="shadow-xl border-border rounded-xl overflow-hidden">
-							<CardContent className="p-6">
+							<CardContent className="px-6">
 								<div className="flex items-baseline justify-between mb-6">
 									<div className="flex items-baseline gap-1">
 										<span className="text-2xl font-bold text-foreground">
@@ -315,15 +315,11 @@ export default function EventTemplate() {
 								</div>
 
 								<Button
-									className="w-full qcsc-gradient h-12 text-base font-semibold rounded-lg mb-4 cursor-pointer"
+									className="w-full qcsc-gradient h-12 text-base font-semibold rounded-lg cursor-pointer"
 									onClick={handleJoin}
 									disabled={playersJoined >= maxPlayers}>
 									{playersJoined >= maxPlayers ? "Full Game" : "Join Game"}
 								</Button>
-
-								<div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-									<span>Hosted by {host.firstName}</span>
-								</div>
 							</CardContent>
 						</Card>
 
