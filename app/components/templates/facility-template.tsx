@@ -84,7 +84,7 @@ export default function FacilityTemplate({ admin = false }: FacilityTemplateProp
 		id: facilityData.id,
 		name: facilityData.displayName || facilityData.identifier,
 		description: facilityData.metadata?.description || "No description available.",
-		location: facilityData.location || "Location not specified",
+		location: facilityData.location || facilityData.metadata.location ||  "Location not specified",
 		type: facilityData.facilityType?.name || "Facility",
 		price: facilityData.rateType?.baseRate || 0,
 		priceUnit: facilityData.rateType?.rateUnit || "hour",

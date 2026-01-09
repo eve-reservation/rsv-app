@@ -144,6 +144,7 @@ export default function EditFacility() {
 			// Append metadata as JSON string
 			const metadata = {
 				description: formData.description,
+				location: formData.location,
 				// price: Number(formData.price), // Moved to RateType
 				// priceUnit: formData.priceUnit, // Moved to RateType
 				maxOccupancy: Number(formData.capacity),
