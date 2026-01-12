@@ -38,7 +38,7 @@ export default function ConfirmPayment() {
 	const { data: facilityData, isLoading: isLoadingFacility } = useGetFacilityById(
 		facilityId!,
 		{
-			fields: "identifier, subtype, displayName, metadata, rateType, status, createdAt, updatedAt, location, images, price, priceUnit",
+			fields: "identifier, subtype, displayName, metadata, rateType, status, createdAt, updatedAt, location, images",
 		},
 		{ enabled: !matchEventId && !!facilityId },
 	);
